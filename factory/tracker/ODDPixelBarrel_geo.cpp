@@ -7,11 +7,12 @@
 #include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
+#include <vector>
+
 #include "DD4hep/DetFactoryHelper.h"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
-
-#include <vector>
+#include "XML/Utilities.h"
 
 using namespace std;
 using namespace dd4hep;
@@ -26,13 +27,11 @@ using namespace dd4hep;
 /// @param ylength the length in y-direction
 static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
                                    Assembly &staveAssembly, double staveHlength,
-                                   double ylength)
-{
+                                   double ylength) {
   unsigned int nModules = x_stave.nmodules();
 
   // Place carbon foam structure
-  if (x_stave.hasChild(_U(subtraction)) and x_stave.hasChild(_U(tube)))
-  {
+  if (x_stave.hasChild(_U(subtraction)) and x_stave.hasChild(_U(tube))) {
     xml_comp_t x_sub = x_stave.child(_U(subtraction));
     xml_comp_t x_trd = x_sub.child(_U(trd));
     xml_comp_t x_tubs = x_sub.child(_U(tubs));
@@ -74,12 +73,10 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
 
     xml_comp_t x_cable = x_stave.child(_U(eltube));
     // Place the support cables for the modules
-    for (unsigned int modCable = 0; modCable < 0.5 * nModules; ++modCable)
-    {
+    for (unsigned int modCable = 0; modCable < 0.5 * nModules; ++modCable) {
       double cableLength = staveHlength - modCable * ylength;
 
-      for (int side = -1; side < 2; side += 2)
-      {
+      for (int side = -1; side < 2; side += 2) {
         Tube cable(x_cable.rmin(), x_cable.rmax(), 0.5 * cableLength);
         // Create the cable volume
         Volume cableVolume("Cable", cable,
@@ -107,20 +104,19 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
 /// @param sens the sensitive detector descrition
 ///
 /// @return a reference counted DetElement
-static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
-{
+static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   xml_det_t x_det = xml;
   string detName = x_det.nameStr();
 
   // Make DetElement
   DetElement barrelDetector(detName, x_det.id());
+  dd4hep::xml::setDetectorTypeFlag(xml, barrelDetector);
 
   // Add Extension to DetElement for the RecoGeometry
   Acts::ActsExtension *barrelExtension = new Acts::ActsExtension();
   barrelExtension->addType("barrel", "detector");
   // Add the volume boundary material if configured
-  for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat)
-  {
+  for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
     xmlToProtoSurfaceMaterial(x_boundary_material, *barrelExtension,
                               "boundary_material");
@@ -158,8 +154,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
   double staveHlength = ymin + 0.5 * ylength;
 
   // Loop over the modules and place them in the stave
-  for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum)
-  {
+  for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
     // Place them along local y
     PlacedVolume placedModule = staveAssembly.placeVolume(
         module.first, Position(0., -ymin + moduleNum * ystep, 0.));
@@ -180,8 +175,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 
   // Loop over the layers to build staves
   size_t layerNum = 0;
-  for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layerNum)
-  {
+  for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layerNum) {
     xml_comp_t x_layer = lay;
 
     // The Layer envelope volume
@@ -194,7 +188,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerVolume.setVisAttributes(oddd, x_layer.visStr());
 
     // The DetElement tree, keep it flat
-    DetElement layerElement(barrelDetector, layerName, layerNum);
+    DetElement layerElement(barrelDetector, x_layer.nameStr(), layerNum);
 
     // Place the staves in the layer
     unsigned int nStaves = x_layer.nphi();
@@ -205,8 +199,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerR.push_back(r);
 
     // Loop over the staves and place them
-    for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum)
-    {
+    for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum) {
       string staveName = _toString((int)staveNum, "stave%d");
       // position of the stave
       double phi = phi0 + staveNum * phiStep;
@@ -244,8 +237,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerExtension->addValue(5., "z_min", "envelope");
     layerExtension->addValue(5., "z_max", "envelope");
     // Add the proto layer material
-    for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat)
-    {
+    for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       xmlToProtoSurfaceMaterial(x_layer_material, *layerExtension,
                                 "layer_material");
@@ -262,17 +254,14 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
   // Place the additional support cylinders per detector
   buildSupportCylinder(oddd, barrelVolume, x_det, layerR);
 
-  if (x_det.hasChild(_Unicode(services)))
-  {
+  if (x_det.hasChild(_Unicode(services))) {
     // Grab the services
     xml_comp_t x_services = x_det.child(_Unicode(services));
-    if (x_services.hasChild(_Unicode(cable_routing)))
-    {
+    if (x_services.hasChild(_Unicode(cable_routing))) {
       xml_comp_t x_cable_routing = x_services.child(_Unicode(cable_routing));
       buildBarrelRouting(oddd, barrelVolume, x_cable_routing, layerR);
     }
-    if (x_services.hasChild(_Unicode(cooling_routing)))
-    {
+    if (x_services.hasChild(_Unicode(cooling_routing))) {
       xml_comp_t x_cooling_routing =
           x_services.child(_Unicode(cooling_routing));
       buildBarrelRouting(oddd, barrelVolume, x_cooling_routing, layerR);

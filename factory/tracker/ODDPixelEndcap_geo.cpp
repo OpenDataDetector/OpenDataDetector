@@ -7,11 +7,13 @@
 #include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
+#include <vector>
+
 #include "DD4hep/DetFactoryHelper.h"
+#include "DD4hep/DetType.h"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
-
-#include <vector>
+#include "XML/Utilities.h"
 
 using namespace std;
 using namespace dd4hep;
@@ -23,20 +25,19 @@ using namespace dd4hep;
 /// @param sens the sensitive detector descrition
 ///
 /// @return a reference counted DetElement
-static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
-{
+static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   xml_det_t x_det = xml;
   string detName = x_det.nameStr();
 
   // Make DetElement
   DetElement endcapDetector(detName, x_det.id());
+  dd4hep::xml::setDetectorTypeFlag(xml, endcapDetector);
 
   // Add Extension to DetElement for the RecoGeometry
   Acts::ActsExtension *endcapExtension = new Acts::ActsExtension();
   endcapExtension->addType("endcap", "detector");
   // Add the volume boundary material if configured
-  for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat)
-  {
+  for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
     xmlToProtoSurfaceMaterial(x_boundary_material, *endcapExtension,
                               "boundary_material");
@@ -64,8 +65,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 
   // Loop over the rings to create a template disk
   size_t ringNum = 0;
-  for (xml_coll_t ring(xml, _U(ring)); ring; ++ring, ++ringNum)
-  {
+  for (xml_coll_t ring(xml, _U(ring)); ring; ++ring, ++ringNum) {
     // Get the ring
     xml_comp_t x_ring = ring;
 
@@ -77,8 +77,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     // DetElement tree
     DetElement ringElement(ringName, ringNum);
 
-    if (x_ring.hasChild(_U(module)))
-    {
+    if (x_ring.hasChild(_U(module))) {
       xml_comp_t x_module = x_ring.child(_U(module));
       auto module =
           ODDModuleHelper::assembleTrapezoidalModule(oddd, sens, x_module);
@@ -90,8 +89,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
       double phiStep = 2. * M_PI / nModules;
 
       // Loop over modules
-      for (unsigned int modNum = 0; modNum < nModules; ++modNum)
-      {
+      for (unsigned int modNum = 0; modNum < nModules; ++modNum) {
         // The module name
         string moduleName = _toString((int)modNum, "module%d");
 
@@ -144,8 +142,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
   size_t layNum = 0;
   // Remember the layers for the service routing
   std::vector<double> endcapZ;
-  for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layNum)
-  {
+  for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layNum) {
     // Get the layer
     xml_comp_t x_layer = lay;
 
@@ -185,8 +182,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerExtension->addValue(10., "z_min", "envelope");
     layerExtension->addValue(10., "z_max", "envelope");
     // Check if the disk has a surface binning instruction
-    if (x_layer.hasChild(_Unicode(surface_binning)))
-    {
+    if (x_layer.hasChild(_Unicode(surface_binning))) {
       xml_comp_t sfBinning = x_layer.child(_Unicode(surface_binning));
       layerExtension->addValue(sfBinning.attr<int>("nr"), "n_r",
                                "surface_binning");
@@ -195,8 +191,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     }
 
     // Add the proto layer material
-    for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat)
-    {
+    for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       xmlToProtoSurfaceMaterial(x_layer_material, *layerExtension,
                                 "layer_material");
@@ -210,8 +205,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
   }
 
   // Close up the detector
-  if (x_det.hasChild(_U(disk)))
-  {
+  if (x_det.hasChild(_U(disk))) {
     // Endplate disk
     xml_comp_t x_endplate = x_det.child(_U(disk));
 
@@ -226,38 +220,37 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     PlacedVolume placedEndplate =
         endcapVolume.placeVolume(endplateVolume, Position(0., 0., zeff));
 
-    DetElement endplateElement("Endplate", 0);
+    DetElement endplateElement(x_endplate.nameStr(), 0);
+    dd4hep::DetType typeFlags{};
+    // typeFlags.set(dd4hep::DetType::ENDCAP);
+    // typeFlags.set(dd4hep::DetType::AUXILIARY);
+    endplateElement.setTypeFlag(typeFlags.to_ulong());
 
     // Place the layer with appropriate Acts::Extension
     // Configure the ACTS extension
     Acts::ActsExtension *endplateExtension = new Acts::ActsExtension();
     endplateExtension->addType("passive disk", "layer");
     // Add the proto layer material
-    for (xml_coll_t lmat(x_endplate, _Unicode(layer_material)); lmat; ++lmat)
-    {
+    for (xml_coll_t lmat(x_endplate, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       xmlToProtoSurfaceMaterial(x_layer_material, *endplateExtension,
                                 "layer_material");
     }
     endplateElement.addExtension<Acts::ActsExtension>(endplateExtension);
 
-
     // Finish up the DetElement tree
     endplateElement.setPlacement(placedEndplate);
     endcapDetector.add(endplateElement);
   }
 
-  if (x_det.hasChild(_Unicode(services)))
-  {
+  if (x_det.hasChild(_Unicode(services))) {
     // Grab the services
     xml_comp_t x_services = x_det.child(_Unicode(services));
-    if (x_services.hasChild(_Unicode(cable_routing)))
-    {
+    if (x_services.hasChild(_Unicode(cable_routing))) {
       xml_comp_t x_cable_routing = x_services.child(_Unicode(cable_routing));
       buildEndcapRouting(oddd, endcapVolume, x_cable_routing, endcapZ);
     }
-    if (x_services.hasChild(_Unicode(cooling_routing)))
-    {
+    if (x_services.hasChild(_Unicode(cooling_routing))) {
       xml_comp_t x_cooling_routing =
           x_services.child(_Unicode(cooling_routing));
       buildEndcapRouting(oddd, endcapVolume, x_cooling_routing, endcapZ);
