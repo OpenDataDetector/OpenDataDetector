@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
+#include "ODDHelper.hpp"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
 #include "XML/Utilities.h"
@@ -112,16 +113,16 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   DetElement barrelDetector(detName, x_det.id());
   dd4hep::xml::setDetectorTypeFlag(xml, barrelDetector);
 
+  auto &params = ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+      barrelDetector);
+
   // Add Extension to DetElement for the RecoGeometry
-  Acts::ActsExtension *barrelExtension = new Acts::ActsExtension();
-  barrelExtension->addType("barrel", "detector");
   // Add the volume boundary material if configured
   for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
-    xmlToProtoSurfaceMaterial(x_boundary_material, *barrelExtension,
-                              "boundary_material");
+    Acts::xmlToProtoSurfaceMaterial(x_boundary_material, params,
+                                    "boundary_material");
   }
-  barrelDetector.addExtension<Acts::ActsExtension>(barrelExtension);
 
   // Make Volume
   dd4hep::xml::Dimension x_det_dim(x_det.dimensions());
@@ -189,6 +190,9 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     // The DetElement tree, keep it flat
     DetElement layerElement(barrelDetector, x_layer.nameStr(), layerNum);
+    auto &layerParams =
+        ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+            layerElement);
 
     // Place the staves in the layer
     unsigned int nStaves = x_layer.nphi();
@@ -239,8 +243,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
-      xmlToProtoSurfaceMaterial(x_layer_material, *layerExtension,
-                                "layer_material");
+      Acts::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
+                                      "layer_material");
     }
     layerElement.addExtension<Acts::ActsExtension>(layerExtension);
 

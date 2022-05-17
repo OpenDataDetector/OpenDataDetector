@@ -7,12 +7,12 @@
 #include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
-#include "ODDModuleHelper.hpp"
-#include "ODDServiceHelper.hpp"
+#include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
-
-#include <vector>
+#include "ODDModuleHelper.hpp"
+#include "ODDServiceHelper.hpp"
+#include "XML/Utilities.h"
 
 using namespace std;
 using namespace dd4hep;
@@ -30,20 +30,19 @@ using namespace dd4hep;
 /// @param sens the sensitive detector descrition
 ///
 /// @return a reference counted DetElement
-static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
-{
+static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   xml_det_t x_det = xml;
   string detName = x_det.nameStr();
 
   // Make DetElement
   DetElement barrelDetector(detName, x_det.id());
+  dd4hep::xml::setDetectorTypeFlag(xml, barrelDetector);
 
   // Add Extension to DetElement for the RecoGeometry
   Acts::ActsExtension *barrelExtension = new Acts::ActsExtension();
   barrelExtension->addType("barrel", "detector");
   // Add the volume boundary material if configured
-  for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat)
-  {
+  for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
     xmlToProtoSurfaceMaterial(x_boundary_material, *barrelExtension,
                               "boundary_material");
@@ -80,12 +79,10 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
   double staveHlength = ymin + 0.5 * length;
 
   // Loop over the modules and place them in the stave
-  for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum)
-  {
+  for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
     double positionY = -ymin + moduleNum * ystep;
     // Place the cable bundle, one per stave
-    if (x_stave.hasChild(_U(eltube)))
-    {
+    if (x_stave.hasChild(_U(eltube))) {
       // Retrieve cable parameters
       xml_comp_t x_cable = x_stave.child(_U(eltube));
 
@@ -127,8 +124,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 
   // Loop over the layers to build staves
   size_t layerNum = 0;
-  for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layerNum)
-  {
+  for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layerNum) {
     xml_comp_t x_layer = lay;
 
     string layerName = detName + std::to_string(layerNum);
@@ -141,7 +137,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerVolume.setVisAttributes(oddd, x_layer.visStr());
 
     // The DetElement tree, keep it flat
-    DetElement layerElement(barrelDetector, layerName, layerNum);
+    DetElement layerElement(barrelDetector, x_layer.nameStr(), layerNum);
 
     // Place the staves in the layer
     unsigned int nStaves = x_layer.nphi();
@@ -152,8 +148,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerR.push_back(r);
 
     // Loop over the staves and place them
-    for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum)
-    {
+    for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum) {
       string staveName = _toString((int)staveNum, "stave%d");
       // position of the stave
       double phi = phi0 + staveNum * phiStep;
@@ -188,8 +183,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     layerExtension->addValue(10., "z_max", "envelope");
 
     // Add the proto layer material
-    for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat)
-    {
+    for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       xmlToProtoSurfaceMaterial(x_layer_material, *layerExtension,
                                 "layer_material");
@@ -202,23 +196,20 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
     // Assign layer DetElement to layer volume
     layerElement.setPlacement(placedLayer);
 
-  } // loop over layers
+  }  // loop over layers
 
   // Place the support rails
   buildSupportCylinder(oddd, barrelVolume, x_det, layerR);
 
   // Route the services out on both sides
-  if (x_det.hasChild(_Unicode(services)))
-  {
+  if (x_det.hasChild(_Unicode(services))) {
     // Grab the services
     xml_comp_t x_services = x_det.child(_Unicode(services));
-    if (x_services.hasChild(_Unicode(cable_routing)))
-    {
+    if (x_services.hasChild(_Unicode(cable_routing))) {
       xml_comp_t x_cable_routing = x_services.child(_Unicode(cable_routing));
       buildBarrelRouting(oddd, barrelVolume, x_cable_routing, layerR);
     }
-    if (x_services.hasChild(_Unicode(cooling_routing)))
-    {
+    if (x_services.hasChild(_Unicode(cooling_routing))) {
       xml_comp_t x_cooling_routing =
           x_services.child(_Unicode(cooling_routing));
       buildBarrelRouting(oddd, barrelVolume, x_cooling_routing, layerR);

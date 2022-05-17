@@ -134,8 +134,8 @@
         </readout>
     </readouts> 
     <include ref="OpenDataPixels.xml"/>
-    <!-- <include ref="OpenDataShortStrips.xml"/> -->
-    <!-- <include ref="OpenDataLongStrips.xml"/> -->
+    <include ref="OpenDataShortStrips.xml"/>
+    <include ref="OpenDataLongStrips.xml"/>
     <detectors>
       <detector id="0" name="BeamPipe" type="ODDCylinder" vis="Beryllium">
             <type_flags type="DetType_TRACKER + DetType_BEAMPIPE" />
@@ -151,29 +151,29 @@
           <composite name="PixelEndcapP"/>
       </detector>
 
-      <!-- <detector id="2" name="PST" type="ODDCylinder" beampipe="false" vis="CarbonFiber"> -->
-            <!-- <tubs name="PixelSupportCylinder" rmin="pst_rmin" rmax="pst_rmax" dz="pst_length" material="CarbonFiber"> -->
-              <!-- <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_pst_bPhi" bins1="mat_pst_bZ"/> -->
-            <!-- </tubs> -->
-      <!-- </detector> -->
-      <!-- <detector id="3" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible"> -->
-          <!-- <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/> -->
-          <!-- <composite name="ShortStripEndcapN"/> -->
-          <!-- <composite name="ShortStripBarrel"/> -->
-          <!-- <composite name="ShortStripEndcapP"/> -->
-      <!-- </detector> -->
-      <!-- <detector id="4" name="LongStrips" type="DD4hep_SubdetectorAssembly" vis="invisible"> -->
-          <!-- <shape name="LongStripVolume" type="Tube" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_env_dz" material="Air"/> -->
-          <!-- <composite name="LongStripEndcapN"/> -->
-          <!-- <composite name="LongStripBarrel"/> -->
-          <!-- <composite name="LongStripEndcapP"/> -->
-      <!-- </detector> -->
-      <!-- <detector id="5" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum"> -->
-            <!-- <boundary_material surface="inner" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/> -->
-            <!-- <tubs name="Solenoid" rmin="sol_rmin" rmax="sol_rmax" dz="sol_hlength" material="Aluminum"> -->
-              <!-- <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/> -->
-            <!-- </tubs> -->
-      <!-- </detector> -->
+      <detector id="2" name="PST" type="ODDCylinder" beampipe="false" vis="CarbonFiber">
+            <tubs name="PixelSupportCylinder" rmin="pst_rmin" rmax="pst_rmax" dz="pst_length" material="CarbonFiber">
+              <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_pst_bPhi" bins1="mat_pst_bZ"/>
+            </tubs>
+      </detector>
+      <detector id="3" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+          <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/>
+          <composite name="ShortStripEndcapN"/>
+          <composite name="ShortStripBarrel"/>
+          <composite name="ShortStripEndcapP"/>
+      </detector>
+      <detector id="4" name="LongStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+          <shape name="LongStripVolume" type="Tube" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_env_dz" material="Air"/>
+          <composite name="LongStripEndcapN"/>
+          <composite name="LongStripBarrel"/>
+          <composite name="LongStripEndcapP"/>
+      </detector>
+      <detector id="5" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum">
+            <boundary_material surface="inner" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
+            <tubs name="Solenoid" rmin="sol_rmin" rmax="sol_rmax" dz="sol_hlength" material="Aluminum">
+              <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
+            </tubs>
+      </detector>
     </detectors>
 
 
