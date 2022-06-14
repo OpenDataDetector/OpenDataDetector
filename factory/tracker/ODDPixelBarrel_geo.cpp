@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
+#include "DDRec/DetectorData.h"
 #include "ODDHelper.hpp"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
