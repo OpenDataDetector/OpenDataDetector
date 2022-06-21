@@ -61,12 +61,6 @@
         <constant name="sol_rmin" value="1160.*mm"/>
         <constant name="sol_rmax" value="1200.*mm"/>
         <constant name="sol_hlength" value="3.0*m"/>  
-        <!-- ECAL Barrel Dimensions -->
-        <constant name="ECalBarrel_inner_radius" value="1250.*mm"/>
-        <constant name="ECalBarrel_outer_radius" value="1650.*mm"/>
-        <constant name="ECalBarrel_half_length" value="3.0*m"/>
-        <constant name="ECalBarrel_symmetry" value="16"/>
-        <constant name="DetID_ECal_Barrel" value="20"/>
         <!-- Material binning section -->
         <!-- beam pipe section -->
         <constant name="mat_bp_bPhi" value="144"/>
@@ -93,13 +87,7 @@
         <constant name="mat_sol_bPhi" value="144"/>
         <constant name="mat_sol_bZ" value="100"/>
     </define>
-
-        <limits>
-        <limitset name="cal_limits">
-            <limit name="step_length_max" particles="*" value="5.0" unit="mm" />
-        </limitset>
-    </limits>
-
+            
     <display>
         <vis name="Beryllium" r="0.8" g="0.8"  b="0.8" alpha="0.9" showDaugthers="true" visible="true" drawingStyle="solid"/>
         <vis name="Silicon" r="0." g="0." b="0.5" alpha="1.0" showDaugthers="true" visible="true" drawingStyle="solid"/>
@@ -146,7 +134,6 @@
     <include ref="OpenDataPixels.xml"/>
     <include ref="OpenDataShortStrips.xml"/>
     <include ref="OpenDataLongStrips.xml"/>
-    <include ref="OpenDataEcalBarrel.xml"/>
     <detectors>
       <detector id="0" name="BeamPipe" type="ODDCylinder" vis="Beryllium">
             <beampipe/>
