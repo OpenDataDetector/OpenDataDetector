@@ -4,13 +4,14 @@
 //
 // Mozilla Public License Version 2.0
 
-#include "ActsDD4hep/ActsExtension.hpp"
+// #include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
 #include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
 #include "DD4hep/DetType.h"
+#include "ODDHelper.hpp"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
 #include "XML/Utilities.h"
@@ -33,16 +34,16 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   DetElement endcapDetector(detName, x_det.id());
   dd4hep::xml::setDetectorTypeFlag(xml, endcapDetector);
 
+  auto &params = ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+      endcapDetector);
+
   // Add Extension to DetElement for the RecoGeometry
-  Acts::ActsExtension *endcapExtension = new Acts::ActsExtension();
-  endcapExtension->addType("endcap", "detector");
   // Add the volume boundary material if configured
   for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
-    xmlToProtoSurfaceMaterial(x_boundary_material, *endcapExtension,
-                              "boundary_material");
+    Acts::xmlToProtoSurfaceMaterial(x_boundary_material, params,
+                                    "boundary_material");
   }
-  endcapDetector.addExtension<Acts::ActsExtension>(endcapExtension);
 
   // Make Volume
   dd4hep::xml::Dimension x_det_dim(x_det.dimensions());
@@ -173,31 +174,30 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
         endcapVolume.placeVolume(layerVolume, Position(0., 0., zeff));
     placedLayer.addPhysVolID("layer", layNum);
 
-    // Place the layer with appropriate Acts::Extension
-    // Configure the ACTS extension
-    Acts::ActsExtension *layerExtension = new Acts::ActsExtension();
-    layerExtension->addType("sensitive disk", "layer");
-    layerExtension->addValue(10., "r_min", "envelope");
-    layerExtension->addValue(10., "r_max", "envelope");
-    layerExtension->addValue(10., "z_min", "envelope");
-    layerExtension->addValue(10., "z_max", "envelope");
+    auto &layerParams =
+        ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+            layerElement);
+
+    layerParams.set<double>("envelope_r_min", 10.0);
+    layerParams.set<double>("envelope_r_max", 10.0);
+    layerParams.set<double>("envelope_z_min", 10.0);
+    layerParams.set<double>("envelope_z_max", 10.0);
+
     // Check if the disk has a surface binning instruction
     if (x_layer.hasChild(_Unicode(surface_binning))) {
       xml_comp_t sfBinning = x_layer.child(_Unicode(surface_binning));
-      layerExtension->addValue(sfBinning.attr<int>("nr"), "n_r",
-                               "surface_binning");
-      layerExtension->addValue(sfBinning.attr<int>("nphi"), "n_phi",
-                               "surface_binning");
+      layerParams.set<bool>("surface_binning", true);
+      layerParams.set<int>("surface_binning_n_r", sfBinning.attr<int>("nr"));
+      layerParams.set<int>("surface_binning_n_phi",
+                           sfBinning.attr<int>("nphi"));
     }
 
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
-      xmlToProtoSurfaceMaterial(x_layer_material, *layerExtension,
-                                "layer_material");
+      Acts::xmlToProtoSurfaceMaterial(x_layer_material, params,
+                                      "layer_material");
     }
-
-    layerElement.addExtension<Acts::ActsExtension>(layerExtension);
 
     // Finish up the DetElement tree
     layerElement.setPlacement(placedLayer);

@@ -4,7 +4,6 @@
 //
 // Mozilla Public License Version 2.0
 
-#include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
 #include <vector>
@@ -233,21 +232,16 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     // dd4hep::detail::destroyHandle(staveElementTemplate);
     // dd4hep::detail::destroyHandle(module.second);
 
-    // Place the layer with appropriate Acts::Extension
-    // Configure the ACTS extension
-    Acts::ActsExtension *layerExtension = new Acts::ActsExtension();
-    layerExtension->addType("sensitive cylinder", "layer");
-    layerExtension->addValue(1., "r_min", "envelope");
-    layerExtension->addValue(5., "r_max", "envelope");
-    layerExtension->addValue(5., "z_min", "envelope");
-    layerExtension->addValue(5., "z_max", "envelope");
+    layerParams.set<double>("envelope_r_min", 1.);
+    layerParams.set<double>("envelope_r_max", 5.);
+    layerParams.set<double>("envelope_z_max", 5.);
+    layerParams.set<double>("envelope_z_max", 5.);
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       Acts::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
                                       "layer_material");
     }
-    layerElement.addExtension<Acts::ActsExtension>(layerExtension);
 
     PlacedVolume placedLayer = barrelVolume.placeVolume(layerVolume);
     placedLayer.addPhysVolID("layer", layerNum);
