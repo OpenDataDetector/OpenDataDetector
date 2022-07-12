@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
-    
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
     <includes>
         <gdmlFile ref="elements.xml"/>
         <gdmlFile ref="OpenDataMaterials.xml"/>
     </includes>
-    
-    <info name="Open Data Detector"
-        title="Open Data Detector" 
-        author="Andreas.Salzburger@cern.ch" url="" status="alpha" version="0">
-        <comment>Demonstrator Detector for the acts webpage and documentation</comment>
+
+    <info name="Open Data Detector" title="Open Data Detector" author="Andreas.Salzburger@cern.ch" url="" status="alpha" version="0">
+        <comment>Demonstrator Detector for algorithmic research and development</comment>
     </info>
+
+    <!-- Envelope definitions -->
     <define>
         <!--World-->
         <constant name="world_size" value="10.*m"/>
@@ -25,157 +24,157 @@
         <constant name="bp_length" value="4.0*m"/>
         <!--The tracker region definition -->
         <constant name="tracker_region_rmax" value="1.2*m"/>
-        <constant name="tracker_region_zmax" value="4.0*m"/>        
+        <constant name="tracker_region_zmax" value="4.0*m"/>
         <!--Dimensions of the Pixel volume & sub volumes -->
         <constant name="pix_env_rmin" value="25.*mm"/>
         <constant name="pix_env_rmax" value="200.*mm"/>
-        <constant name="pix_env_dz" value="2.4*m"/>  
-        <constant name="pix_b_z"  value="0.*m"/>                
-        <constant name="pix_b_dz" value="0.580*m"/> 
-        <constant name="pix_e_nz" value="-1.480*m"/>                
-        <constant name="pix_e_pz" value="1.480*m"/>                
-        <constant name="pix_e_dz" value="0.9*m"/> 
+        <constant name="pix_env_dz" value="2.4*m"/>
+        <constant name="pix_b_z" value="0.*m"/>
+        <constant name="pix_b_dz" value="0.580*m"/>
+        <constant name="pix_e_nz" value="-1.480*m"/>
+        <constant name="pix_e_pz" value="1.480*m"/>
+        <constant name="pix_e_dz" value="0.9*m"/>
         <!--Dimensions of the Pixel Support tube -->
         <constant name="pst_rmin" value="202.*mm"/>
         <constant name="pst_rmax" value="204.*mm"/>
-        <constant name="pst_length" value="2.0*m"/>        
+        <constant name="pst_length" value="2.0*m"/>
         <!--Dimensions of the Short Strips volume & sub volumes -->
         <constant name="ss_env_rmin" value="204.*mm"/>
         <constant name="ss_env_rmax" value="720.*mm"/>
-        <constant name="ss_env_dz" value="3.15*m"/>  
-        <constant name="ss_b_z"  value="0.*m"/>                
-        <constant name="ss_b_dz" value="1.2*m"/> 
-        <constant name="ss_e_nz" value="-2.175*m"/>                
-        <constant name="ss_e_pz" value="2.175*m"/>                
-        <constant name="ss_e_dz" value="0.975*m"/>  
+        <constant name="ss_env_dz" value="3.15*m"/>
+        <constant name="ss_b_z" value="0.*m"/>
+        <constant name="ss_b_dz" value="1.2*m"/>
+        <constant name="ss_e_nz" value="-2.175*m"/>
+        <constant name="ss_e_pz" value="2.175*m"/>
+        <constant name="ss_e_dz" value="0.975*m"/>
         <!--Dimensions of the Long Strips volume & sub volumes -->
         <constant name="ls_env_rmin" value="720.*mm"/>
         <constant name="ls_env_rmax" value="1140.*mm"/>
-        <constant name="ls_env_dz" value="3.15*m"/>  
-        <constant name="ls_b_z"  value="0.*m"/>                
-        <constant name="ls_b_dz" value="1.2*m"/> 
-        <constant name="ls_e_nz" value="-2.175*m"/>                
-        <constant name="ls_e_pz" value="2.175*m"/>                
-        <constant name="ls_e_dz" value="0.975*m"/>   
+        <constant name="ls_env_dz" value="3.15*m"/>
+        <constant name="ls_b_z" value="0.*m"/>
+        <constant name="ls_b_dz" value="1.2*m"/>
+        <constant name="ls_e_nz" value="-2.175*m"/>
+        <constant name="ls_e_pz" value="2.175*m"/>
+        <constant name="ls_e_dz" value="0.975*m"/>
         <!--Dimensions of the Solenoid -->
         <constant name="sol_rmin" value="1160.*mm"/>
         <constant name="sol_rmax" value="1200.*mm"/>
-        <constant name="sol_hlength" value="3.0*m"/>  
-        <!-- Material binning section -->
-        <!-- beam pipe section -->
-        <constant name="mat_bp_bPhi" value="144"/>
-        <constant name="mat_bp_bZ" value="10"/>
-        <!-- pixel section -->
-        <constant name="mat_pix_barrel_bPhi" value="144"/>
-        <constant name="mat_pix_barrel_bZ" value="200"/>
-        <constant name="mat_pix_endcap_bPhi" value="144"/>
-        <constant name="mat_pix_endcap_bR" value="150"/>
-        <!-- PST section -->
-        <constant name="mat_pst_bPhi" value="144"/>
-        <constant name="mat_pst_bZ" value="100"/>
-        <!-- short strip section -->
-        <constant name="mat_sst_barrel_bPhi" value="144"/>
-        <constant name="mat_sst_barrel_bZ" value="150"/>
-        <constant name="mat_sst_endcap_bPhi" value="144"/>
-        <constant name="mat_sst_endcap_bR" value="150"/>
-        <!-- long strip section -->
-        <constant name="mat_lst_barrel_bPhi" value="144"/>
-        <constant name="mat_lst_barrel_bZ" value="250"/>
-        <constant name="mat_lst_endcap_bPhi" value="144"/>
-        <constant name="mat_lst_endcap_bR" value="100"/>
-        <!-- Solenoid section -->
-        <constant name="mat_sol_bPhi" value="144"/>
-        <constant name="mat_sol_bZ" value="100"/>
+        <constant name="sol_hlength" value="3.0*m"/>
 
         <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
     </define>
-            
-    <display>
-        <vis name="Beryllium" r="0.8" g="0.8"  b="0.8" alpha="0.9" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="Silicon" r="0." g="0." b="0.5" alpha="1.0" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="Kapton" r="0.1328125" g="0.55859375" b="0.02734375" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="CarbonFiber" r="0.4" g="0.4"  b="0.4" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="CarbonFoam" r="0.5" g="0.5"  b="0.5" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="Aluminum" r="0.7" g="0.7"  b="0.7" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/> 
-        <vis name="violet" r="0.4" g="0." b="0.4" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="red" r="0.6" g="0." b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="yellow" r="0.65" g="0.65" b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="orange" r="0.65" g="0.35" b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="blue" r="0." g="0." b="0.5" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="green" r="0." g="0.5" b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="grey" r="0.7" g="0.6" b="0.5" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
-        <vis name="bluetrans" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
-    </display>
-        
-    <readouts>
-        <readout name="PixelBarrelReadout">
-            <segmentation type="CartesianGridXY" grid_size_x="0.05*mm" grid_size_y="0.05*mm"/>
-            <id>system:4,layer:4,stave:8,module:4,sensor:1,x:24:-12,y:-12</id>
-        </readout>
-        <readout name="PixelEndcapReadout">
-            <segmentation type="CartesianGridXY" grid_size_x="0.05*mm" grid_size_y="0.05*mm"/>
-            <id>system:4,layer:4,ring:2,module:8,sensor:2,x:24:-12,y:-12</id>
-        </readout>
-        <readout name="ShortStripBarrelReadout">
-            <segmentation type="CartesianGridXY" grid_size_x="0.075*mm" grid_size_y="0.5*mm"/>
-            <id>system:4,layer:4,stave:8,module:8,sensor:2,x:32:-12,y:-12</id>
-        </readout>
-        <readout name="ShortStripEndcapReadout">
-            <segmentation type="CartesianGridXY" grid_size_x="0.075*mm" grid_size_y="0.5*mm"/>
-            <id>system:4,layer:4,ring:2,module:8,sensor:2,x:32:-12,y:-12</id>
-        </readout>
-        <readout name="LongStripBarrelReadout">
-            <segmentation type="CartesianGridXY" grid_size_x="0.15*mm" grid_size_y="1.5*mm"/>
-            <id>system:4,layer:4,stave:8,module:8,sensor:2,x:32:-12,y:-12</id>
-        </readout>>
-        <readout name="LongStripEndcapReadout">
-            <segmentation type="CartesianGridXY" grid_size_x="0.15*mm" grid_size_y="1.5*mm"/>
-            <id>system:4,layer:4,ring:4,module:8,sensor:2,x:32:-12,y:-12</id>
-        </readout>
-    </readouts> 
-    <include ref="OpenDataPixels.xml"/>
-    <include ref="OpenDataShortStrips.xml"/>
-    <include ref="OpenDataLongStrips.xml"/>
-    <detectors>
-      <detector id="0" name="BeamPipe" type="ODDCylinder" vis="Beryllium">
-            <type_flags type="DetType_TRACKER + DetType_BEAMPIPE" />
-            <beampipe/>
-            <tubs name="BeamPipeCylinder" rmin="bp_rmin" rmax="bp_rmax" dz="bp_length" material="Beryllium">
-              <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_bp_bPhi" bins1="mat_bp_bZ"/>
-            </tubs>
-      </detector>
-      <detector id="1" name="Pixels" type="DD4hep_SubdetectorAssembly" vis="invisible">
-          <shape name="PixelVolume" type="Tube" rmin="pix_env_rmin" rmax="pix_env_rmax" dz="pix_env_dz" material="Air"/>
-          <composite name="PixelEndcapN"/>
-          <composite name="PixelBarrel"/>
-          <composite name="PixelEndcapP"/>
-      </detector>
 
-      <detector id="2" name="PST" type="ODDCylinder" beampipe="false" vis="CarbonFiber">
-            <tubs name="PixelSupportCylinder" rmin="pst_rmin" rmax="pst_rmax" dz="pst_length" material="CarbonFiber">
-              <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_pst_bPhi" bins1="mat_pst_bZ"/>
-            </tubs>
-      </detector>
-      <detector id="3" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
-          <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/>
-          <composite name="ShortStripEndcapN"/>
-          <composite name="ShortStripBarrel"/>
-          <composite name="ShortStripEndcapP"/>
-      </detector>
-      <detector id="4" name="LongStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
-          <shape name="LongStripVolume" type="Tube" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_env_dz" material="Air"/>
-          <composite name="LongStripEndcapN"/>
-          <composite name="LongStripBarrel"/>
-          <composite name="LongStripEndcapP"/>
-      </detector>
-      <detector id="5" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum">
-            <boundary_material surface="inner" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
-            <tubs name="Solenoid" rmin="sol_rmin" rmax="sol_rmax" dz="sol_hlength" material="Aluminum">
-              <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
-            </tubs>
-      </detector>
-    </detectors>
+    <!-- Identifier definitions --> 
+    <define>
+        <!-- BeamPipe Identifier -->
+        <constant name="ODD_BeamPipe_ID" value="0"/>
+        <!-- Pixel Identifiers -->
+        <constant name="ODD_Pixel_ID" value="1"/>
+        <constant name="ODD_PixelEndcapN_ID" value="7"/>
+        <constant name="ODD_PixelBarrel_ID" value="6"/>
+        <constant name="ODD_PixelEndcapP_ID" value="8"/>
+        <!-- PST Identifier -->
+        <constant name="ODD_PST_ID" value="2"/>
+        <!-- ShortStrips Identifiers -->
+        <constant name="ODD_ShortStrip_ID" value="3"/>
+        <constant name="ODD_ShortStripEndcapN_ID" value="10"/>
+        <constant name="ODD_ShortStripBarrel_ID" value="9"/>
+        <constant name="ODD_ShortStripEndcapP_ID" value="11"/>
+        <!-- LongStrips Identifiers -->
+        <constant name="ODD_LongStrip_ID" value="4"/>
+        <constant name="ODD_LongStripEndcapN_ID" value="13"/>
+        <constant name="ODD_LongStripBarrel_ID" value="12"/>
+        <constant name="ODD_LongStripEndcapP_ID" value="14"/>
+        <!-- Solenoid Identifiers -->
+        <constant name="ODD_Solenoid_ID" value="5"/>
+    </define>
 
+    <!-- Auxiliary definitions-->
+    <include ref="OpenDataMaterialBinning.xml"/>
+    <include ref="OpenDataVisualization.xml"/>
 
+    <!-- Sub detectors / parts -->
+    <include ref="OpenDataBeamPipe.xml"/>
+    <include ref="OpenDataTracker.xml"/>
+    <include ref="OpenDataSolenoid.xml"/>
+
+    <!-- Plugin sections, DDRec surfaces, etc. -->
+    <plugins>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="PixelEndcapN"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="PixelEndcapP"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="PixelBarrel"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=1."/>
+        <argument value="v_y=1."/>
+        <argument value="n_z=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="ShortStripEndcapN"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="ShortStripEndcapP"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="ShortStripBarrel"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=1."/>
+        <argument value="v_y=1."/>
+        <argument value="n_z=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="LongStripEndcapN"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="LongStripEndcapP"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+      </plugin>
+
+      <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="LongStripBarrel"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=1."/>
+        <argument value="v_y=1."/>
+        <argument value="n_z=1."/>
+      </plugin>
+
+      <plugin name="DD4hepVolumeManager"/>
+      <plugin name="InstallSurfaceManager"/>
+    </plugins>
 
 </lccdd>

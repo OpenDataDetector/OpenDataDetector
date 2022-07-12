@@ -8,8 +8,8 @@ default:
     - cvmfs
 
 variables:
-  ACTS_VERSION: dd4hep_decouple
-  ACTS_GIT_URL: https://github.com/paulgessinger/acts.git # this will need to change
+  ACTS_VERSION: v19.3.0
+  ACTS_GIT_URL: https://github.com/acts-project/acts.git
 
 
 build-acts:

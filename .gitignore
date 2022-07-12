@@ -1,0 +1,48 @@
+
+# Build and Install folders
+build*
+install
+
+# Misc Binary and Data files
+*.d
+*.png
+*.pdf
+*.log
+*.dat
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# spack related folders/files
+spack*
+
+# Tooling
+/.clangd/
+/compile_commands.json

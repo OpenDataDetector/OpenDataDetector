@@ -10,14 +10,14 @@ The ODD Tracking system is an evolution of the detector used for the `Tracking M
  * a central beam pipe
  * an innermost Pixel tracking system
  * a middle Short Strip system
- * an outermost Long Strip stystem
+ * an outermost Long Strip system
  * an enclosing solenoid 
 
  ## Build instructions
 
  The ODD library can be built using `CMake` with minimal dependencies (mainly required by DD4hep), dependencies are:
  * BOOST
- * DD4hp
+ * DD4hep
  * ROOT
  * Geant4
 

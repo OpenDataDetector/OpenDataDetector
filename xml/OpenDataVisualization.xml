@@ -1,0 +1,18 @@
+ <lccdd>
+    <display>
+        <vis name="Beryllium" r="0.8" g="0.8" b="0.8" alpha="0.9" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="Silicon" r="0." g="0." b="0.5" alpha="1.0" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="Kapton" r="0.1328125" g="0.55859375" b="0.02734375" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="CarbonFiber" r="0.4" g="0.4" b="0.4" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="CarbonFoam" r="0.5" g="0.5" b="0.5" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="Aluminum" r="0.7" g="0.7" b="0.7" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="violet" r="0.4" g="0." b="0.4" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="red" r="0.6" g="0." b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="yellow" r="0.65" g="0.65" b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="orange" r="0.65" g="0.35" b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="blue" r="0." g="0." b="0.5" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="green" r="0." g="0.5" b="0." alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="grey" r="0.7" g="0.6" b="0.5" alpha="1" showDaugthers="true" visible="true" drawingStyle="solid"/>
+        <vis name="bluetrans" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
+    </display>
+</lccdd>
