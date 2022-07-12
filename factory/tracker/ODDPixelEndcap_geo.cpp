@@ -4,13 +4,13 @@
 //
 // Mozilla Public License Version 2.0
 
-// #include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
 #include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
 #include "DD4hep/DetType.h"
+#include "DDRec/DetectorData.h"
 #include "ODDHelper.hpp"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
@@ -228,15 +228,18 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     // Place the layer with appropriate Acts::Extension
     // Configure the ACTS extension
-    Acts::ActsExtension *endplateExtension = new Acts::ActsExtension();
-    endplateExtension->addType("passive disk", "layer");
+    auto &layerParams =
+        ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+            endplateElement);
+    // Acts::ActsExtension *endplateExtension = new Acts::ActsExtension();
+    // endplateExtension->addType("passive disk", "layer");
     // Add the proto layer material
     for (xml_coll_t lmat(x_endplate, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
-      xmlToProtoSurfaceMaterial(x_layer_material, *endplateExtension,
-                                "layer_material");
+      Acts::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
+                                      "layer_material");
     }
-    endplateElement.addExtension<Acts::ActsExtension>(endplateExtension);
+    // endplateElement.addExtension<Acts::ActsExtension>(endplateExtension);
 
     // Finish up the DetElement tree
     endplateElement.setPlacement(placedEndplate);

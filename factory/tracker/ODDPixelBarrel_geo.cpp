@@ -234,7 +234,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     layerParams.set<double>("envelope_r_min", 1.);
     layerParams.set<double>("envelope_r_max", 5.);
-    layerParams.set<double>("envelope_z_max", 5.);
+    layerParams.set<double>("envelope_z_min", 5.);
     layerParams.set<double>("envelope_z_max", 5.);
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {

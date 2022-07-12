@@ -4,12 +4,12 @@
 //
 // Mozilla Public License Version 2.0
 
-#include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
 #include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
+#include "ODDHelper.hpp"
 #include "ODDModuleHelper.hpp"
 #include "ODDServiceHelper.hpp"
 #include "XML/Utilities.h"
@@ -39,15 +39,14 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   dd4hep::xml::setDetectorTypeFlag(xml, barrelDetector);
 
   // Add Extension to DetElement for the RecoGeometry
-  Acts::ActsExtension *barrelExtension = new Acts::ActsExtension();
-  barrelExtension->addType("barrel", "detector");
+  auto &params = ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+      barrelDetector);
   // Add the volume boundary material if configured
   for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
-    xmlToProtoSurfaceMaterial(x_boundary_material, *barrelExtension,
-                              "boundary_material");
+    Acts::xmlToProtoSurfaceMaterial(x_boundary_material, params,
+                                    "boundary_material");
   }
-  barrelDetector.addExtension<Acts::ActsExtension>(barrelExtension);
 
   // Make Volume
   dd4hep::xml::Dimension x_det_dim(x_det.dimensions());
@@ -173,22 +172,21 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     std::vector<double> dummyR;
     buildSupportCylinder(oddd, barrelVolume, x_layer, dummyR);
 
-    // Place the layer with appropriate Acts::Extension
-    // Configure the ACTS extension
-    Acts::ActsExtension *layerExtension = new Acts::ActsExtension();
-    layerExtension->addType("sensitive cylinder", "layer");
-    layerExtension->addValue(10., "r_min", "envelope");
-    layerExtension->addValue(25., "r_max", "envelope");
-    layerExtension->addValue(10., "z_min", "envelope");
-    layerExtension->addValue(10., "z_max", "envelope");
+    auto &layerParams =
+        ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
+            layerElement);
+
+    layerParams.set<double>("envelope_r_min", 10.);
+    layerParams.set<double>("envelope_r_max", 25.);
+    layerParams.set<double>("envelope_z_min", 10.);
+    layerParams.set<double>("envelope_z_max", 10.);
 
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
-      xmlToProtoSurfaceMaterial(x_layer_material, *layerExtension,
-                                "layer_material");
+      Acts::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
+                                      "layer_material");
     }
-    layerElement.addExtension<Acts::ActsExtension>(layerExtension);
 
     PlacedVolume placedLayer = barrelVolume.placeVolume(layerVolume);
     placedLayer.addPhysVolID("layer", layerNum);

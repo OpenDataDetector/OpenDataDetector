@@ -4,7 +4,6 @@
 //
 // Mozilla Public License Version 2.0
 
-#include "ActsDD4hep/ActsExtension.hpp"
 #include "ActsDD4hep/ConvertMaterial.hpp"
 
 #include "DD4hep/DetFactoryHelper.h"
