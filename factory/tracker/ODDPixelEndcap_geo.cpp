@@ -195,7 +195,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
-      Acts::xmlToProtoSurfaceMaterial(x_layer_material, params,
+      Acts::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
                                       "layer_material");
     }
 

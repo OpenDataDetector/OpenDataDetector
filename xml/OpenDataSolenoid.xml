@@ -1,10 +1,18 @@
 <lccdd>
     <detectors>
         <detector id="ODD_Solenoid_ID" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum">
+            <type_flags type="DetType_TRACKER" />
             <boundary_material surface="inner" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
             <tubs name="Solenoid" rmin="sol_rmin" rmax="sol_rmax" dz="sol_hlength" material="Aluminum">
                 <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
             </tubs>
         </detector>
     </detectors>
+
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="Solenoid"/>
+      <argument value="passive_layer: bool = true"/>
+    </plugin>	
+  </plugins>
 </lccdd>

@@ -25,7 +25,7 @@ if(NOT TARGET ActsDD4hep::ActsDD4hep)
   # ensure glue library is available if not already part of the build
   FetchContent_Declare(actsdd4hep
     GIT_REPOSITORY https://github.com/acts-project/acts-dd4hep.git
-    GIT_TAG v1.0.1)
+    GIT_TAG noext)
   FetchContent_MakeAvailable(actsdd4hep)
 endif()
 
