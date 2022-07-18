@@ -1,4 +1,4 @@
- <lccdd>
+<lccdd>
     <display>
         <vis name="Beryllium" r="0.8" g="0.8" b="0.8" alpha="0.9" showDaugthers="true" visible="true" drawingStyle="solid"/>
         <vis name="Silicon" r="0." g="0." b="0.5" alpha="1.0" showDaugthers="true" visible="true" drawingStyle="solid"/>

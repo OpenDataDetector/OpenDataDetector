@@ -83,7 +83,7 @@
     <include ref="OpenDataVisualization.xml"/>
 
     <!-- Sub detectors / parts -->
-    <!--<include ref="OpenDataBeamPipe.xml"/>-->
+    <include ref="OpenDataBeamPipe.xml"/>
     <include ref="OpenDataTracker.xml"/>
     <include ref="OpenDataSolenoid.xml"/>
 
