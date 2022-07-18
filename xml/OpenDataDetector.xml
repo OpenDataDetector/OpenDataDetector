@@ -85,7 +85,7 @@
     <!-- Sub detectors / parts -->
     <include ref="OpenDataBeamPipe.xml"/>
     <include ref="OpenDataTracker.xml"/>
-    <include ref="OpenDataSolenoid.xml"/>
+    <!--<include ref="OpenDataSolenoid.xml"/>-->
 
     <!-- Plugin sections, DDRec surfaces, etc. -->
     <plugins>
