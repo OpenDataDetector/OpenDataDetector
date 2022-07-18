@@ -11,13 +11,11 @@
             <composite name="PixelBarrel"/>
             <composite name="PixelEndcapP"/>
         </detector>
-        <!--
         <detector name="PST" type="ODDCylinder" beampipe="false" vis="CarbonFiber">
             <tubs name="PixelSupportCylinder" rmin="pst_rmin" rmax="pst_rmax" dz="pst_length" material="CarbonFiber">
                 <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_pst_bPhi" bins1="mat_pst_bZ"/>
             </tubs>
         </detector>
-        -->
         <detector name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
             <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/>
             <composite name="ShortStripEndcapN"/>
