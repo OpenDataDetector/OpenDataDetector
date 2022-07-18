@@ -23,4 +23,4 @@ T& ensureExtension(DetElement& elt) {
   return *ext;
 }
 
-};  // namespace ODDHelper
+}  // namespace ODDHelper
