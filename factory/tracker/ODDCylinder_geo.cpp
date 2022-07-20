@@ -4,8 +4,6 @@
 //
 // Mozilla Public License Version 2.0
 
-#include "ActsDD4hep/ConvertMaterial.hpp"
-
 #include "DD4hep/DetFactoryHelper.h"
 #include "ODDHelper.hpp"
 #include "XML/Utilities.h"
@@ -38,14 +36,15 @@ static Ref_t create_element(Detector &oddd, xml_h xml,
   // Add the proto boundary material
   for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
-    Acts::xmlToProtoSurfaceMaterial(x_boundary_material, params,
-                                    "boundary_material");
+    ODDHelper::xmlToProtoSurfaceMaterial(x_boundary_material, params,
+                                         "boundary_material");
   }
 
   // Add the proto layer material
   for (xml_coll_t lmat(x_det_tubs, _Unicode(layer_material)); lmat; ++lmat) {
     xml_comp_t x_layer_material = lmat;
-    Acts::xmlToProtoSurfaceMaterial(x_layer_material, params, "layer_material");
+    ODDHelper::xmlToProtoSurfaceMaterial(x_layer_material, params,
+                                         "layer_material");
   }
 
   string shapeName = x_det_tubs.nameStr();

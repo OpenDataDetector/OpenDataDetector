@@ -4,8 +4,6 @@
 //
 // Mozilla Public License Version 2.0
 
-#include "ActsDD4hep/ConvertMaterial.hpp"
-
 #include <vector>
 
 #include "DD4hep/DetFactoryHelper.h"
@@ -120,8 +118,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   // Add the volume boundary material if configured
   for (xml_coll_t bmat(x_det, _Unicode(boundary_material)); bmat; ++bmat) {
     xml_comp_t x_boundary_material = bmat;
-    Acts::xmlToProtoSurfaceMaterial(x_boundary_material, params,
-                                    "boundary_material");
+    ODDHelper::xmlToProtoSurfaceMaterial(x_boundary_material, params,
+                                         "boundary_material");
   }
 
   // Make Volume
@@ -239,8 +237,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     // Add the proto layer material
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
-      Acts::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
-                                      "layer_material");
+      ODDHelper::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
+                                           "layer_material");
     }
 
     PlacedVolume placedLayer = barrelVolume.placeVolume(layerVolume);

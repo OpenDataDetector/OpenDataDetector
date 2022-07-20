@@ -19,17 +19,6 @@ endif()
 # Find the DD4Hep package with corresponding library
 find_package(DD4hep 1.11 REQUIRED CONFIG COMPONENTS DDCore DDDetectors)
 
-include(FetchContent)
-
-if(NOT TARGET ActsDD4hep::ActsDD4hep)
-  # ensure glue library is available if not already part of the build
-  FetchContent_Declare(actsdd4hep
-    GIT_REPOSITORY https://github.com/acts-project/acts-dd4hep.git
-    GIT_TAG noext)
-  FetchContent_MakeAvailable(actsdd4hep)
-endif()
-
-
 # Add the main factory 
 add_subdirectory(factory)
 
