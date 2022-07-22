@@ -1,6 +1,6 @@
 <lccdd>
     <detectors>
-        <detector name="BeamPipe" type="ODDCylinder" vis="Beryllium">
+        <detector id="ODD_order_BeamPipe" name="BeamPipe" type="ODDCylinder" vis="Beryllium">
             <beampipe/>
             <tubs name="BeamPipeCylinder" rmin="bp_rmin" rmax="bp_rmax" dz="bp_length" material="Beryllium">
                 <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_bp_bPhi" bins1="mat_bp_bZ"/>

@@ -5,24 +5,24 @@
     <include ref="OpenDataLongStrips.xml"/>
 
     <detectors>
-        <detector name="Pixels" type="DD4hep_SubdetectorAssembly" vis="invisible">
+        <detector id="ODD_order_Pixel" name="Pixels" type="DD4hep_SubdetectorAssembly" vis="invisible">
             <shape name="PixelVolume" type="Tube" rmin="pix_env_rmin" rmax="pix_env_rmax" dz="pix_env_dz" material="Air"/>
             <composite name="PixelEndcapN"/>
             <composite name="PixelBarrel"/>
             <composite name="PixelEndcapP"/>
         </detector>
-        <detector name="PST" type="ODDCylinder" beampipe="false" vis="CarbonFiber">
+        <detector id="ODD_order_PST" name="PST" type="ODDCylinder" beampipe="false" vis="CarbonFiber">
             <tubs name="PixelSupportCylinder" rmin="pst_rmin" rmax="pst_rmax" dz="pst_length" material="CarbonFiber">
                 <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_pst_bPhi" bins1="mat_pst_bZ"/>
             </tubs>
         </detector>
-        <detector name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+        <detector id="ODD_order_ShortStrip" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
             <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/>
             <composite name="ShortStripEndcapN"/>
             <composite name="ShortStripBarrel"/>
             <composite name="ShortStripEndcapP"/>
         </detector>
-        <detector name="LongStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+        <detector id="ODD_order_LongStrip" name="LongStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
             <shape name="LongStripVolume" type="Tube" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_env_dz" material="Air"/>
             <composite name="LongStripEndcapN"/>
             <composite name="LongStripBarrel"/>
