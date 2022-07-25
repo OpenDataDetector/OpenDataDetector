@@ -5,7 +5,7 @@ stages:
 default:
   image: gitlab-registry.cern.ch/acts/opendatadetector/ubuntu2004:v15
   tags: 
-    - cvmfs
+    - docker
 
 variables:
   ACTS_VERSION: v19.3.0
