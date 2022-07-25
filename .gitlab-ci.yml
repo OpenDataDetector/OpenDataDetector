@@ -131,6 +131,16 @@ run-ddsim:
     - ci/download_geant4_data.sh
     - source /usr/local/bin/thisdd4hep.sh
     - source odd-install/bin/this_odd.sh
-    - python3 $(which ddsim) --random.enableEventSeed --enableGun --numberOfEvents 100 --gun.thetaMin 0.1415 --gun.thetaMax 3.0  --gun.distribution uniform --compactFile xml/OpenDataDetector.xml --outputFile ddsim.root
+    - > 
+      python3 $(which ddsim) 
+      --random.enableEventSeed 
+      --random.seed 445
+      --enableGun 
+      --numberOfEvents 100 
+      --gun.thetaMin 0.1415 
+      --gun.thetaMax 3.0  
+      --gun.distribution uniform 
+      --compactFile xml/OpenDataDetector.xml 
+      --outputFile ddsim.root
     - sha1sum ddsim.root
     - sha1sum -c ci/reference/ddsim.root.sha1
