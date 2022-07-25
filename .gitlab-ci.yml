@@ -134,4 +134,5 @@ run-ddsim:
     - source /usr/local/bin/thisdd4hep.sh
     - export LD_LIBRARY_PATH=$PWD/build/factory:$LD_LIBRARY_PATH
     - python3 $(which ddsim) --enableGun --numberOfEvents 100 --gun.thetaMin 0.1415 --gun.thetaMax 3.0  --gun.distribution uniform --compactFile xml/OpenDataDetector.xml --outputFile ddsim.root
+    - sha1sum ddsim.root
     - sha1sum -c ci/reference/ddsim.root.sha1
