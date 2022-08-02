@@ -15,6 +15,7 @@
 
     <!--EndcapN-->
     <detector id="ODD_ShortStripEndcapN_ID" name="ShortStripEndcapN" type="ODDStripEndcap" readout="ShortStripEndcapReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="ShortStripEndcapShape" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_e_dz" z="ss_e_nz"/>
       <ring name="Ring0" r="318*mm" nphi="42" reflect="true" phi0="0." gap="2.5*mm" z_offset="5.*mm">
         <module name="ShortStripEndcapModuleR0" vis="invisible">
@@ -85,6 +86,7 @@
 
     <!--Barrel-->
     <detector id="ODD_ShortStripBarrel_ID" name="ShortStripBarrel" type="ODDStripBarrel" readout="ShortStripBarrelReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_BARREL"/>
       <dimensions name="ShortStripBarrelShape" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_b_dz" z="0.*mm"/>
       <boundary_material surface="negative" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       <boundary_material surface="outer" binning="binPhi,binZ" bins0="mat_sst_barrel_bPhi" bins1="mat_sst_barrel_bZ"/>
@@ -132,6 +134,7 @@
 
     <!--EndcapP-->
     <detector id="ODD_ShortStripEndcapP_ID" name="ShortStripEndcapP" type="ODDStripEndcap" readout="ShortStripEndcapReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="ShortStripEndcapShape" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_e_dz" z="ss_e_pz"/>
       <ring name="Ring0" r="318*mm" nphi="42" reflect="true" phi0="0." gap="2.5*mm" z_offset="-5.*mm">
         <module name="ShortStripEndcapModuleR0" vis="invisible">
@@ -200,5 +203,20 @@
       </services>
     </detector>
   </detectors>
+
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="ShortStripEndcapN"/>
+      <argument value="layer_pattern=ShortStripEndcapN\d"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="ShortStripEndcapP"/>
+      <argument value="layer_pattern=ShortStripEndcapP\d"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="ShortStripBarrel"/>
+      <argument value="layer_pattern=ShortStripLayer\d"/>
+    </plugin>	
+  </plugins>
 
 </lccdd>

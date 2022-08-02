@@ -15,6 +15,7 @@
   <detectors>
     <!--EndcapN-->
     <detector id="ODD_PixelEndcapN_ID" name="PixelEndcapN" type="ODDPixelEndcap" readout="PixelEndcapReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="PixelEndcapShape" rmin="pix_env_rmin" rmax="pix_env_rmax" dz="pix_e_dz" z="pix_e_nz"/>
       <ring id="0" r="76.*mm" nphi="24" z_offset="3.5*mm" phi0="0." gap="0.6*mm" vis="invisible">
         <module name="PixelEndcapModule" vis="invisible">
@@ -82,6 +83,7 @@
 
     <!--Barrel-->
     <detector id="ODD_PixelBarrel_ID" name="PixelBarrel" type="ODDPixelBarrel" readout="PixelBarrelReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_BARREL"/>
       <dimensions name="PixelBarrelShape" rmin="pix_env_rmin" rmax="pix_env_rmax" dz="pix_b_dz" z="0.*mm"/>
       <boundary_material surface="negative" binning="binPhi,binR" bins0="mat_pix_endcap_bPhi" bins1="mat_pix_endcap_bR"/>
       <boundary_material surface="outer" binning="binPhi,binZ" bins0="mat_pix_barrel_bPhi" bins1="mat_pix_barrel_bZ"/>
@@ -132,6 +134,7 @@
 
     <!--EndcapP-->
     <detector id="ODD_PixelEndcapP_ID" name="PixelEndcapP" type="ODDPixelEndcap" readout="PixelEndcapReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="PixelEndcapShape" rmin="pix_env_rmin" rmax="pix_env_rmax" dz="pix_e_dz" z="pix_e_pz"/>
       <ring id="0" r="76.*mm" nphi="24" z_offset="-3.5*mm" phi0="0." gap="0.6*mm" vis="invisible">
         <module name="PixelEndcapModule" vis="invisible">
@@ -196,4 +199,19 @@
       </services>
     </detector>
   </detectors>
+
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="PixelEndcapN"/>
+      <argument value="layer_pattern: str=PixelEndcapN\d|PixelEndplate"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="PixelEndcapP"/>
+      <argument value="layer_pattern=PixelEndcapP\d|PixelEndplate"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="PixelBarrel"/>
+      <argument value="layer_pattern=PixelLayer\d"/>
+    </plugin>	
+  </plugins>
 </lccdd>

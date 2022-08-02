@@ -15,6 +15,7 @@
   <detectors>
     <!--EndcapN-->
     <detector id="ODD_LongStripEndcapN_ID" name="LongStripEndcapN" type="ODDStripEndcap" readout="LongStripEndcapReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="LongStripEndcapShape" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_e_dz" z="ls_e_nz"/>
       <ring name="Ring0" r="820.*mm" nphi="48" reflect="true" phi0="0." gap="8.*mm" z_offset="15.*mm">
         <module name="LongStripEndcapModuleR0" vis="invisible">
@@ -84,6 +85,7 @@
 
     <!--Barrel-->
     <detector id="ODD_LongStripBarrel_ID" name="LongStripBarrel" type="ODDStripBarrel" readout="LongStripBarrelReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_BARREL"/>
       <dimensions name="LongStripBarrelShape" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_b_dz" z="0.*mm"/>
       <boundary_material surface="negative" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       <boundary_material surface="positive" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
@@ -136,6 +138,7 @@
 
     <!--EndcapP-->
     <detector id="ODD_LongStripEndcapP_ID" name="LongStripEndcapP" type="ODDStripEndcap" readout="LongStripEndcapReadout" vis="invisible">
+      <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="LongStripEndcapShape" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_e_dz" z="ls_e_pz"/>
       <ring name="Ring0" r="820.*mm" nphi="48" reflect="true" phi0="0." gap="8.*mm" z_offset="-15.*mm">
         <module name="LongStripEndcapModuleR0" vis="invisible">
@@ -175,7 +178,7 @@
         <surface_binning nr="2" nphi="48"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
-      <layer id="1" name="LongStripEndcapP2" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="1600.*mm" vis="invisible">
+      <layer id="1" name="LongStripEndcapP1" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="1600.*mm" vis="invisible">
         <surface_binning nr="2" nphi="48"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
@@ -203,5 +206,20 @@
       </services>
     </detector>
   </detectors>
+
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripEndcapN"/>
+      <argument value="layer_pattern=LongStripEndcapN\d"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripEndcapP"/>
+      <argument value="layer_pattern=LongStripEndcapP\d"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripBarrel"/>
+      <argument value="layer_pattern=LongStripLayer\d"/>
+    </plugin>	
+  </plugins>
 
 </lccdd>

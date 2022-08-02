@@ -60,6 +60,8 @@
         <constant name="sol_rmin" value="1160.*mm"/>
         <constant name="sol_rmax" value="1200.*mm"/>
         <constant name="sol_hlength" value="3.0*m"/>
+
+        <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
     </define>
 
     <!-- Identifier definitions --> 

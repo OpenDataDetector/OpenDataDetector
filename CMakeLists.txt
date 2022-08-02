@@ -17,18 +17,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 # Find the DD4Hep package with corresponding library
-find_package(DD4hep 1.11 REQUIRED CONFIG COMPONENTS DDCore DDDetectors)
-
-include(FetchContent)
-
-if(NOT TARGET ActsDD4hep::ActsDD4hep)
-  # ensure glue library is available if not already part of the build
-  FetchContent_Declare(actsdd4hep
-    GIT_REPOSITORY https://github.com/acts-project/acts-dd4hep.git
-    GIT_TAG v1.0.1)
-  FetchContent_MakeAvailable(actsdd4hep)
-endif()
-
+find_package(DD4hep 1.21 REQUIRED CONFIG COMPONENTS DDCore DDDetectors)
 
 # Add the main factory 
 add_subdirectory(factory)

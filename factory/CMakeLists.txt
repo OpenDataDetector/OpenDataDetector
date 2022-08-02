@@ -8,7 +8,7 @@ add_library(
     tracker/ODDStripEndcap_geo.cpp)
 
     
-target_link_libraries(OpenDataDetector PUBLIC DD4hep::DDCore ActsDD4hep::ActsDD4hep)
+target_link_libraries(OpenDataDetector PUBLIC DD4hep::DDCore DD4hep::DDRec)
 
 # Not sure why this needs to be set, but dd4hep fails to compile otherwise
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
