@@ -66,13 +66,6 @@
 
     <!-- Identifier definitions --> 
     <define>
-        <!-- component ordering necessary for acts construction -->
-        <constant name="ODD_order_BeamPipe" value="0"/>
-        <constant name="ODD_order_Pixel" value="1"/>
-        <constant name="ODD_order_PST" value="2"/>
-        <constant name="ODD_order_ShortStrip" value="3"/>
-        <constant name="ODD_order_LongStrip" value="4"/>
-        <constant name="ODD_order_Solenoid" value="5"/>
         <!-- Pixel Identifiers -->
         <constant name="ODD_PixelEndcapN_ID" value="0"/>
         <constant name="ODD_PixelBarrel_ID" value="1"/>
