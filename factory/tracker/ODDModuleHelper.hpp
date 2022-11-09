@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "DD4hep/DetFactoryHelper.h"
 
 using namespace std;
@@ -23,7 +25,8 @@ using namespace dd4hep;
 // @return a pair for a template module assembly and detector element
 struct ODDModuleHelper {
   static std::pair<Assembly, DetElement> assembleTrapezoidalModule(
-      Detector &oddd, SensitiveDetector &sens, const xml_comp_t &x_module);
+      Detector &oddd, SensitiveDetector &sens, const xml_comp_t &x_module,
+      const std::string &base = "module");
 
   /// This method assemples a rectangular module for the
   /// pixel and strip detectors
@@ -39,5 +42,5 @@ struct ODDModuleHelper {
   // @return a pair for a template module assembly and detector element
   static std::pair<Assembly, DetElement> assembleRectangularModule(
       Detector &oddd, SensitiveDetector &sens, const xml_comp_t &x_module,
-      double &ylength);
+      double &ylength, const std::string &base = "module");
 };

@@ -19,10 +19,12 @@ using namespace dd4hep;
 /// @param barrelVolume the volume to put the routing on
 /// @param x_routing the xml description of the routing
 /// @param layerR the layer radii to connect
+/// @param base the base name for the building
 template <typename volume_t>
 void buildBarrelRouting(Detector& oddd, volume_t& barrelVolume,
                         const xml_comp_t& x_routing,
-                        const std::vector<double>& layerR) {
+                        const std::vector<double>& layerR,
+                        const std::string& base) {
   // Grab the cables & route them outwards
   unsigned int nphi = x_routing.nphi();
 
@@ -47,12 +49,15 @@ void buildBarrelRouting(Detector& oddd, volume_t& barrelVolume,
         double ypos = rpos * sin(phi);
         double zpos = side * x_routing.z_offset();
 
-        Assembly cableboxAssembly("CableBox");
+        std::string cableName = base + "_side_" + std::to_string(side) +
+                                "_layer_" + std::to_string(ib) + "_phi_" +
+                                std::to_string(iphi);
+        Assembly cableboxAssembly(cableName + "_assembly");
         if (x_routing.hasChild(_U(box))) {
           // The box plate for the cables
           xml_comp_t x_box = x_routing.child(_U(box));
           Box box(x_box.dz(), n * ib * rmax, 0.5 * clength);
-          Volume boxVolume("CableBand", box,
+          Volume boxVolume(cableName + "_box", box,
                            oddd.material(x_routing.materialStr()));
           boxVolume.setVisAttributes(oddd, x_box.visStr());
 
@@ -61,11 +66,10 @@ void buildBarrelRouting(Detector& oddd, volume_t& barrelVolume,
         }
 
         Tube cable(rmin, rmax, 0.5 * clength);
-        Volume cableVolume("Cable", cable,
-                           oddd.material(x_routing.materialStr()));
-        cableVolume.setVisAttributes(oddd, x_routing.visStr());
-
         for (unsigned int icable = 0; icable < n * ib; ++icable) {
+          Volume cableVolume(cableName + "_cable_" + std::to_string(icable),
+                             cable, oddd.material(x_routing.materialStr()));
+          cableVolume.setVisAttributes(oddd, x_routing.visStr());
           // Place the pipe in the stave
           cableboxAssembly.placeVolume(
               cableVolume, Position(0., (-n * ib + 1 + 2 * icable) * rmax, 0.));
@@ -91,7 +95,8 @@ void buildBarrelRouting(Detector& oddd, volume_t& barrelVolume,
 template <typename volume_t>
 void buildEndcapRouting(Detector& oddd, volume_t& endcapVolume,
                         const xml_comp_t& x_routing,
-                        const std::vector<double>& endcapZ) {
+                        const std::vector<double>& endcapZ,
+                        const std::string& base) {
   // Grab the cables & route them outwards
   unsigned int nphi = x_routing.nphi();
 
@@ -115,12 +120,15 @@ void buildEndcapRouting(Detector& oddd, volume_t& endcapVolume,
       double ypos = r * sin(phi);
       double zpos = 0.5 * (endcapZ[iec] + endcapZ[iec - 1]);
 
-      Assembly cableboxAssembly("CableBox");
+      std::string routingName =
+          base + std::to_string(iec) + "_phi_" + std::to_string(iphi);
+
+      Assembly cableboxAssembly(base+"_cable_assembly");
       if (x_routing.hasChild(_U(box))) {
         // The box plate for the cables
         xml_comp_t x_box = x_routing.child(_U(box));
         Box box(x_box.dz(), n * iec * rmax, 0.5 * clength);
-        Volume boxVolume("CableBand", box,
+        Volume boxVolume(routingName + "_cable_band", box,
                          oddd.material(x_routing.materialStr()));
         boxVolume.setVisAttributes(oddd, x_box.visStr());
 
@@ -129,11 +137,11 @@ void buildEndcapRouting(Detector& oddd, volume_t& endcapVolume,
       }
 
       Tube cable(rmin, rmax, 0.5 * clength);
-      Volume cableVolume("Cable", cable,
-                         oddd.material(x_routing.materialStr()));
-      cableVolume.setVisAttributes(oddd, x_routing.visStr());
-
       for (unsigned int icable = 0; icable < n * iec; ++icable) {
+        Volume cableVolume(routingName + "_cable_" + std::to_string(icable),
+                           cable, oddd.material(x_routing.materialStr()));
+        cableVolume.setVisAttributes(oddd, x_routing.visStr());
+
         // Place the pipe in the stave
         cableboxAssembly.placeVolume(
             cableVolume, Position(0., (-n * iec + 1 + 2 * icable) * rmax, 0.));
@@ -154,17 +162,20 @@ void buildEndcapRouting(Detector& oddd, volume_t& endcapVolume,
 /// @param endcapVolume the volume to put the routing on
 /// @param x_mother_comp the xml description of teh mother component
 /// @param layerR the layer radii contaienr to add the new one
+/// @param base the base name for the physical volumes
 template <typename volume_t>
 void buildSupportCylinder(Detector& oddd, volume_t& motherVolume,
                           const xml_comp_t& x_mother_comp,
-                          std::vector<double>& layerR) {
+                          std::vector<double>& layerR,
+                          const std::string& base) {
   size_t supportNum = 0;
   for (xml_coll_t sup(x_mother_comp, _U(support)); sup; ++sup, ++supportNum) {
     xml_comp_t x_support = sup;
-    // Create the volume of the support structure
-    string supportName = _toString((int)supportNum, "SupportCylinder%d");
 
-    // Remember the layer radius if it is needed for operation
+    // Create the volume of the support structure
+    string supportName = base +"_support_cylinder"+std::to_string(supportNum);
+    
+        // Remember the layer radius if it is needed for operation
     if (x_support.hasChild(_Unicode(connector))) {
       layerR.push_back(0.5 * (x_support.rmin() + x_support.rmax()));
     }
@@ -190,9 +201,11 @@ void buildSupportCylinder(Detector& oddd, volume_t& motherVolume,
 /// @param endcapVolume the volume to put the routing on
 /// @param x_mother_comp the xml description of teh mother component
 /// @param layerR the layer radii contaienr to add the new one
+/// @param base the base name
 template <typename volume_t>
 void buildCoolingRings(Detector& oddd, volume_t& motherVolume,
-                       const xml_comp_t& x_mother_comp) {
+                       const xml_comp_t& x_mother_comp,
+                       const std::string& base) {
   size_t cringNum = 0;
   for (xml_coll_t cring(x_mother_comp, _Unicode(cooling_ring)); cring;
        ++cring, ++cringNum) {
@@ -207,7 +220,7 @@ void buildCoolingRings(Detector& oddd, volume_t& motherVolume,
     // Create the segments around the ring
     for (unsigned int iphi = 0; iphi < nPhi; ++iphi) {
       Volume coolingSegement(
-          "CoolingRingSegment",
+          base + "_cooling_ring_segment",
           Tube(x_cooling_ring.rmin(), x_cooling_ring.rmax(), dz),
           oddd.material(x_cooling_ring.materialStr()));
       coolingSegement.setVisAttributes(oddd, x_cooling_ring.visStr());

@@ -24,9 +24,10 @@ using namespace dd4hep;
 /// @param staveAssembly is the assembly to be completed
 /// @param staveHlength the half length of the stave structure
 /// @param ylength the length in y-direction
+/// @param base the base name for this structure
 static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
                                    Assembly &staveAssembly, double staveHlength,
-                                   double ylength) {
+                                   double ylength, const std::string &base) {
   unsigned int nModules = x_stave.nmodules();
 
   // Place carbon foam structure
@@ -48,7 +49,7 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
     UnionSolid foamCutout(tubeCutoutSeg1, tubeCutoutSeg2);
 
     // Create the subtraction
-    Volume foamVolume("CarbonFoam",
+    Volume foamVolume(base + "_carbon_foam",
                       SubtractionSolid(foamShape, foamCutout,
                                        Transform3D(RotationX(0.5 * M_PI))),
                       oddd.material(x_sub.materialStr()));
@@ -60,7 +61,7 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
 
     Tube coolingPipe(x_pipe.rmin(), x_pipe.rmax(), staveHlength + x_pipe.dz());
     // Create the coolingpipe
-    Volume pipeVolume("CoolingPipe", coolingPipe,
+    Volume pipeVolume(base + "_cooling_pipe", coolingPipe,
                       oddd.material(x_pipe.materialStr()));
     pipeVolume.setVisAttributes(oddd, x_pipe.visStr());
 
@@ -76,9 +77,12 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
       double cableLength = staveHlength - modCable * ylength;
 
       for (int side = -1; side < 2; side += 2) {
+        std::string cableName = base + "_mcable_" + std::to_string(modCable) +
+                                "_side_" + std::to_string(side);
+
         Tube cable(x_cable.rmin(), x_cable.rmax(), 0.5 * cableLength);
         // Create the cable volume
-        Volume cableVolume("Cable", cable,
+        Volume cableVolume(cableName, cable,
                            oddd.material(x_cable.materialStr()));
         cableVolume.setVisAttributes(oddd, x_cable.visStr());
 
@@ -131,46 +135,9 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   Volume barrelVolume(detName, barrelShape, oddd.air());
   barrelVolume.setVisAttributes(oddd, x_det.visStr());
 
-  // Create the stave volume and DetElement tree
-  xml_comp_t x_stave = x_det.child(_U(stave));
-  Assembly staveAssembly("stave");
-  // Visualization
-  staveAssembly.setVisAttributes(oddd, x_stave.visStr());
-  // DetElement tree
-  DetElement staveElementTemplate("StaveElementTemplate", 0);
-
-  // Create the module components
-  xml_comp_t x_module = x_det.child(_U(module));
-  double ylength = 0.;
-  auto module =
-      ODDModuleHelper::assembleRectangularModule(oddd, sens, x_module, ylength);
-
-  // Place the modules into the stave
-  double gap = x_stave.gap();
-  unsigned int nModules = x_stave.nmodules();
-  double ystep = ylength + gap;
-  double ymin = (nModules * 0.5 - 0.5) * ylength;
-  double staveHlength = ymin + 0.5 * ylength;
-
-  // Loop over the modules and place them in the stave
-  for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
-    // Place them along local y
-    PlacedVolume placedModule = staveAssembly.placeVolume(
-        module.first, Position(0., -ymin + moduleNum * ystep, 0.));
-    placedModule.addPhysVolID("module", moduleNum);
-
-    string moduleName = _toString((int)moduleNum, "module%d");
-    // Clone the detector element
-    auto moduleElement = module.second.clone(moduleName, moduleNum);
-    moduleElement.setPlacement(placedModule);
-    // Assign it as child to the stave template
-    staveElementTemplate.add(moduleElement);
-  }
-
-  // Complete the staveStructure
-  completeStaveStructure(oddd, x_stave, staveAssembly, staveHlength, ylength);
-
   std::vector<double> layerR;
+
+  // Get the layer length
 
   // Loop over the layers to build staves
   size_t layerNum = 0;
@@ -178,11 +145,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     xml_comp_t x_layer = lay;
 
     // The Layer envelope volume
-    string layerName = detName + std::to_string(layerNum);
-    Volume layerVolume(
-        layerName,
-        Tube(x_layer.rmin(), x_layer.rmax(), staveHlength + x_layer.outer_z()),
-        oddd.air());
+    string layerName = detName + "_barrel_" + std::to_string(layerNum);
+    Assembly layerVolume(layerName);
     // Visualization
     layerVolume.setVisAttributes(oddd, x_layer.visStr());
 
@@ -202,7 +166,47 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     // Loop over the staves and place them
     for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum) {
-      string staveName = _toString((int)staveNum, "stave%d");
+      string staveName = layerName + "_stave_" + std::to_string(staveNum);
+
+      // Create the stave volume and DetElement tree
+      xml_comp_t x_stave = x_det.child(_U(stave));
+      Assembly staveAssembly(staveName);
+      // Visualization
+      staveAssembly.setVisAttributes(oddd, x_stave.visStr());
+      // DetElement tree
+      DetElement staveElement(staveName + "_element", 0);
+
+      // Create the module components
+      xml_comp_t x_module = x_det.child(_U(module));
+      double ylength = 0.;
+      auto module = ODDModuleHelper::assembleRectangularModule(
+          oddd, sens, x_module, ylength, staveName + "_rect_module");
+
+      // Place the modules into the stave
+      double gap = x_stave.gap();
+      unsigned int nModules = x_stave.nmodules();
+      double ystep = ylength + gap;
+      double ymin = (nModules * 0.5 - 0.5) * ylength;
+      double staveHlength = ymin + 0.5 * ylength;
+
+      // Loop over the modules and place them in the stave
+      for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
+        // Place them along local y
+        PlacedVolume placedModule = staveAssembly.placeVolume(
+            module.first, Position(0., -ymin + moduleNum * ystep, 0.));
+        placedModule.addPhysVolID("module", moduleNum);
+
+        string moduleName = staveName + "_module_" + std::to_string(moduleNum);
+        // Clone the detector element
+        auto moduleElement = module.second.clone(moduleName, moduleNum);
+        moduleElement.setPlacement(placedModule);
+        // Assign it as child to the stave template
+        staveElement.add(moduleElement);
+      }
+      // Complete the staveStructure
+      completeStaveStructure(oddd, x_stave, staveAssembly, staveHlength,
+                             ylength, staveName);
+
       // position of the stave
       double phi = phi0 + staveNum * phiStep;
       double x = r * cos(phi);
@@ -215,15 +219,13 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
                       Position(x, y, 0.)));
       placedStave.addPhysVolID("stave", staveNum);
 
-      // Clone the stave element from the template
-      DetElement staveElement = staveElementTemplate.clone(staveName, staveNum);
       staveElement.setPlacement(placedStave);
       // Add to the layer element
       layerElement.add(staveElement);
     }
 
     // Place the support cylinder per layer
-    buildSupportCylinder(oddd, layerVolume, x_layer, layerR);
+    buildSupportCylinder(oddd, layerVolume, x_layer, layerR, detName);
 
     // Cleanup the templates
     /// @todo check if this is needed
@@ -249,19 +251,20 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   }
 
   // Place the additional support cylinders per detector
-  buildSupportCylinder(oddd, barrelVolume, x_det, layerR);
+  buildSupportCylinder(oddd, barrelVolume, x_det, layerR, detName);
 
   if (x_det.hasChild(_Unicode(services))) {
     // Grab the services
     xml_comp_t x_services = x_det.child(_Unicode(services));
     if (x_services.hasChild(_Unicode(cable_routing))) {
       xml_comp_t x_cable_routing = x_services.child(_Unicode(cable_routing));
-      buildBarrelRouting(oddd, barrelVolume, x_cable_routing, layerR);
+      buildBarrelRouting(oddd, barrelVolume, x_cable_routing, layerR, detName);
     }
     if (x_services.hasChild(_Unicode(cooling_routing))) {
       xml_comp_t x_cooling_routing =
           x_services.child(_Unicode(cooling_routing));
-      buildBarrelRouting(oddd, barrelVolume, x_cooling_routing, layerR);
+      buildBarrelRouting(oddd, barrelVolume, x_cooling_routing, layerR,
+                         detName);
     }
   }
 

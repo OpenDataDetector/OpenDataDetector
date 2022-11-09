@@ -57,107 +57,105 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   PlacedVolume placedEndcap =
       motherVolume.placeVolume(endcapVolume, translation);
 
-  Assembly diskAssembly("disk");
-
-  // DetElement tree
-  DetElement diskElementTemplate("DiskElementTemplate", 0);
-
-  // Loop over the rings to create a template disk
-  size_t ringNum = 0;
-  for (xml_coll_t ring(xml, _U(ring)); ring; ++ring, ++ringNum) {
-    // Get the ring
-    xml_comp_t x_ring = ring;
-
-    // The ring name
-    string ringName = _toString((int)ringNum, "ring%d");
-    Assembly ringAssembly(ringName);
-    ringAssembly.setVisAttributes(oddd, x_ring.visStr());
-
-    // DetElement tree
-    DetElement ringElement(ringName, ringNum);
-
-    if (x_ring.hasChild(_U(module))) {
-      xml_comp_t x_module = x_ring.child(_U(module));
-      auto module =
-          ODDModuleHelper::assembleTrapezoidalModule(oddd, sens, x_module);
-
-      double r = x_ring.r();
-      double phi0 = x_ring.phi0();
-      unsigned int nModules = x_ring.nphi();
-      double zgap = x_ring.gap();
-      double phiStep = 2. * M_PI / nModules;
-
-      // Loop over modules
-      for (unsigned int modNum = 0; modNum < nModules; ++modNum) {
-        // The module name
-        string moduleName = _toString((int)modNum, "module%d");
-
-        bool odd = bool(modNum % 2);
-
-        double phi = phi0 + modNum * phiStep;
-        double x = r * cos(phi);
-        double y = r * sin(phi);
-        double z = odd ? -zgap : zgap;
-
-        // Place Module Box Volumes, flip if necessary
-        Position trans(x, y, z);
-
-        double angX = 1.5 * M_PI;
-        double angY = 0.5 * M_PI - phi;
-
-        PlacedVolume placedModule = ringAssembly.placeVolume(
-            module.first,
-            Transform3D(RotationX(angX) * RotationY(angY), trans));
-        placedModule.addPhysVolID("module", modNum);
-        // Clone the detector element
-        auto moduleElement = module.second.clone(moduleName, modNum);
-        moduleElement.setPlacement(placedModule);
-        // Assign it as child to the stave template
-        ringElement.add(moduleElement);
-      }
-    }
-
-    // Place Ring assembly into disk
-    PlacedVolume placedRing = diskAssembly.placeVolume(
-        ringAssembly, Position(0., 0., x_ring.z_offset()));
-    placedRing.addPhysVolID("ring", ringNum);
-    ringElement.setPlacement(placedRing);
-    // Add it to the Disk element template
-    diskElementTemplate.add(ringElement);
-  }
-
-  xml_comp_t x_support = x_det.child(_Unicode(ring_support));
-  // The support shape
-  Tube supportShape(x_support.rmin(), x_support.rmax(), x_support.dz());
-  Volume supportVolume("DiskSupport", supportShape,
-                       oddd.material(x_support.materialStr()));
-  supportVolume.setVisAttributes(oddd, x_support.visStr());
-  diskAssembly.placeVolume(supportVolume);
-
-  // Cooling rings
-  buildCoolingRings(oddd, diskAssembly, x_det);
-
   // Loop over the layers and place the disk
   size_t layNum = 0;
   // Remember the layers for the service routing
   std::vector<double> endcapZ;
   for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layNum) {
+
+    std::string diskName = detName +"_disk_" + std::to_string(layNum);
+
+    // Build the layer assembly
+    Assembly diskAssembly(diskName + "_assembly");
+
+    // DetElement tree
+    DetElement diskElement(detName + "_element", 0);
+
+    // Loop over the rings to create a template disk
+    size_t ringNum = 0;
+    for (xml_coll_t ring(xml, _U(ring)); ring; ++ring, ++ringNum) {
+      // Get the ring
+      xml_comp_t x_ring = ring;
+
+      std::string ringName = diskName + "_ring_"+std::to_string(ringNum);
+      Assembly ringAssembly(ringName);
+      ringAssembly.setVisAttributes(oddd, x_ring.visStr());
+
+      // DetElement tree
+      DetElement ringElement(ringName, ringNum);
+
+      if (x_ring.hasChild(_U(module))) {
+        xml_comp_t x_module = x_ring.child(_U(module));
+        auto module = ODDModuleHelper::assembleTrapezoidalModule(
+            oddd, sens, x_module, ringName + "_trap_module");
+
+        double r = x_ring.r();
+        double phi0 = x_ring.phi0();
+        unsigned int nModules = x_ring.nphi();
+        double zgap = x_ring.gap();
+        double phiStep = 2. * M_PI / nModules;
+
+        // Loop over modules
+        for (unsigned int modNum = 0; modNum < nModules; ++modNum) {
+          // The module name
+          string moduleName = ringName + "_module_"+std::to_string(modNum);
+
+          bool odd = bool(modNum % 2);
+
+          double phi = phi0 + modNum * phiStep;
+          double x = r * cos(phi);
+          double y = r * sin(phi);
+          double z = odd ? -zgap : zgap;
+
+          // Place Module Box Volumes, flip if necessary
+          Position trans(x, y, z);
+
+          double angX = 1.5 * M_PI;
+          double angY = 0.5 * M_PI - phi;
+
+          PlacedVolume placedModule = ringAssembly.placeVolume(
+              module.first,
+              Transform3D(RotationX(angX) * RotationY(angY), trans));
+          placedModule.addPhysVolID("module", modNum);
+          // Clone the detector element
+          auto moduleElement = module.second.clone(moduleName, modNum);
+          moduleElement.setPlacement(placedModule);
+          // Assign it as child to the stave template
+          ringElement.add(moduleElement);
+        }
+      }
+
+      // Place Ring assembly into disk
+      PlacedVolume placedRing = diskAssembly.placeVolume(
+          ringAssembly, Position(0., 0., x_ring.z_offset()));
+      placedRing.addPhysVolID("ring", ringNum);
+      ringElement.setPlacement(placedRing);
+      // Add it to the Disk element template
+      diskElement.add(ringElement);
+    }
+
+    xml_comp_t x_support = x_det.child(_Unicode(ring_support));
+    // The support shape
+    Tube supportShape(x_support.rmin(), x_support.rmax(), x_support.dz());
+    Volume supportVolume(diskName+"_support", supportShape,
+                         oddd.material(x_support.materialStr()));
+    supportVolume.setVisAttributes(oddd, x_support.visStr());
+    diskAssembly.placeVolume(supportVolume);
+
+    // Cooling rings
+    buildCoolingRings(oddd, diskAssembly, x_det, diskName);
+
     // Get the layer
     xml_comp_t x_layer = lay;
 
-    // The Layer envelope volume
-    string layerName = detName + std::to_string(layNum);
-    Volume layerVolume(layerName,
+    Volume layerVolume(diskName,
                        Tube(x_layer.rmin(), x_layer.rmax(), x_layer.dz()),
                        oddd.air());
 
     layerVolume.setVisAttributes(oddd, x_layer.visStr());
 
-    string diskElName = _toString((int)layNum, "disk%d");
-
     // The DetElement tree
-    DetElement layerElement(layerName, layNum);
-    auto diskElement = diskElementTemplate.clone(diskElName, layNum);
+    DetElement layerElement(diskName+"_element", layNum);
 
     // Place the disk into the layer
     PlacedVolume placedDisk = layerVolume.placeVolume(diskAssembly);
@@ -209,7 +207,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     // The Shape and Volume
     Tube endplateShape(x_endplate.rmin(), x_endplate.rmax(), x_endplate.dz());
-    Volume endplateVolume("Endplate", endplateShape,
+    Volume endplateVolume(detName+"_endplate", endplateShape,
                           oddd.material(x_endplate.materialStr()));
     endplateVolume.setVisAttributes(oddd, x_endplate.visStr());
 
@@ -244,18 +242,18 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     xml_comp_t x_services = x_det.child(_Unicode(services));
     if (x_services.hasChild(_Unicode(cable_routing))) {
       xml_comp_t x_cable_routing = x_services.child(_Unicode(cable_routing));
-      buildEndcapRouting(oddd, endcapVolume, x_cable_routing, endcapZ);
+      buildEndcapRouting(oddd, endcapVolume, x_cable_routing, endcapZ, detName);
     }
     if (x_services.hasChild(_Unicode(cooling_routing))) {
       xml_comp_t x_cooling_routing =
           x_services.child(_Unicode(cooling_routing));
-      buildEndcapRouting(oddd, endcapVolume, x_cooling_routing, endcapZ);
+      buildEndcapRouting(oddd, endcapVolume, x_cooling_routing, endcapZ, detName);
     }
   }
 
   // Place the additional support cylinders per detector
   std::vector<double> layerR;
-  buildSupportCylinder(oddd, endcapVolume, x_det, layerR);
+  buildSupportCylinder(oddd, endcapVolume, x_det, layerR, detName);
 
   // "system" is hard coded in the DD4Hep::VolumeManager
   placedEndcap.addPhysVolID("system", endcapDetector.id());

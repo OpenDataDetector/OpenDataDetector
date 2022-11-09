@@ -13,14 +13,15 @@ using namespace std;
 using namespace dd4hep;
 
 std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
-    Detector &oddd, SensitiveDetector &sens, const xml_comp_t &x_module) {
+    Detector &oddd, SensitiveDetector &sens, const xml_comp_t &x_module,
+    const std::string &base) {
   // The Module envelope volume
-  Assembly moduleAssembly("module");
+  Assembly moduleAssembly(base);
   // Visualization
   moduleAssembly.setVisAttributes(oddd, x_module.visStr());
 
   // The module detector element
-  DetElement moduleElement("ModuleElementTemplate", 0);
+  DetElement moduleElement(base + "_template", 0);
 
   // Place the components inside the module
   unsigned int compNum = 0;
@@ -32,7 +33,7 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
 
     // create the component volume
     string compName =
-        _toString((int)compNum, "component%d") + x_comp.materialStr();
+        base + _toString((int)compNum, "_component_%d_") + x_comp.materialStr();
 
     Trapezoid trapShape(x_comp.x1(), x_comp.x2(), 0.5 * x_comp.thickness(),
                         0.5 * x_comp.thickness(), x_comp.length());
@@ -66,7 +67,7 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
       // Create the cooling pipe
       Tube coolingPipe(x_pipe.rmin(), x_pipe.rmax(),
                        0.5 * length + x_pipe.dz());
-      Volume pipeVolume("CoolingPipe", coolingPipe,
+      Volume pipeVolume(base+"_cooling_pipe", coolingPipe,
                         oddd.material(x_pipe.materialStr()));
       pipeVolume.setVisAttributes(oddd, x_pipe.visStr());
 
@@ -90,7 +91,7 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
       componentVolume.setSensitiveDetector(sens);
       placedComponent.addPhysVolID("sensor", sensorNum++);
       // Create the sensor element and place it
-      string sensorName = _toString((int)sensorNum, "sensor%d");
+      string sensorName = base + _toString((int)sensorNum, "_sensor%d");
       DetElement sensorElement(moduleElement, sensorName, sensorNum);
       sensorElement.setPlacement(placedComponent);
 
@@ -107,14 +108,14 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
 
 std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
     Detector &oddd, SensitiveDetector &sens, const xml_comp_t &x_module,
-    double &ylength) {
+    double &ylength, const std::string &base) {
   // The Module envelope volume
-  Assembly moduleAssembly("module");
+  Assembly moduleAssembly(base);
   // Visualization
   moduleAssembly.setVisAttributes(oddd, x_module.visStr());
 
   // The module detector element
-  DetElement moduleElement("ModuleElementTemplate", 0);
+  DetElement moduleElement(base + "_template", 0);
 
   // Place the components inside the module
   unsigned int compNum = 0;
@@ -125,7 +126,7 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
     xml_comp_t x_comp = comp;
 
     // Component volume
-    string componentName = _toString((int)compNum, "component%d");
+    string componentName = base + _toString((int)compNum, "_component_%d_");
     Box boxShape(0.5 * x_comp.dx(), 0.5 * x_comp.dy(), 0.5 * x_comp.dz());
     // Standard component volume without cutout
     Volume componentVolume(componentName, boxShape,
@@ -158,7 +159,7 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
       // Create the cooling pipe
       Tube coolingPipe(x_pipe.rmin(), x_pipe.rmax(),
                        0.5 * length + x_pipe.dz());
-      Volume pipeVolume("CoolingPipe", coolingPipe,
+      Volume pipeVolume(base+"_cooling_pipe", coolingPipe,
                         oddd.material(x_pipe.materialStr()));
       pipeVolume.setVisAttributes(oddd, x_pipe.visStr());
 
@@ -194,7 +195,7 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
       placedComponent.addPhysVolID("sensor", sensorNum++);
 
       // Create the sensor element and place it
-      string sensorName = _toString((int)sensorNum, "sensor%d");
+      string sensorName = base + _toString((int)sensorNum, "_sensor%d");
       DetElement sensorElement(moduleElement, sensorName, sensorNum);
       sensorElement.setPlacement(placedComponent);
 
