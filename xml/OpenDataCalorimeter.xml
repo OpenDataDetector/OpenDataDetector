@@ -6,7 +6,7 @@
         </limitset>
     </limits>
 
-    <include ref="OpenDataEcal.xml"/>
+    <include ref="OpenDataECal.xml"/>
 
     <detectors>
         <detector id="ODD_ECal_ID" name="ECal" type="DD4hep_SubdetectorAssembly" vis="invisible">
