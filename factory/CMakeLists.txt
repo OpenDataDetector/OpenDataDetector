@@ -5,8 +5,9 @@ add_library(
     tracker/ODDPixelBarrel_geo.cpp
     tracker/ODDPixelEndcap_geo.cpp
     tracker/ODDStripBarrel_geo.cpp
-    tracker/ODDStripEndcap_geo.cpp)
-
+    tracker/ODDStripEndcap_geo.cpp
+    calorimeter/ODDECalBarrel_geo.cpp
+    calorimeter/ODDECalEndcap_geo.cpp)
     
 target_link_libraries(OpenDataDetector PUBLIC DD4hep::DDCore DD4hep::DDRec)
 

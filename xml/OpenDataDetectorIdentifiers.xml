@@ -1,0 +1,27 @@
+<define>
+    <!-- BeamPipe Identifier -->
+    <constant name="ODD_BeamPipe_ID" value="0"/>
+    <!-- Pixel Identifiers -->
+    <constant name="ODD_Pixel_ID" value="1"/>
+    <constant name="ODD_PixelEndcapN_ID" value="7"/>
+    <constant name="ODD_PixelBarrel_ID" value="6"/>
+    <constant name="ODD_PixelEndcapP_ID" value="8"/>
+    <!-- PST Identifier -->
+    <constant name="ODD_PST_ID" value="2"/>
+    <!-- ShortStrips Identifiers -->
+    <constant name="ODD_ShortStrip_ID" value="3"/>
+    <constant name="ODD_ShortStripEndcapN_ID" value="10"/>
+    <constant name="ODD_ShortStripBarrel_ID" value="9"/>
+    <constant name="ODD_ShortStripEndcapP_ID" value="11"/>
+    <!-- LongStrips Identifiers -->
+    <constant name="ODD_LongStrip_ID" value="4"/>
+    <constant name="ODD_LongStripEndcapN_ID" value="13"/>
+    <constant name="ODD_LongStripBarrel_ID" value="12"/>
+    <constant name="ODD_LongStripEndcapP_ID" value="14"/>
+    <!-- Solenoid Identifiers -->
+    <constant name="ODD_Solenoid_ID" value="5"/>
+    <!-- ECal Identifiers -->
+    <constant name="ODD_ECal_ID" value = "15"/>
+    <constant name="ODD_ECalBarrel_ID" value="16"/>
+    <constant name="ODD_ECalEndcap_ID" value="17"/>
+</define>

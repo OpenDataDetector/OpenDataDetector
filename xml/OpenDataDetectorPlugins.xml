@@ -1,0 +1,78 @@
+<!-- Plugin sections, DDRec surfaces, etc. -->
+<plugins>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="PixelEndcapN"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="PixelEndcapP"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="PixelBarrel"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=1."/>
+        <argument value="v_y=1."/>
+        <argument value="n_z=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="ShortStripEndcapN"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="ShortStripEndcapP"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="ShortStripBarrel"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=1."/>
+        <argument value="v_y=1."/>
+        <argument value="n_z=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="LongStripEndcapN"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="LongStripEndcapP"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=-1."/>
+        <argument value="v_z=1."/>
+        <argument value="n_y=1."/>
+    </plugin>
+
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+        <argument value="LongStripBarrel"/>
+        <argument value="dimension=2"/>
+        <argument value="u_x=1."/>
+        <argument value="v_y=1."/>
+        <argument value="n_z=1."/>
+    </plugin>
+
+    <plugin name="DD4hepVolumeManager"/>
+    <plugin name="InstallSurfaceManager"/>
+</plugins>

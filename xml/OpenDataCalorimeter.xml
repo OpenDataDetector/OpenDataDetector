@@ -1,0 +1,18 @@
+<lccdd>
+
+    <limits>
+        <limitset name="cal_limits">
+            <limit name="step_length_max" particles="*" value="5.0" unit="mm" />
+        </limitset>
+    </limits>
+
+    <include ref="OpenDataEcal.xml"/>
+
+    <detectors>
+        <detector id="ODD_ECal_ID" name="ECal" type="DD4hep_SubdetectorAssembly" vis="invisible">
+            <composite name="ECalBarrel"/>
+            <composite name="ECalEndcap"/>
+        </detector>
+    </detectors>
+
+</lccdd>

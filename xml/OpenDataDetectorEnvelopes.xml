@@ -1,0 +1,61 @@
+<lccdd>
+    <!-- Envelope definitions -->
+    <define>
+        <!--Dimensions of the beam pipe -->
+        <constant name="bp_rmin" value="23.6*mm"/>
+        <constant name="bp_rmax" value="24.4*mm"/>
+        <constant name="bp_length" value="4.0*m"/>
+        <!--The tracker region definition -->
+        <constant name="tracker_region_rmax" value="1.2*m"/>
+        <constant name="tracker_region_zmax" value="4.0*m"/>
+        <!--Dimensions of the Pixel volume & sub volumes -->
+        <constant name="pix_env_rmin" value="25.*mm"/>
+        <constant name="pix_env_rmax" value="200.*mm"/>
+        <constant name="pix_env_dz" value="2.4*m"/>
+        <constant name="pix_b_z" value="0.*m"/>
+        <constant name="pix_b_dz" value="0.580*m"/>
+        <constant name="pix_e_nz" value="-1.480*m"/>
+        <constant name="pix_e_pz" value="1.480*m"/>
+        <constant name="pix_e_dz" value="0.9*m"/>
+        <!--Dimensions of the Pixel Support tube -->
+        <constant name="pst_rmin" value="202.*mm"/>
+        <constant name="pst_rmax" value="204.*mm"/>
+        <constant name="pst_length" value="2.0*m"/>
+        <!--Dimensions of the Short Strips volume & sub volumes -->
+        <constant name="ss_env_rmin" value="204.*mm"/>
+        <constant name="ss_env_rmax" value="720.*mm"/>
+        <constant name="ss_env_dz" value="3.15*m"/>
+        <constant name="ss_b_z" value="0.*m"/>
+        <constant name="ss_b_dz" value="1.2*m"/>
+        <constant name="ss_e_nz" value="-2.175*m"/>
+        <constant name="ss_e_pz" value="2.175*m"/>
+        <constant name="ss_e_dz" value="0.975*m"/>
+        <!--Dimensions of the Long Strips volume & sub volumes -->
+        <constant name="ls_env_rmin" value="720.*mm"/>
+        <constant name="ls_env_rmax" value="1140.*mm"/>
+        <constant name="ls_env_dz" value="3.15*m"/>
+        <constant name="ls_b_z" value="0.*m"/>
+        <constant name="ls_b_dz" value="1.2*m"/>
+        <constant name="ls_e_nz" value="-2.175*m"/>
+        <constant name="ls_e_pz" value="2.175*m"/>
+        <constant name="ls_e_dz" value="0.975*m"/>
+        <!--Dimensions of the Solenoid -->
+        <constant name="sol_rmin" value="1160.*mm"/>
+        <constant name="sol_rmax" value="1200.*mm"/>
+        <constant name="sol_hlength" value="3.0*m"/>
+        <!--Dimension of the ECal -->
+        <constant name="ecal_b_rmin" value="1250.*mm"/>
+        <constant name="ecal_b_rmax" value="1500.*mm"/>
+        <constant name="ecal_b_hlength" value="3.05*m"/>
+        <constant name="ecal_b_symmetry" value="16"/>
+        <constant name="ecal_e_inner_radius" value="340.*mm"/>
+        <constant name="ecal_e_outer_radius" value="1500.*mm"/>
+        <constant name="ecal_e_min_z" value="3.2*m"/>
+        <constant name="ecal_e_max_z" value="3.45*m"/>
+        <constant name="ecal_e_inner_symmetry" value="16"/>
+        <constant name="ecal_e_outer_symmetry" value="16"/>
+        <constant name="ecal_e_env_safety" value="0.1*mm"/>
+
+        <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
+    </define>
+</lccdd>

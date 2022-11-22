@@ -75,13 +75,13 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
     for (unsigned int modCable = 0; modCable < 0.5 * nModules; ++modCable) {
       double cableLength = staveHlength - modCable * ylength;
 
-      for (int side = -1; side < 2; side += 2) {
-        Tube cable(x_cable.rmin(), x_cable.rmax(), 0.5 * cableLength);
-        // Create the cable volume
-        Volume cableVolume("Cable", cable,
-                           oddd.material(x_cable.materialStr()));
-        cableVolume.setVisAttributes(oddd, x_cable.visStr());
+      Tube cable(x_cable.rmin(), x_cable.rmax(), 0.5 * cableLength);
+      // Create the cable volume
+      Volume cableVolume("Cable", cable,
+                         oddd.material(x_cable.materialStr()));
+      cableVolume.setVisAttributes(oddd, x_cable.visStr());
 
+      for (int side = -1; side < 2; side += 2) {
         // Place the pipe in the stave
         staveAssembly.placeVolume(
             cableVolume,

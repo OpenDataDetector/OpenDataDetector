@@ -13,13 +13,11 @@
 
 #include "DD4hep/DetFactoryHelper.h"
 
-using namespace std;
-using namespace dd4hep;
 
 namespace ODDHelper {
 
 template <typename T>
-T& ensureExtension(DetElement& elt) {
+T& ensureExtension(dd4hep::DetElement& elt) {
   T* ext = elt.extension<T>(false);
   if (ext == nullptr) {
     ext = new T();
@@ -32,6 +30,8 @@ inline void xmlToProtoSurfaceMaterial(const xml_comp_t& x_material,
                                       dd4hep::rec::VariantParameters& params,
                                       const std::string& baseTag) {
   using namespace std::string_literals;
+using namespace dd4hep;
+
   // Add the layer material flag
   params.set(baseTag, true);
   // prepare everything here
