@@ -64,9 +64,11 @@ run-full-chain:
     when: always
   script:
     - ls -al acts-install/python
+    - ls -al acts-install/python/acts
+    - ls -al acts-install/python/acts/examples
     - source acts-install/bin/this_acts.sh
-    - source odd-install/bin/this_odd.sh
     - source acts-install/python/setup.sh
+    - source odd-install/bin/this_odd.sh
     - source /usr/local/bin/thisdd4hep.sh
     - mkdir full_chain
     - ci/full_chain_odd.py -o output -n 100000 2>&1 > full_chain/output.log
