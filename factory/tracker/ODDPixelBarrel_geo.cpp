@@ -77,8 +77,7 @@ static void completeStaveStructure(Detector &oddd, xml_comp_t &x_stave,
 
       Tube cable(x_cable.rmin(), x_cable.rmax(), 0.5 * cableLength);
       // Create the cable volume
-      Volume cableVolume("Cable", cable,
-                         oddd.material(x_cable.materialStr()));
+      Volume cableVolume("Cable", cable, oddd.material(x_cable.materialStr()));
       cableVolume.setVisAttributes(oddd, x_cable.visStr());
 
       for (int side = -1; side < 2; side += 2) {
@@ -159,7 +158,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
         module.first, Position(0., -ymin + moduleNum * ystep, 0.));
     placedModule.addPhysVolID("module", moduleNum);
 
-    std::cout << "Placing module at " <<  -ymin + moduleNum * ystep << std::endl;
+    std::cout << "Placing module at " << -ymin + moduleNum * ystep << std::endl;
 
     string moduleName = _toString((int)moduleNum, "module%d");
     // Clone the detector element
