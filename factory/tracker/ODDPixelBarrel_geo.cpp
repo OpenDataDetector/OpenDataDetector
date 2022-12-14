@@ -148,8 +148,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   // Place the modules into the stave
   double gap = x_stave.gap();
   unsigned int nModules = x_stave.nmodules();
-  double ystep = ylength + gap;
-  double ymin = (nModules * 0.5 - 0.5) * ylength;
+  double ystep = ylength - gap;
+  double ymin = (nModules * 0.5 - 0.5) * ystep;
   double staveHlength = ymin + 0.5 * ylength;
 
   // Loop over the modules and place them in the stave
