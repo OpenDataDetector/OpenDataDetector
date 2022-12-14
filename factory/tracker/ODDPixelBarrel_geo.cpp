@@ -157,9 +157,6 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     PlacedVolume placedModule = staveAssembly.placeVolume(
         module.first, Position(0., -ymin + moduleNum * ystep, 0.));
     placedModule.addPhysVolID("module", moduleNum);
-
-    std::cout << "Placing module at " << -ymin + moduleNum * ystep << std::endl;
-
     string moduleName = _toString((int)moduleNum, "module%d");
     // Clone the detector element
     auto moduleElement = module.second.clone(moduleName, moduleNum);
