@@ -211,5 +211,6 @@ validate-calo:
     - cmake --build build_root -- install
     - source /usr/local/bin/thisroot.sh
     - root-config --libs
+    - cd ../analysis_calo
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
     - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
