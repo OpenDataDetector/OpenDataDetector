@@ -209,7 +209,7 @@ validate-calo:
     - mkdir build_root install
     - cmake -B build_root -S . -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -Dfail-on-missing=ON  -Dgminimal=ON -Dpyroot=ON -Ddataframe=ON
     - cmake --build build_root -- install
-    - source install/bin/thisroot.sh
+    - source /usr/local/bin/thisroot.sh
     - root-config --libs
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
     - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
