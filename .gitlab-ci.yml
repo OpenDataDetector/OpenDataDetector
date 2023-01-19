@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - analysis
 
 default:
   image: gitlab-registry.cern.ch/acts/opendatadetector/ubuntu2204:v33
@@ -181,3 +182,24 @@ export-geometry:
     - npm ci
     - node . ../export_geometry/ODD.root -c ../ci/export_geometry_config.json
     - mv ODD.gltf ../export_geometry/.
+
+validate-calo:
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_calo
+    expire_in: 1 month
+  when: manual
+  script:
+    - source odd-install/bin/this_odd.sh
+    - /usr/local/bin/geant4-config --install-datasets
+    - source /usr/local/bin/geant4.sh
+    - source /usr/local/bin/thisdd4hep.sh
+    - mkdir analysis_calo
+    - cd analysis_calo
+    - ddsim --enableGun --numberOfEvents 10 --gun.energy 5000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_5GeV_edm4hep.root
+    - pip install -r ../ci/requirements.txt
+    - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
+    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
