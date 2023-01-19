@@ -201,5 +201,15 @@ validate-calo:
     - cd analysis_calo
     - ddsim --enableGun --numberOfEvents 10 --gun.energy 5000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_5GeV_edm4hep.root
     - pip install -r ../ci/requirements.txt
+    - root-config --libs
+    - cd ..
+    - git clone https://github.com/root-project/root.git
+    - cd root
+    - git checkout v6-26-04
+    - mkdir build_root install
+    - cmake -B build_root -S . -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -Dfail-on-missing=ON  -Dgminimal=ON -Dpyroot=ON -Ddataframe=ON
+    - cmake --build build_root -- install
+    - source install/bin/thisroot.sh
+    - root-config --libs
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
     - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
