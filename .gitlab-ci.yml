@@ -4,7 +4,7 @@ stages:
   - analysis
 
 default:
-  image: gitlab-registry.cern.ch/acts/opendatadetector/ubuntu2204:v35
+  image: ghcr.io/acts-project/ubuntu2204:v35
 
 variables:
   ACTS_VERSION: v30.1.0
