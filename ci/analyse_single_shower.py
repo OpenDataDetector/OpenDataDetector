@@ -6,20 +6,25 @@ parser = argparse.ArgumentParser(description='Analyse calo shower data')
 parser.add_argument('--infile', '-i', required=True, type=str, nargs='+', help='EDM4hep file to analyse')
 parser.add_argument('-o', '--outfile', type=str, default="showerAnalysis.root", help='output file')
 parser.add_argument('-n', '--ncpus', type=int, default=2, help='Number of CPUs to use in analysis')
+parser.add_argument('--endcap', action='store_true', help='Perform analysis for endcap instead of barrel')
 args = parser.parse_args()
 
 ROOT.gSystem.Load("libedm4hep")
 #__________________________________________________________
-def run(inputlist, outname, ncpu):
+def run(inputlist, outname, ncpu, endcapInsteadOfBarrel):
     outname = outname
     if ".root" not in outname:
         outname+=".root"
+    if endcapInsteadOfBarrel:
+        collname = "Endcap"
+    else:
+        collname = "Barrel"
     ROOT.ROOT.EnableImplicitMT(ncpu)
     df = ROOT.RDataFrame("events", inputlist)
     print ("Initialization done")
     # Create histograms with energy distributions
     h_ecal = df\
-                 .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: ECalBarrelCollection) {result.push_back(p.energy);} return result;")\
+                 .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
                  .Define("sumEdep","std::accumulate(edep.begin(),edep.end(),0.)")\
                  .Histo1D("sumEdep")
     h_mc = df\
@@ -27,7 +32,7 @@ def run(inputlist, outname, ncpu):
                .Define("gunMC","eMC[0]")\
                .Histo1D("gunMC")
     h_ratio = df\
-                  .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: ECalBarrelCollection) {result.push_back(p.energy);} return result;")\
+                  .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
                   .Define("sumEdep","std::accumulate(edep.begin(),edep.end(),0.)")\
                   .Define("eMC","ROOT::VecOps::RVec<float> result; for(auto& m:MCParticles){result.push_back(sqrt(m.momentum.x*m.momentum.x+m.momentum.y*m.momentum.y+m.momentum.z*m.momentum.z));} return result;")\
                   .Define("gunMC","eMC[0]")\
@@ -83,4 +88,4 @@ def run(inputlist, outname, ncpu):
 
 if __name__ == "__main__":
 
-    run(args.infile, args.outfile, args.ncpus)
+    run(args.infile, args.outfile, args.ncpus, args.endcap)
