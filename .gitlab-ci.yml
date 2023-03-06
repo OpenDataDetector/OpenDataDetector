@@ -230,5 +230,5 @@ validate-ecal_endcap:
     - ddsim --enableGun --numberOfEvents 250 --gun.energy 50000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_250events_50GeV_edm4hep.root
     - ddsim --enableGun --numberOfEvents 100 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_100events_100GeV_edm4hep.root
     - pip install -r ../ci/requirements.txt
-    - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
+    - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
     - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
