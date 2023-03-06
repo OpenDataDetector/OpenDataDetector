@@ -199,11 +199,11 @@ validate-ecal-barrel:
     - source /usr/local/bin/thisdd4hep.sh
     - mkdir analysis_ecal_barrel
     - cd analysis_ecal_barrel
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 5000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_5GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 10000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_10GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 20000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_20GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 250 --gun.energy 50000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_250events_50GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 100 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_100events_100GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents 1000 --gun.energy 5000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_5GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents 1000 --gun.energy 10000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_10GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents 1000 --gun.energy 20000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_20GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents 500 --gun.energy 50000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_250events_50GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents 150 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_100events_100GeV_edm4hep.root
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
     - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
