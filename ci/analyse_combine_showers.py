@@ -42,6 +42,8 @@ def prepare_graph(graph, name, title, colour = 9, markerStyle = 21, factor = 1):
    graph.SetMarkerSize(1.4)
    graph.SetMarkerColor(colour)
    graph.SetLineColor(colour)
+   for fnc in graph.GetListOfFunctions():
+       fnc.SetLineColor(colour)
    # set Y axis
    graph.GetYaxis().SetTitleSize(0.06)
    graph.GetYaxis().SetTitleOffset(1.1)
