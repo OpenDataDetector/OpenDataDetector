@@ -206,8 +206,8 @@ validate-ecal-barrel:
     - ddsim --enableGun --numberOfEvents 150 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_100events_100GeV_edm4hep.root
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
-    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
-    - python3 ../ci/graphCmp.py -i combined_resolution.root ../ci/reference/combined_resolution_ECalBarrel.root -l MR reference
+    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+    - python3 ../ci/graphCmp.py -i combined_performance.root ../ci/reference/combined_performance_ECalBarrel.root -l MR reference
 
 validate-ecal_rightEndcap:
   stage: analysis
@@ -232,8 +232,8 @@ validate-ecal_rightEndcap:
     - ddsim --enableGun --numberOfEvents 100 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_100events_100GeV_edm4hep.root
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
-    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
-    - python3 ../ci/graphCmp.py -i combined_resolution.root ../ci/reference/combined_resolution_ECalRightEndcap.root -l MR reference
+    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+    - python3 ../ci/graphCmp.py -i combined_performance.root ../ci/reference/combined_performance_ECalEndcap.root -l MR reference
 
 validate-ecal_leftEndcap:
   stage: analysis
@@ -258,5 +258,5 @@ validate-ecal_leftEndcap:
     - ddsim --enableGun --numberOfEvents 100 --gun.energy 100000 --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_100events_100GeV_edm4hep.root
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
-    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_resolution.root
-    - python3 ../ci/graphCmp.py -i combined_resolution.root ../ci/reference/combined_resolution_ECalLeftEndcap.root -l MR reference
+    - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+    - python3 ../ci/graphCmp.py -i combined_performance.root ../ci/reference/combined_performance_ECalEndcap.root -l MR reference
