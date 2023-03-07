@@ -87,6 +87,13 @@ def run(inputlist, outname):
     print(constString)
     print(samplingString)
 
+    # Fit linearity
+    f_fitLinearity = ROOT.TF1("inearity", "pol0", g_linearity.GetXaxis().GetXmin(), g_linearity.GetXaxis().GetXmax())
+    f_fitLinearity.SetParName(0,"response")
+    resultLin = g_linearity.Fit(f_fitLinearity, 'S')
+    formulaLin = "#frac{#sum_{cells}dE}{E_{MC}} = " + str(round(resultLin.Get().Parameter(0)*100,2))+"% #pm "+str(round(resultLin.Get().Error(0),4))
+    print(formulaLin)
+
     # Draw
     c_res = prepare_single_canvas("resolution","Energy resolution")
     prepare_graph(g_resolution, "resolution", ";E_{MC} (GeV);#sigma_{E_{sim}}/#LTE_{sim}#GT", 9, 21)
@@ -96,6 +103,7 @@ def run(inputlist, outname):
     c_lin = prepare_single_canvas("linearity","Energy linearity")
     prepare_graph(g_linearity, "linearity", ";E_{MC} (GeV);#LTE_{sim}#GT/E_{MC}", 9, 21)
     g_linearity.Draw("ape")
+    draw_text([formulaLin], [0.55,0.8,0.88,0.9], 1, 0).SetTextSize(0.06)
 
     # Store
     c_res.SaveAs(f"resolution_{outname[:-5]}.pdf")
@@ -108,17 +116,23 @@ def run(inputlist, outname):
     g_linearity.Write("linearity")
     const = numpy.zeros(1, dtype=float)
     sampl = numpy.zeros(1, dtype=float)
+    response = numpy.zeros(1, dtype=float)
     constErr = numpy.zeros(1, dtype=float)
     samplErr = numpy.zeros(1, dtype=float)
+    responseErr = numpy.zeros(1, dtype=float)
     tree = ROOT.TTree("params", "Fit parameters")
     tree.Branch("const", const, "const/D");
     tree.Branch("sampl", sampl, "sampl/D");
+    tree.Branch("response", response, "response/D");
     tree.Branch("constErr", constErr, "constErr/D");
     tree.Branch("samplErr", samplErr, "samplErr/D");
+    tree.Branch("responseErr", responseErr, "samplErr/D");
     const[0] = result.Get().Parameter(0)
     sampl[0] = result.Get().Parameter(1)
+    response[0] = resultLin.Get().Parameter(0)
     constErr[0] = result.Get().Error(0)
     samplErr[0] = result.Get().Error(1)
+    responseErr[0] = resultLin.Get().Error(0)
     tree.Fill()
     tree.Write()
     outfile.Close()
