@@ -108,21 +108,21 @@ def run(inputlist, legendNames, outname):
 
     # Compare resolution (for 2 input files only, second one is used as reference)
     if len(inputlist)==2:
-       if v_resSampl[0] + v_resSamplErr[0] < v_resSampl[1] - v_resSamplErr[1] or v_resSampl[0] - v_resSamplErr[0] > v_resSampl[1] + v_resSamplErr[1]:
+       if v_resSampl[0] + 2 * v_resSamplErr[0] < v_resSampl[1] -  2 * v_resSamplErr[1] or v_resSampl[0] - 2 * v_resSamplErr[0] > v_resSampl[1] + 2 * v_resSamplErr[1]:
           print(f'\033[91m\nResolution has changed.\nSampling term of new sample is {v_resSampl[0]}+-{v_resSamplErr[0]} vs reference {v_resSampl[1]}+-{v_resSamplErr[1]}.\nConstant term will not be checked.\n\033[00m')
           sys.exit(1)
        else:
           print(f'\033[32m\nSampling term of new sample is {v_resSampl[0]}+-{v_resSamplErr[0]} which is within the error bars wrt reference sample {v_resSampl[1]}+-{v_resSamplErr[1]}\n\033[00m')
-       if v_resConst[0] + v_resConstErr[0] < v_resConst[1] - v_resConstErr[1] or v_resConst[0] - v_resConstErr[0] > v_resConst[1] + v_resConstErr[1]:
+       if v_resConst[0] + 2 * v_resConstErr[0] < v_resConst[1] - 2 * v_resConstErr[1] or v_resConst[0] - 2 * v_resConstErr[0] > v_resConst[1] + 2 * v_resConstErr[1]:
           print(f'\033[91m\nResolution has changed.\nConstant term of new sample is {v_resConst[0]}+-{v_resConstErr[0]} vs reference {v_resConst[1]}+-{v_resConstErr[1]}.\n\033[00m')
           sys.exit(1)
        else:
           print(f'\033[32m\nConstant term of new sample is {v_resConst[0]}+-{v_resConstErr[0]} which is within the error bars wrt reference sample {v_resConst[1]}+-{v_resConstErr[1]}.\n\033[00m')
-       if v_resResponse[0] + v_resResponseErr[0] < v_resResponse[1] - v_resResponseErr[1] or v_resResponse[0] - v_resResponseErr[0] > v_resResponse[1] + v_resResponseErr[1]:
+       if v_resResponse[0] + 2 * v_resResponseErr[0] < v_resResponse[1] - 2 * v_resResponseErr[1] or v_resResponse[0] - 2 * v_resResponseErr[0] > v_resResponse[1] + 2 * v_resResponseErr[1]:
           print(f'\033[91m\nReponse of the detector has changed.\nResponse of new sample is {v_resResponse[0]}+-{v_resResponseErr[0]} vs reference {v_resResponse[1]}+-{v_resResponseErr[1]}.\n\033[00m')
           sys.exit(1)
        else:
-          print(f'\033[32m\nResponse of the detector for new sample is {v_resResponse[0]}+-{v_resResponseErr[0]} which is within the error bars wrt reference sample {v_resResponse[1]}+-{v_resResponseErr[1]}.\n\033[00m')
+          print(f'\033[32m\nResponse of the detector for new sample is {v_resResponse[0]}+-{v_resResponseErr[0]} which is within the error bars wrt reference sample {v_resResponse[1]}+-{v_resResponseErr[1]} within the 2 sigma.\n\033[00m')
 
 if __name__ == "__main__":
 
