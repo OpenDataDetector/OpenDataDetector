@@ -4,6 +4,8 @@ import numpy
 parser = argparse.ArgumentParser(description='Analyse calo shower data')
 parser.add_argument('--infiles', '-i', required=True, type=str, nargs='+', help='ROOT files to analyse')
 parser.add_argument('-o', '--outfile', type=str, default="showerAnalysis.root", help='output file')
+parser.add_argument('--endcap', action='store_true', help='Perform analysis for endcap instead of barrel')
+parser.add_argument('--hcal', action='store_true', help='Perform analysis for HCal instead of ECal')
 args = parser.parse_args()
 
 #__________________________________________________________
@@ -89,21 +91,31 @@ def run(inputlist, outname):
 
     # Fit linearity
     f_fitLinearity = ROOT.TF1("inearity", "pol0", g_linearity.GetXaxis().GetXmin(), g_linearity.GetXaxis().GetXmax())
-    f_fitLinearity.SetParName(0,"response")
     resultLin = g_linearity.Fit(f_fitLinearity, 'S')
-    formulaLin = "#frac{#sum_{cells}dE}{E_{MC}} = " + str(round(resultLin.Get().Parameter(0)*100,2))+"% #pm "+str(round(resultLin.Get().Error(0),4))
+    formulaLin = "#sum_{cells}dE/E_{MC} = " + str(round(resultLin.Get().Parameter(0)*100,2))+"% #pm "+str(round(resultLin.Get().Error(0),4))
     print(formulaLin)
 
     # Draw
     c_res = prepare_single_canvas("resolution","Energy resolution")
     prepare_graph(g_resolution, "resolution", ";E_{MC} (GeV);#sigma_{E_{sim}}/#LTE_{sim}#GT", 9, 21)
     g_resolution.Draw("ape")
+    if not args.endcap:
+        eta = 0
+    else:
+        eta = 2
+    if not args.hcal:
+        calo_type = "ECal resolution, photons"
+    else:
+        calo_type = "HCal resolution, pions"
+
+    draw_text([calo_type+" at #||{#eta}="+str(eta)], [0.55,0.93,0.88,0.98], 1, 0).SetTextSize(0.05)
     draw_text([constString, samplingString], [0.55,0.68,0.88,0.76], 1, 0).SetTextSize(0.04)
-    draw_text([formula], [0.55,0.8,0.88,0.9], 1, 0).SetTextSize(0.06)
+    draw_text([formula], [0.55,0.8,0.88,0.9], 1, 0).SetTextSize(0.05)
     c_lin = prepare_single_canvas("linearity","Energy linearity")
     prepare_graph(g_linearity, "linearity", ";E_{MC} (GeV);#LTE_{sim}#GT/E_{MC}", 9, 21)
     g_linearity.Draw("ape")
-    draw_text([formulaLin], [0.55,0.8,0.88,0.9], 1, 0).SetTextSize(0.06)
+    draw_text([calo_type + " at #||{#eta}="+str(eta)], [0.55,0.93,0.88,0.98], 1, 0).SetTextSize(0.05)
+    draw_text([formulaLin], [0.55,0.8,0.88,0.9], 1, 0).SetTextSize(0.05)
 
     # Store
     c_res.SaveAs(f"resolution_{outname[:-5]}.pdf")
