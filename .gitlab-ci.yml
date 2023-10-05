@@ -191,6 +191,7 @@ validate-ecal-barrel:
     paths:
       - analysis_ecal_barrel
     expire_in: 1 month
+    when: always
   when: manual
   script:
     - source odd-install/bin/this_odd.sh
@@ -217,6 +218,7 @@ validate-ecal_rightEndcap:
     paths:
       - analysis_ecal_rightEndcap
     expire_in: 1 month
+    when: always
   when: manual
   script:
     - source odd-install/bin/this_odd.sh
@@ -243,6 +245,7 @@ validate-ecal_leftEndcap:
     paths:
       - analysis_ecal_leftEndcap
     expire_in: 1 month
+    when: always
   when: manual
   script:
     - source odd-install/bin/this_odd.sh
