@@ -7,8 +7,8 @@ default:
   image: ghcr.io/acts-project/ubuntu2204:v35
 
 variables:
-  ACTS_VERSION: v30.1.0
-  ACTS_GIT_URL: https://github.com/acts-project/acts.git
+  ACTS_VERSION: fix-material-composition
+  ACTS_GIT_URL: https://github.com/paulgessiner/acts.git
 
 
 build-acts:
