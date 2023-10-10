@@ -8,7 +8,7 @@ default:
 
 variables:
   ACTS_VERSION: fix-material-composition
-  ACTS_GIT_URL: https://github.com/paulgessiner/acts.git
+  ACTS_GIT_URL: https://github.com/paulgessinger/acts.git
 
 
 build-acts:
