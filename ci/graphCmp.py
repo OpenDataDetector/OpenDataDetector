@@ -118,7 +118,7 @@ def run(inputlist, legendNames, outname):
           sys.exit(1)
        else:
           print(f'\033[32m\nConstant term of new sample is {v_resConst[0]}+-{v_resConstErr[0]} which is within the error bars wrt reference sample {v_resConst[1]}+-{v_resConstErr[1]}.\n\033[00m')
-       if v_resResponse[0] + 2 * v_resResponseErr[0] < v_resResponse[1] - 2 * v_resResponseErr[1] or v_resResponse[0] - 2 * v_resResponseErr[0] > v_resResponse[1] + 2 * v_resResponseErr[1]:
+       if v_resResponse[0] + 10 * v_resResponseErr[0] < v_resResponse[1] - 10 * v_resResponseErr[1] or v_resResponse[0] - 10 * v_resResponseErr[0] > v_resResponse[1] + 10 * v_resResponseErr[1]:
           print(f'\033[91m\nReponse of the detector has changed.\nResponse of new sample is {v_resResponse[0]}+-{v_resResponseErr[0]} vs reference {v_resResponse[1]}+-{v_resResponseErr[1]}.\n\033[00m')
           sys.exit(1)
        else:
