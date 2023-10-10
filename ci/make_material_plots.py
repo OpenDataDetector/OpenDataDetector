@@ -37,7 +37,8 @@ names = {
     "lstrips": "Long Strips",
     "pixel": "Pixel",
     "solenoid": "Solenoid",
-    "ecal": "EM Calorimeter"
+    "ecal_barrel": "EM Calorimeter Barrel",
+    "ecal_endcap": "EM Calorimeter Endcap"
 }
 
 for q in (
