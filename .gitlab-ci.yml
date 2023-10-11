@@ -183,7 +183,7 @@ export-geometry:
     - node . ../export_geometry/ODD.root -c ../ci/export_geometry_config.json
     - mv ODD.gltf ../export_geometry/.
 
-validate-ecal-barrel:
+simulate-ecal-barrel:
   stage: analysis
   needs:
     - build-odd
@@ -192,7 +192,7 @@ validate-ecal-barrel:
       - analysis_ecal_barrel
     expire_in: 1 month
     when: always
-  when: manual
+  when: always
   script:
     - source odd-install/bin/this_odd.sh
     - /usr/local/bin/geant4-config --install-datasets
@@ -200,17 +200,36 @@ validate-ecal-barrel:
     - source /usr/local/bin/thisdd4hep.sh
     - mkdir analysis_ecal_barrel
     - cd analysis_ecal_barrel
-    - ddsim --enableGun --numberOfEvents 1000 --gun.energy 5000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_1000events_5GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 1000 --gun.energy 10000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_1000events_10GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 20000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_20GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 50000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_500events_50GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 150 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_150events_100GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_${NUMEVENTS}events_${ENERGY}MeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5000, 10000]
+        NUMEVENTS: [1000]
+      - ENERGY: [20000, 50000]
+        NUMEVENTS: [500]
+      - ENERGY: [100000]
+        NUMEVENTS: [150]
+
+validate-ecal-barrel:
+  stage: analysis
+  needs:
+    - simulate-ecal-barrel
+  artifacts:
+    paths:
+      - analysis_ecal_barrel
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source /usr/local/bin/thisdd4hep.sh
+    - cd analysis_ecal_barrel
+    - ls
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
     - python3 ../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
     - python3 ../ci/graphCmp.py -i combined_performance.root ../ci/reference/combined_performance_ECalBarrel.root -l MR reference
 
-validate-ecal_rightEndcap:
+simulate-ecal-rightEndcap:
   stage: analysis
   needs:
     - build-odd
@@ -219,7 +238,7 @@ validate-ecal_rightEndcap:
       - analysis_ecal_rightEndcap
     expire_in: 1 month
     when: always
-  when: manual
+  when: always
   script:
     - source odd-install/bin/this_odd.sh
     - /usr/local/bin/geant4-config --install-datasets
@@ -227,17 +246,35 @@ validate-ecal_rightEndcap:
     - source /usr/local/bin/thisdd4hep.sh
     - mkdir analysis_ecal_rightEndcap
     - cd analysis_ecal_rightEndcap
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 5000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_500events_5GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 10000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_500events_10GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 20000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_500events_20GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 250 --gun.energy 50000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_250events_50GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 100 --gun.energy 100000 --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_100events_100GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY --gun.particle gamma --gun.thetaMin 0.15 --gun.thetaMax 0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.15_${NUMEVENTS}events_${ENERGY}MeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5000, 10000, 20000]
+        NUMEVENTS: [500]
+      - ENERGY: [50000]
+        NUMEVENTS: [250]
+      - ENERGY: [100000]
+        NUMEVENTS: [150]
+
+validate-ecal-rightEndcap:
+  stage: analysis
+  needs:
+    - simulate-ecal-rightEndcap
+  artifacts:
+    paths:
+      - analysis_ecal_rightEndcap
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source /usr/local/bin/thisdd4hep.sh
+    - cd analysis_ecal_rightEndcap
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
     - python3 ../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
     - python3 ../ci/graphCmp.py -i combined_performance.root ../ci/reference/combined_performance_ECalEndcap.root -l MR reference
 
-validate-ecal_leftEndcap:
+simulate-ecal-leftEndcap:
   stage: analysis
   needs:
     - build-odd
@@ -246,7 +283,7 @@ validate-ecal_leftEndcap:
       - analysis_ecal_leftEndcap
     expire_in: 1 month
     when: always
-  when: manual
+  when: always
   script:
     - source odd-install/bin/this_odd.sh
     - /usr/local/bin/geant4-config --install-datasets
@@ -254,11 +291,29 @@ validate-ecal_leftEndcap:
     - source /usr/local/bin/thisdd4hep.sh
     - mkdir analysis_ecal_leftEndcap
     - cd analysis_ecal_leftEndcap
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 5000 --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_500events_5GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 10000 --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_500events_10GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 500 --gun.energy 20000 --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_500events_20GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 250 --gun.energy 50000 --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_250events_50GeV_edm4hep.root
-    - ddsim --enableGun --numberOfEvents 100 --gun.energy 100000 --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_100events_100GeV_edm4hep.root
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY --gun.particle gamma --gun.thetaMin -0.15 --gun.thetaMax -0.15 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.15_${NUMEVENTS}events_${ENERGY}MeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5000, 10000, 20000]
+        NUMEVENTS: [500]
+      - ENERGY: [50000]
+        NUMEVENTS: [250]
+      - ENERGY: [100000]
+        NUMEVENTS: [100]
+
+validate-ecal-leftEndcap:
+  stage: analysis
+  needs:
+    - simulate-ecal-leftEndcap
+  artifacts:
+    paths:
+      - analysis_ecal_leftEndcap
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source /usr/local/bin/thisdd4hep.sh
+    - cd analysis_ecal_leftEndcap
     - pip install -r ../ci/requirements.txt
     - find . -type f -name '*edm4hep.root' -exec sh -c 'python3 ../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
     - python3 ../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
