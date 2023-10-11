@@ -9,4 +9,3 @@ acts-install/bin/ActsAnalysisMaterialComposition \
       --config ci/composition_config.json \
       -s
 
-ci/make_material_plots.py ci/composition_config.json $output/layout.pdf
