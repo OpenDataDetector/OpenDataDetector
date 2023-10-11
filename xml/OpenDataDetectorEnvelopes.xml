@@ -45,13 +45,13 @@
         <constant name="sol_hlength" value="3.0*m"/>
         <!--Dimension of the ECal -->
         <constant name="ecal_b_rmin" value="1250.*mm"/>
-        <constant name="ecal_b_rmax" value="1500.*mm"/>
+        <constant name="ecal_b_rmax" value="1540.*mm"/>
         <constant name="ecal_b_hlength" value="3.05*m"/>
         <constant name="ecal_b_symmetry" value="16"/>
         <constant name="ecal_e_inner_radius" value="340.*mm"/>
-        <constant name="ecal_e_outer_radius" value="1500.*mm"/>
+        <constant name="ecal_e_outer_radius" value="1540.*mm"/>
         <constant name="ecal_e_min_z" value="3.2*m"/>
-        <constant name="ecal_e_max_z" value="3.45*m"/>
+        <constant name="ecal_e_max_z" value="3.5*m"/>
         <constant name="ecal_e_symmetry" value="16"/>
         <constant name="ecal_e_env_safety" value="0.1*mm"/>
 

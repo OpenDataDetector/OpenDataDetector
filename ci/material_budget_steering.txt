@@ -20,4 +20,4 @@ subdet pixel            2.5   239.9     20   240
 subdet sstrips          20.2  314.9     72   315
 subdet lstrips          72    314.9     114  315
 subdet solenoid         116   299.9     120  300
-subdet ecalbarrel      125   304.9     150  305
+subdet ecalbarrel       125   304.9     154  305
