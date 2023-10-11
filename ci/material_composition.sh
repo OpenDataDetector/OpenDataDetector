@@ -3,8 +3,10 @@
 input=$1
 output=$2
 
-exec acts-install/bin/ActsAnalysisMaterialComposition \
+acts-install/bin/ActsAnalysisMaterialComposition \
       -i $input \
       -o $output \
-      --config composition_config.json \
+      --config ci/composition_config.json \
       -s
+
+ci/make_material_plots.py ci/composition_config.json $output/layout.pdf

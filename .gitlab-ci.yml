@@ -103,9 +103,9 @@ run-material-composition:
     - source /usr/local/bin/thisdd4hep.sh
     - ci/run_material_recording.py -o g4 -n 100000
     - hadd g4/geant4_material_tracks.root g4/geant4_material_tracks_*.root
+    - pip install -r ci/requirements.txt
     - mkdir plots
     - ci/material_composition.sh g4/geant4_material_tracks.root plots/material_composition.root
-    - pip install -r ci/requirements.txt
     - source /usr/local/bin/thisroot.sh
     - ci/make_material_plots.py plots/material_composition.root plots
     - >
