@@ -38,8 +38,7 @@ names = {
     "pixel": "Pixel",
     "solenoid": "Solenoid",
     "ecalbarrel": "EMCal barrel",
-    "ecalrightendcap": "EMCal right endcap",
-    "ecalleftendcap": "EMCal left endcap"
+    "ecalendcap": "EMCal endcap",
 }
 
 for q in (
