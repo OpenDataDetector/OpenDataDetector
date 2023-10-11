@@ -5,7 +5,7 @@ output=$2
 
 acts-install/bin/ActsAnalysisMaterialComposition \
       -i $input \
-      -o $output \
+      -o $output/material_composition.root \
       --config ci/composition_config.json \
       -s
 
