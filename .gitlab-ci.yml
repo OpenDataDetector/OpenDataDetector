@@ -14,7 +14,7 @@ variables:
 build-acts:
   stage: build
   cache:
-    key: "acts_${ACTS_VERSION}_v2"
+    key: "acts_${ACTS_VERSION}_v3"
     policy: pull-push
     paths: 
       - acts-install
