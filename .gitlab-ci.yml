@@ -7,14 +7,14 @@ default:
   image: ghcr.io/acts-project/ubuntu2204:v35
 
 variables:
-  ACTS_VERSION: v30.1.1
-  ACTS_GIT_URL: https://github.com/acts-project/acts.git
+  ACTS_VERSION: fix-material-composition
+  ACTS_GIT_URL: https://github.com/paulgessinger/acts.git
 
 
 build-acts:
   stage: build
   cache:
-    key: "acts_${ACTS_VERSION}_v3"
+    key: "acts_${ACTS_VERSION}_v4"
     policy: pull-push
     paths: 
       - acts-install
