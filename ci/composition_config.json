@@ -1,0 +1,64 @@
+{
+  "beampipe": [
+    {
+      "rmin": 0,
+      "rmax": 24.4,
+      "zmin": -4000,
+      "zmax": 4000
+    }
+  ],
+  "pixel": [
+    {
+      "rmin": 25,
+      "rmax": 200,
+      "zmin": -2400,
+      "zmax": 2400
+    }
+  ],
+  "sstrips": [
+    {
+      "rmin": 202,
+      "rmax": 720,
+      "zmin": -3150,
+      "zmax": 3150
+    }
+  ],
+  "lstrips": [
+    {
+      "rmin": 720,
+      "rmax": 1140,
+      "zmin": -3150,
+      "zmax": 3150
+    }
+  ],
+  "solenoid": [
+    {
+      "rmin": 1160,
+      "rmax": 1200,
+      "zmin": -3000,
+      "zmax": 3000
+    }
+  ],
+  "ecalbarrel": [
+    {
+      "rmin": 1250,
+      "rmax": 1500,
+      "zmin": -3050,
+      "zmax": 3050
+    }
+  ],
+  "ecalendcap": [
+    {
+      "rmin": 315,
+      "rmax": 1500,
+      "zmin": 3200,
+      "zmax": 3450
+    },
+    {
+      "rmin": 315,
+      "rmax": 1500,
+      "zmin": -3450,
+      "zmax": -3200
+    }
+  ]
+}
