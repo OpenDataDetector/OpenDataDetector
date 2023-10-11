@@ -42,7 +42,7 @@
   "ecalbarrel": [
     {
       "rmin": 1250,
-      "rmax": 1500,
+      "rmax": 1540,
       "zmin": -3050,
       "zmax": 3050
     }
@@ -50,14 +50,14 @@
   "ecalendcap": [
     {
       "rmin": 315,
-      "rmax": 1500,
+      "rmax": 1540,
       "zmin": 3200,
-      "zmax": 3450
+      "zmax": 3500
     },
     {
       "rmin": 315,
-      "rmax": 1500,
-      "zmin": -3450,
+      "rmax": 1540,
+      "zmin": -3500,
       "zmax": -3200
     }
   ]
