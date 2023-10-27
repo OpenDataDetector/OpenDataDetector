@@ -54,6 +54,11 @@
         <constant name="ecal_e_max_z" value="3.5*m"/>
         <constant name="ecal_e_symmetry" value="16"/>
         <constant name="ecal_e_env_safety" value="0.1*mm"/>
+        <!--Dimension of the Muon Spectrometer Barrel -->
+        <constant name="ms_b_rmin" value="2000.*mm"/>
+        <constant name="ms_b_rmax" value="6300.*mm"/>
+        <constant name="ms_b_dz" value="3.05*m"/>
+        
 
         <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
     </define>

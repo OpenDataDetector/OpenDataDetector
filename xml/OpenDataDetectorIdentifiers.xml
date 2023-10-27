@@ -24,4 +24,8 @@
     <constant name="ODD_ECal_ID" value = "15"/>
     <constant name="ODD_ECalBarrel_ID" value="16"/>
     <constant name="ODD_ECalEndcap_ID" value="17"/>
+    <!-- MuonSpectrometer Identifiers -->
+    <constant name="ODD_MuonSpectroMeterBarrel_ID" value="18"/>
+    <constant name="ODD_MultiLayer_ID" value="19"/>
+
 </define>
