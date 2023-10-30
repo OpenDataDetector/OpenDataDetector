@@ -29,6 +29,19 @@
         <include ref="OpenDataVisualization.xml"/>
 
         <!-- Sub detectors / parts -->
+        <detectors>
+                <detector id="1000" name="OpenDataDetector" type="DD4hep_SubdetectorAssembly" vis="invisible">
+                        <shape name="OpenDataDetectorVolume" type="Tube" rmin="0" rmax="world_size" dz="world_size" material="Air"/>
+                        <composite name="BeamPipe"/>
+                        <composite name="Pixels"/>
+                        <composite name="PST"/>
+                        <composite name="ShortStrips"/>
+                        <composite name="LongStrips"/>
+                        <composite name="Solenoid"/>
+                        <composite name="ECal"/>
+                </detector>
+        </detectors>
+
         <include ref="OpenDataBeamPipe.xml"/>
         <include ref="OpenDataTracker.xml"/>
         <include ref="OpenDataSolenoid.xml"/>
@@ -36,4 +49,23 @@
 
         <!-- Plugins -->
         <include ref="OpenDataDetectorPlugins.xml"/>
+
+        <plugins>
+                <plugin name="DD4hep_ParametersPlugin">
+                        <argument value="OpenDataDetector"/>
+                        <argument value="acts_world: bool = true"/>
+                        <argument value="acts_world_type: int = 3"/>
+                        <argument value="acts_world_bvalues_n: int = 3"/>
+                        <argument value="acts_world_bvalues_0: double = 0"/>
+                        <argument value="acts_world_bvalues_1: double = tracker_region_rmax"/>
+                        <argument value="acts_world_bvalues_2: double = tracker_region_zmax"/>
+                        <argument value="acts_world_binning: str = r"/>
+                        <argument value="acts_world_geo_id: str = incremental"/>
+                        <argument value="acts_world_root_volume_finder: str = indexed"/>
+                </plugin>
+                <plugin name="DD4hep_ParametersPlugin">
+                        <argument value="LongStripLayer0" />
+                        <argument value="acts_layer: int = 0"/>
+                </plugin>
+        </plugins>
 </lccdd>

@@ -57,7 +57,6 @@ using namespace dd4hep;
 
   // New style detector description
   params.set<std::string>("passive_surface_n"+std::to_string(nMaterialSurface)+"_type", mSurface);
-  std::cout << "Setting passive surface type " << mSurface << std::endl;
 
 }
 

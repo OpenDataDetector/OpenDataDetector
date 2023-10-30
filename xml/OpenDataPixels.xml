@@ -202,16 +202,49 @@
 
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">
-      <argument value="PixelEndcapN"/>
-      <argument value="layer_pattern: str=PixelEndcapN\d|PixelEndplate"/>
+      <argument value="Pixels"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = tracker_region_zmax"/>
+      <argument value="acts_container_binning: str = z"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
-      <argument value="PixelEndcapP"/>
-      <argument value="layer_pattern=PixelEndcapP\d|PixelEndplate"/>
+      <argument value="PixelEndcapN"/>
+      <argument value="layer_pattern: str=PixelEndcapN\d|PixelEndplate"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = pix_e_dz"/>
+      <argument value="acts_container_z: double = pix_e_nz"/>
+      <argument value="acts_container_binning: str = z"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="PixelBarrel"/>
       <argument value="layer_pattern=PixelLayer\d"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = pix_b_dz"/>
+      <argument value="acts_container_binning: str = r"/>
+    </plugin> 
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="PixelEndcapP"/>
+      <argument value="layer_pattern=PixelEndcapP\d|PixelEndplate"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = pix_e_dz"/>
+      <argument value="acts_container_z: double = pix_e_pz"/>
+      <argument value="acts_container_binning: str = z"/>
     </plugin>
   </plugins>
-</lccdd>
+  </lccdd>

@@ -204,6 +204,14 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
         ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
             layerElement);
 
+    layerParams.set<bool>("acts_volume", true);
+    layerParams.set<int>("acts_volume_type", 3);
+    layerParams.set<int>("acts_volume_bvalues_n", 3);
+    layerParams.set<double>("acts_volume_bvalues_0", x_layer.rmin());
+    layerParams.set<double>("acts_volume_bvalues_1", x_layer.rmax());
+    layerParams.set<bool>("acts_volume_internals" , true);
+    layerParams.set<std::string>("acts_volume_internals_type" , "layer");
+
     layerParams.set<double>("envelope_r_min", 10.);
     layerParams.set<double>("envelope_r_max", 25.);
     layerParams.set<double>("envelope_z_min", 10.);
@@ -222,7 +230,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
       layerParams.set<bool>("passive_surface", true);
       layerParams.set<int>("passive_surface_count", nMaterialSurfaces);
     }
-    
+
     PlacedVolume placedLayer = barrelVolume.placeVolume(layerVolume);
     placedLayer.addPhysVolID("layer", layerNum);
 

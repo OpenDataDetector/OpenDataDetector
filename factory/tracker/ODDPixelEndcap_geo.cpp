@@ -176,6 +176,14 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
         ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
             layerElement);
 
+    layerParams.set<bool>("acts_volume", true);
+    layerParams.set<int>("acts_volume_type", 3);
+    layerParams.set<int>("acts_volume_bvalues_n", 3);
+    layerParams.set<double>("acts_volume_bvalues_2", x_layer.dz());
+    layerParams.set<double>("acts_volume_z", x_layer.z_offset());
+    layerParams.set<bool>("acts_volume_internals" , true);
+    layerParams.set<std::string>("acts_volume_internals_type" , "layer");
+
     layerParams.set<double>("envelope_r_min", 10.0);
     layerParams.set<double>("envelope_r_max", 10.0);
     layerParams.set<double>("envelope_z_min", 10.0);

@@ -1,9 +1,5 @@
 <lccdd>
 
-    <include ref="OpenDataPixels.xml"/>
-    <include ref="OpenDataShortStrips.xml"/>
-    <include ref="OpenDataLongStrips.xml"/>
-
     <detectors>
         <detector id="ODD_Pixel_ID" name="Pixels" type="DD4hep_SubdetectorAssembly" vis="invisible">
             <shape name="PixelVolume" type="Tube" rmin="pix_env_rmin" rmax="pix_env_rmax" dz="pix_env_dz" material="Air"/>
@@ -31,10 +27,22 @@
         </detector>
     </detectors>
 
+    <include ref="OpenDataPixels.xml"/>
+    <include ref="OpenDataShortStrips.xml"/>
+    <include ref="OpenDataLongStrips.xml"/>
+
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="PST"/>
       <argument value="passive_layer: bool = true"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_bvalues_n: int = 3"/>
+      <argument value="acts_volume_bvalues_0: double = pix_env_rmax"/>
+      <argument value="acts_volume_bvalues_1: double = ss_env_rmin"/>
+      <argument value="acts_volume_bvalues_2: double = tracker_region_zmax"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>      
     </plugin>	
   </plugins>
 
