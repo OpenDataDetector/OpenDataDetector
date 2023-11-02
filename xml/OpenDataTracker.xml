@@ -13,7 +13,7 @@
                 <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_pst_bPhi" bins1="mat_pst_bZ"/>
             </tubs>
         </detector>
-        <detector id="ODD_ShortStrip_ID" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+        <!-- detector id="ODD_ShortStrip_ID" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
             <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/>
             <composite name="ShortStripEndcapN"/>
             <composite name="ShortStripBarrel"/>
@@ -24,12 +24,12 @@
             <composite name="LongStripEndcapN"/>
             <composite name="LongStripBarrel"/>
             <composite name="LongStripEndcapP"/>
-        </detector>
+        </detector -->
     </detectors>
 
     <include ref="OpenDataPixels.xml"/>
-    <include ref="OpenDataShortStrips.xml"/>
-    <include ref="OpenDataLongStrips.xml"/>
+    <!--include ref="OpenDataShortStrips.xml"/>
+    <include ref="OpenDataLongStrips.xml"/ -->
 
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">

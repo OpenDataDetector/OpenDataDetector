@@ -34,18 +34,18 @@
                         <shape name="OpenDataDetectorVolume" type="Tube" rmin="0" rmax="world_size" dz="world_size" material="Air"/>
                         <composite name="BeamPipe"/>
                         <composite name="Pixels"/>
-                        <composite name="PST"/>
+                        <!-- composite name="PST"/>
                         <composite name="ShortStrips"/>
                         <composite name="LongStrips"/>
                         <composite name="Solenoid"/>
-                        <composite name="ECal"/>
+                        <composite name="ECal"/ -->
                 </detector>
         </detectors>
 
         <include ref="OpenDataBeamPipe.xml"/>
         <include ref="OpenDataTracker.xml"/>
-        <include ref="OpenDataSolenoid.xml"/>
-        <include ref="OpenDataCalorimeter.xml"/>
+        <!-- include ref="OpenDataSolenoid.xml"/>
+        <include ref="OpenDataCalorimeter.xml"/ -->
 
         <!-- Plugins -->
         <include ref="OpenDataDetectorPlugins.xml"/>
@@ -62,10 +62,6 @@
                         <argument value="acts_world_binning: str = r"/>
                         <argument value="acts_world_geo_id: str = incremental"/>
                         <argument value="acts_world_root_volume_finder: str = indexed"/>
-                </plugin>
-                <plugin name="DD4hep_ParametersPlugin">
-                        <argument value="LongStripLayer0" />
-                        <argument value="acts_layer: int = 0"/>
                 </plugin>
         </plugins>
 </lccdd>
