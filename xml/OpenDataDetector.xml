@@ -32,9 +32,9 @@
         <include ref="OpenDataBeamPipe.xml"/>
         <include ref="OpenDataTracker.xml"/>
         <include ref="OpenDataSolenoid.xml"/>  
-        <include ref="OpenDataMuonSpectrometer.xml"/>
         <include ref="OpenDataTracker.xml"/>  
         <include ref="OpenDataCalorimeter.xml"/>
+       <!-- <include ref="OpenDataMuonSpectrometer.xml"/> -->
 
         <!-- Plugins -->
         <plugins>

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> c184febd64964ebb2fe44555eab3584a1a16e8c2
 // Open Data Dector project
 //
 // (c) 2021 CERN for the benefit of the ODD project
@@ -58,13 +61,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
         //The radial distance on xy for the big and small barrel chambers
 		double rb = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy(),2));
 		double rsm = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy() + x_ch.dy(),2));
-        
-//         //In the inner layer the small chambers are under the big ones
-//         if(l==0) {
-//             rsm = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy() - x_ch.dy(),2));
-//             
-//         }
-        
+
         double phistep = 2*M_PI/x_layer.nphi();
         double phi0 = 0.5*M_PI;
     
