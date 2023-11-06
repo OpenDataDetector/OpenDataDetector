@@ -25,11 +25,4 @@
 		</detector>
 	</detectors>
 
-	 <plugins>
-    <plugin name="DD4hep_ParametersPlugin">
-      <argument value="MuonSpectrometerBarrel"/>
-      <argument value="passive_layer: bool = true"/>
-    </plugin>	
-  </plugins>
-
-</lccdd>
+	</lccdd>

@@ -28,7 +28,6 @@
     <constant name="ODD_HCal_ID" value = "18"/>
     <constant name="ODD_HCalBarrel_ID" value="19"/>
     <constant name="ODD_HCalEndcap_ID" value="20"/>
-</define>
     <!-- MuonSpectrometer Identifiers -->
     <constant name="ODD_MuonSpectroMeterBarrel_ID" value="21"/>
     <constant name="ODD_MultiLayer_ID" value="22"/>
