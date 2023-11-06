@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> c184febd64964ebb2fe44555eab3584a1a16e8c2
 // Open Data Dector project
 //
 // (c) 2021 CERN for the benefit of the ODD project
@@ -45,7 +42,6 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
     xml_comp_t x_ml = x_ch.child(_Unicode(multilayer));
     xml_comp_t x_tb = x_ml.child(_U(tubs));
     xml_comp_t x_tlayer = x_ml.child(_U(layer));
-    int repeat = x_tlayer.repeat(); 
     
     //Parameters for the volumes
     double rmin = x_layer.rmin();
