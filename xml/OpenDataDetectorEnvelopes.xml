@@ -66,9 +66,9 @@
         <constant name="hcal_e_symmetry" value="16"/>
         <constant name="hcal_e_env_safety" value="0.1*mm"/>
         <!--Dimension of the Muon Spectrometer Barrel -->
-        <constant name="ms_b_rmin" value="3440.*mm"/>
-        <constant name="ms_b_rmax" value="7500.*mm"/>
-        <constant name="ms_b_dz" value="3.05*m"/>
+        <constant name="ms_b_rmin" value="3536.*mm"/>
+        <constant name="ms_b_rmax" value="7130.*mm"/>
+        <constant name="ms_b_dz" value="4.*m"/>
         
 
         <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>

@@ -83,7 +83,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 			if(i%2==0){
 
             //chamber
-			Box chBox(0.5*(x_ch.dx()+l*10),0.5*x_ch.dy(),0.5*(x_ch.dz()+l*30));
+			Box chBox(0.5*(x_ch.dx()+l*40),0.5*x_ch.dy(),0.5*(x_ch.dz()+l*30));
 			Volume chVolume("MDT_Chamber_Big", chBox, oddd.air());
 			chVolume.setVisAttributes(oddd,x_ch.visStr());	
 
@@ -104,21 +104,21 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
                 
                 for(int t=0; t<ntubes; t++){
                     
-                    mlVolume.placeVolume(driftTubeVolume,Transform3D(RotationY(0.*M_PI),Position(-mlBox.x()+(2*t+1)*x_tb.rmax(), -mlBox.y()+(2*nl+1)*x_tb.rmax(),0 )));   
+                    mlVolume.placeVolume(driftTubeVolume,Transform3D(Position(-mlBox.x()+(2*t+1)*x_tb.rmax(), -mlBox.y()+(2*nl+1)*x_tb.rmax(),0 )));   
                   
                 }
             }
             
-            chVolume.placeVolume(mlVolume, Transform3D(RotationZ(0*phistep)*RotationY(0.*M_PI),Position(0, - chBox.y() + mlBox.y(),0))); 
-            chVolume.placeVolume(mlVolume, Transform3D(RotationZ(0*phistep)*RotationY(0.*M_PI),Position(0, + chBox.y() - mlBox.y(),0)));
+            chVolume.placeVolume(mlVolume, Transform3D(Position(0, - chBox.y() + mlBox.y(),0))); 
+            chVolume.placeVolume(mlVolume, Transform3D(Position(0, + chBox.y() - mlBox.y(),0)));
 
-			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep)*RotationY(0.*M_PI),Position(x,y,za)));
-			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep)*RotationY(0.*M_PI),Position(x,y,zb)));
+			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep),Position(x,y,za)));
+			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep),Position(x,y,zb)));
 		
 
 			}else{
 
-			Box chBox(0.4*(x_ch.dx()+l*10),0.25*x_ch.dy(),0.4*(x_ch.dz()+l*30));
+			Box chBox(0.4*(x_ch.dx()+l*40),0.25*x_ch.dy(),0.4*(x_ch.dz()+l*30));
 			Volume chVolume("MDT_Chamber_Small", chBox, oddd.air());
 			chVolume.setVisAttributes(oddd,x_ch.visStr());
 
@@ -138,17 +138,17 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
                 
                 for(int t=0; t<ntubes; t++){
                     
-                    mlVolume.placeVolume(driftTubeVolume,Transform3D(RotationY(0.*M_PI),Position(-mlBox.x()+(2*t+1)*0.5*x_tb.rmax(), -mlBox.y()+(2*nl+1)*0.5*x_tb.rmax(),0)));   
+                    mlVolume.placeVolume(driftTubeVolume,Transform3D(Position(-mlBox.x()+(2*t+1)*0.5*x_tb.rmax(), -mlBox.y()+(2*nl+1)*0.5*x_tb.rmax(),0)));   
                   
                 }
             }
              
-            chVolume.placeVolume(mlVolume, Transform3D(RotationZ(0*phistep)*RotationY(0.*M_PI),Position(0, - chBox.y() + mlBox.y(),0))); 
-            chVolume.placeVolume(mlVolume, Transform3D(RotationZ(0*phistep)*RotationY(0.*M_PI),Position(0, + chBox.y() - mlBox.y(),0)));
+            chVolume.placeVolume(mlVolume, Transform3D(Position(0, - chBox.y() + mlBox.y(),0))); 
+            chVolume.placeVolume(mlVolume, Transform3D(Position(0, + chBox.y() - mlBox.y(),0)));
 
 
-			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep)*RotationY(0.*M_PI),Position(x,y,za)));
-			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep)*RotationY(0.*M_PI),Position(x,y,zb)));
+			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep),Position(x,y,za)));
+			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep),Position(x,y,zb)));
 
 			}
 
@@ -161,6 +161,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
         
         rmin = rmax + 50.;
         rmax = sqrt(pow(0.5*x_ch.dx()+0.4*x_ch.dx(),2)+pow(rmin+x_ch.dy()+0.5*x_ch.dy(),2)); 
+        std::cout<<rmax<<std::endl;
              
 		
 		
