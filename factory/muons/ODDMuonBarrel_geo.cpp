@@ -35,55 +35,51 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 
 	//The shape and volume 
 	Tube barrelMuonShape(x_det_dim.rmin(), x_det_dim.rmax(), x_det_dim.dz());
-	Volume barrelMuonVolume(detName, barrelMuonShape,oddd.air());
+	Volume barrelMuonVolume(detName, barrelMuonShape,oddd.air());	
 	
-	xml_comp_t x_layer = x_det.child(_Unicode(layer));
-    xml_comp_t x_ch = x_layer.child(_Unicode(chamber));
+    xml_comp_t x_ch = x_det.child(_Unicode(chamber));
     xml_comp_t x_ml = x_ch.child(_Unicode(multilayer));
     xml_comp_t x_tb = x_ml.child(_U(tubs));
-    xml_comp_t x_tlayer = x_ml.child(_U(layer));
-    
-    //Parameters for the volumes
-    double rmin = x_layer.rmin();
-    double rmax = sqrt(pow(0.5*x_ch.dx()+0.4*x_ch.dx(),2)+pow(rmin+x_ch.dy()+0.5*x_ch.dy(),2));
-    
+    xml_comp_t x_tlayer = x_ml.child(_U(layer)); 
+
+      //Parameters for the volumes
+    double rmin = x_det_dim.rmin();
+    double rmax = sqrt(pow(0.5*x_ch.dx()+0.4*x_ch.dx(),2)+pow(rmin+x_ch.dy()+0.5*x_ch.dy(),2));    
 	
-	for(int l=0; l< 3; l++){        
-        
-		Tube layerMuonShape(rmin, rmax, x_layer.dz());
-		Volume layerVolume(x_layer.nameStr() + std::to_string(l), layerMuonShape, oddd.air());
-		layerVolume.setVisAttributes(oddd, x_layer.visStr());  
-        
+	for(xml_coll_t lay(x_det,_U(layer)); lay; ++lay){ 
+
+		xml_comp_t x_layer = lay; 	     
+        		
         //The radial distance on xy for the big and small barrel chambers
 		double rb = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy(),2));
 		double rsm = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy() + x_ch.dy(),2));
 
         double phistep = 2*M_PI/x_layer.nphi();
-        double phi0 = 0.5*M_PI;
-    
+        double phi0 = 0.5*M_PI;  
+
+        Tube layerMuonShape(rmin, rmax, x_layer.dz());
+		Volume layerVolume(x_layer.nameStr() + std::to_string(x_layer.id()), layerMuonShape, oddd.air());
+		layerVolume.setVisAttributes(oddd, x_layer.visStr());    
         
         //place the chambers for each layer
         for(int i=0; i<x_layer.nphi(); i++){
             double phi = phi0 + i*phistep;
 			
 			//z position for side A and side B
-			double za = -0.25*x_ch.dx();
+			double za = -x_ch.dz();
 			double zb = -za;
 			double x,y;
 
-			double zstep = x_ch.dx() + 30.;
+			double zstep = x_ch.dz()+x_layer.dim_z()+20. ;
 			
 
-			for(int j=0; j<0.5*x_layer.nz(); j++){
-
-			za = za + zstep;
-			zb = zb - zstep;
+			for(int j=0; j<x_layer.nz(); j++){
 
 			//Big barrel chambers
 			if(i%2==0){
 
             //chamber
-			Box chBox(0.5*(x_ch.dx()+l*40),0.5*x_ch.dy(),0.5*(x_ch.dz()+l*30));
+			Box chBox(0.5*(x_ch.dx()+x_layer.dim_z()),0.5*x_ch.dy(),0.5*(x_ch.dz()+x_layer.dim_z()));
 			Volume chVolume("MDT_Chamber_Big", chBox, oddd.air());
 			chVolume.setVisAttributes(oddd,x_ch.visStr());	
 
@@ -115,10 +111,10 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep),Position(x,y,za)));
 			layerVolume.placeVolume(chVolume, Transform3D(RotationZ(i*phistep),Position(x,y,zb)));
 		
-
+			//Small barrel chambers
 			}else{
 
-			Box chBox(0.4*(x_ch.dx()+l*40),0.25*x_ch.dy(),0.4*(x_ch.dz()+l*30));
+			Box chBox(0.4*(x_ch.dx()+x_layer.dim_z()),0.25*x_ch.dy(),0.4*(x_ch.dz()+x_layer.dim_z()));
 			Volume chVolume("MDT_Chamber_Small", chBox, oddd.air());
 			chVolume.setVisAttributes(oddd,x_ch.visStr());
 
@@ -152,16 +148,24 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 
 			}
 
-            
+
+			za = za - zstep;
+			zb = zb + zstep;            
             
         }
-    }       
+
+       
+    } 
+
+    	
+              
         
         barrelMuonVolume.placeVolume(layerVolume, Position(0.,0.,0.));		
         
         rmin = rmax + 50.;
         rmax = sqrt(pow(0.5*x_ch.dx()+0.4*x_ch.dx(),2)+pow(rmin+x_ch.dy()+0.5*x_ch.dy(),2)); 
         std::cout<<rmax<<std::endl;
+        
              
 		
 		
