@@ -155,18 +155,13 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
         }
 
        
-    } 
-
-    	
+    } 	
               
         
         barrelMuonVolume.placeVolume(layerVolume, Position(0.,0.,0.));		
         
         rmin = rmax + 50.;
-        rmax = sqrt(pow(0.5*x_ch.dx()+0.4*x_ch.dx(),2)+pow(rmin+x_ch.dy()+0.5*x_ch.dy(),2)); 
-        std::cout<<rmax<<std::endl;
-        
-             
+        rmax = sqrt(pow(0.5*x_ch.dx()+0.4*x_ch.dx(),2)+pow(rmin+x_ch.dy()+0.5*x_ch.dy(),2));                
 		
 		
 		

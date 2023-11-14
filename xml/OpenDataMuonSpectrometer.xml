@@ -12,9 +12,9 @@
 			 <type_flags type="DetType_MUON +  DetType_BARREL"/>
 			 <dimensions name="MuonSpectrometerBarrelShape" rmin="ms_b_rmin" rmax="ms_b_rmax" dz="ms_b_dz" z="0.*m"/>
 
-			 <layer id="0" name="Layer_Cylinder_Inner" rmin="ms_b_rmin" dz="ms_b_dz_inner" z="0.*mm" nphi="16" nz="3" vis="MuonLayerVis" dim_z="0"/>
-			 <layer id="1" name="Layer_Cylinder_Middle" rmin="ms_b_rmin" dz="ms_b_dz_middle" z="0." nphi="16" nz="4" vis="MuonLayerVis" dim_z="30"/>
-			 <layer id="2" name="Layer_Cylinder_Outer" rmin="ms_b_rmin" dz="ms_b_dz_outer" z="0." nphi="16" nz="5" vis="MuonLayerVis" dim_z="60"/>
+			 <layer id="0" name="Layer_Cylinder_Inner" rmin="ms_b_rmin" dz="ms_b_dz_inner" z="0.*mm" nphi="16" nz="6" vis="MuonLayerVis" dim_z="0"/>
+			 <layer id="1" name="Layer_Cylinder_Middle" rmin="ms_b_rmin" dz="ms_b_dz_middle" z="0." nphi="16" nz="7" vis="MuonLayerVis" dim_z="20"/>
+			 <layer id="2" name="Layer_Cylinder_Outer" rmin="ms_b_rmin" dz="ms_b_dz_outer" z="0." nphi="16" nz="7" vis="MuonLayerVis" dim_z="20"/>
 
 			 	<chamber name="MDT_Chamber" dx="1550.*mm" dy="225.*mm" dz="650.*mm" x="0." z="2.*m" vis="bluetrans">
 			 		<multilayer name="MultiLayerBarrel_Inner" vis="yellow">

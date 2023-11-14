@@ -68,11 +68,10 @@
         <!--Dimension of the Muon Spectrometer Barrel -->
         <constant name="ms_b_rmin" value="3536.*mm"/>
         <constant name="ms_b_rmax" value="7130.*mm"/>
-        <constant name="ms_b_dz" value="7.7*m"/>
-        <constant name="ms_b_dz_inner" value="4.1*m"/>
-        <constant name="ms_b_dz_middle" value="5.8*m"/>
-        <constant name="ms_b_dz_outer" value="7.5*m"/>
-        
+        <constant name="ms_b_dz" value="8.1*m"/>
+        <constant name="ms_b_dz_inner" value="5.5*m"/>
+        <constant name="ms_b_dz_middle" value="8.1*m"/>
+        <constant name="ms_b_dz_outer" value="8.1*m"/>     
 
         <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
     </define>
