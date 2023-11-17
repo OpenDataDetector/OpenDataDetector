@@ -29,11 +29,14 @@
     <constant name="ODD_HCalBarrel_ID" value="19"/>
     <constant name="ODD_HCalEndcap_ID" value="20"/>
     <!-- MuonSpectrometer Identifiers -->
-    <constant name="ODD_MuonSpectroMeterBarrel_ID" value="21"/>
-    <constant name="ODD_MultiLayer_ID" value="22"/>
-    <!-- MuonSpectrometer Identifiers -->
-    <constant name="ODD_MuonSpectroMeterBarrel_ID" value="18"/>
-    <constant name="ODD_MultiLayer_ID" value="19"/>
+    <constant name="ODD_MuonSpectroMeterBarrelInner_ID" value="21"/>
+    <constant name="ODD_MuonSpectroMeterBarrelMiddle_ID" value="22"/>
+    <constant name="ODD_MuonSpectroMeterBarrelOuter_ID" value="23"/>
+    <constant name="ODD_MultiLayer_ID" value="24"/>
+    <constant name="ODD_MuonSpectroMeterEndCapInnerP_ID" value="25"/>
+    <constant name="ODD_MuonSpectroMeterEndCapInnerN_ID" value="26"/>
+    <constant name="ODD_MuonSpectroMeterEndCapMiddleP_ID" value="27"/>
+    <constant name="ODD_MuonSpectroMeterEndCapMiddleN_ID" value="28"/>
 
 </define>
 

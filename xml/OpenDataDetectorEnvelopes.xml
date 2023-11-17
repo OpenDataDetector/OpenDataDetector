@@ -66,12 +66,24 @@
         <constant name="hcal_e_symmetry" value="16"/>
         <constant name="hcal_e_env_safety" value="0.1*mm"/>
         <!--Dimension of the Muon Spectrometer Barrel -->
-        <constant name="ms_b_rmin" value="3536.*mm"/>
-        <constant name="ms_b_rmax" value="7130.*mm"/>
+        <constant name="ms_b_rmin_inner" value="3536.*mm"/>
+        <constant name="ms_b_rmin_middle" value="4240.*mm"/>
+        <constant name="ms_b_rmin_outer" value="4900.*mm"/>
+        <constant name="ms_b_rmax_inner" value="4118.*mm"/>
+        <constant name="ms_b_rmax_middle" value="4849.*mm"/>
+        <constant name="ms_b_rmax_outer" value="5470.*mm"/>
         <constant name="ms_b_dz" value="8.1*m"/>
         <constant name="ms_b_dz_inner" value="5.5*m"/>
         <constant name="ms_b_dz_middle" value="8.1*m"/>
-        <constant name="ms_b_dz_outer" value="8.1*m"/>     
+        <constant name="ms_b_dz_outer" value="8.1*m"/>
+        <!--Dimension of the Muon Spectrometer EndCap -->
+        <constant name="ms_e_rmin_inner" value="300.*mm"/>
+        <constant name="ms_e_rmax_inner" value="4000.*mm"/>
+        <constant name="ms_e_dz_inner" value="400.*mm"/>
+        <constant name="ms_e_rmin_middle" value="300.*mm"/>
+        <constant name="ms_e_rmax_middle" value="5170.*mm"/>
+        <constant name="ms_e_dz_middle" value="400.*mm"/>
+          
 
         <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
     </define>

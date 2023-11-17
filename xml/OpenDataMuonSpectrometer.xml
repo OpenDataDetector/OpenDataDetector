@@ -2,29 +2,87 @@
 
 	<display>
 		<vis name="MuonBarrelVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
-		<vis name="MuonLayerVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
+		<vis name="MuonChamberVisVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
         <vis name="MuonTubeVis" alpha="0.5" r="1." g="0.0" b="0.0" showDaughters="true" visible="true"/>
+        <vis name="MuonEndCapVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
 	</display>
 
 	<detectors>
-		<!-- Barrel -->
-		<detector id="ODD_MuonSpectroMeterBarrel_ID" name="MuonSpectrometerBarrel" type="ODDMuonBarrel" vis="MuonBarrelVis">
+		<!-- BarrelInner-->
+		<detector id="ODD_MuonSpectroMeterBarrelInner_ID" name="MuonSpectrometerBarrelInner" type="ODDMuonBarrel" vis="MuonBarrelVis">
 			 <type_flags type="DetType_MUON +  DetType_BARREL"/>
-			 <dimensions name="MuonSpectrometerBarrelShape" rmin="ms_b_rmin" rmax="ms_b_rmax" dz="ms_b_dz" z="0.*m"/>
-
-			 <layer id="0" name="Layer_Cylinder_Inner" rmin="ms_b_rmin" dz="ms_b_dz_inner" z="0.*mm" nphi="16" nz="6" vis="MuonLayerVis" dim_z="0"/>
-			 <layer id="1" name="Layer_Cylinder_Middle" rmin="ms_b_rmin" dz="ms_b_dz_middle" z="0." nphi="16" nz="7" vis="MuonLayerVis" dim_z="20"/>
-			 <layer id="2" name="Layer_Cylinder_Outer" rmin="ms_b_rmin" dz="ms_b_dz_outer" z="0." nphi="16" nz="7" vis="MuonLayerVis" dim_z="20"/>
-
-			 	<chamber name="MDT_Chamber" dx="1550.*mm" dy="225.*mm" dz="650.*mm" x="0." z="2.*m" vis="bluetrans">
+			 <dimensions name="MuonSpectrometerBarrelShapeInner" rmin="ms_b_rmin_inner" rmax="ms_b_rmax_inner" dz="ms_b_dz_inner" z="0.*m" nphi="16" nz="7" z_offset="10."/>
+			 	<chamber name="MDT_Chamber" dx="1550.*mm" dy="225.*mm" dz="650.*mm" x="0." z="2.*m" vis="MuonChamberVisVis">
 			 		<multilayer name="MultiLayerBarrel_Inner" vis="yellow">
 			 			<layer repeat="3"/>
-                    <tubs name="MDT_Tube" repeat="30" rmin="10*mm" rmax="15*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" material="Aluminium"/>
-                    </multilayer>
-               
+                    <tubs name="MDT_Tube" rmin="10*mm" rmax="15*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" material="Aluminium"/>
+                    </multilayer>               
 			 	</chamber>
-			 </layer>
 		</detector>
+		<!-- BarrelMiddle-->
+		<detector id="ODD_MuonSpectroMeterBarrelMiddle_ID" name="MuonSpectrometerBarrelMiddle" type="ODDMuonBarrel" vis="MuonBarrelVis">
+			 <type_flags type="DetType_MUON +  DetType_BARREL"/>
+			 <dimensions name="MuonSpectrometerBarrelShapeMiddle" rmin="ms_b_rmin_middle" rmax="ms_b_rmax_middle" dz="ms_b_dz_middle" z="0.*m" nphi="16" nz="8" z_offset="10."/>
+			 	<chamber name="MDT_Chamber" dx="1750.*mm" dy="225.*mm" dz="850.*mm" x="0." z="2.*m" vis="MuonChamberVisVis">
+			 		<multilayer name="MultiLayerBarrel_Middle" vis="yellow">
+			 			<layer repeat="3"/>
+                    <tubs name="MDT_Tube" rmin="10*mm" rmax="15*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" material="Aluminium"/>
+                    </multilayer>               
+			 	</chamber>
+		</detector> 
+		<!-- BarrelOuter-->
+		<detector id="ODD_MuonSpectroMeterBarrelOuter_ID" name="MuonSpectrometerBarrelOuter" type="ODDMuonBarrel" vis="MuonBarrelVis">
+			 <type_flags type="DetType_MUON +  DetType_BARREL"/>
+			 <dimensions name="MuonSpectrometerBarrelShapeOuter" rmin="ms_b_rmin_outer" rmax="ms_b_rmax_outer" dz="ms_b_dz_outer" z="0.*m" nphi="16" nz="8" z_offset="10."/>
+			 	<chamber name="MDT_Chamber" dx="1750.*mm" dy="225.*mm" dz="850.*mm" x="0." z="2.*m" vis="MuonChamberVisVis">
+			 		<multilayer name="MultiLayerBarrel_Middle" vis="yellow">
+			 			<layer repeat="3"/>
+                    <tubs name="MDT_Tube" rmin="10*mm" rmax="15*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" material="Aluminium"/>
+                    </multilayer>               
+			 	</chamber>
+		</detector> 
+
+		<!-- EndCapInner -->
+
+		<detector id="ODD_MuonSpectroMeterEndCapInnerP_ID" name="MuonSpectrometerEndCapInnerP" type="ODDMuonEndCap" vis="MuonEndCapVis">
+			 <type_flags type="DetType_MUON +  DetType_ENDCAP"/>
+			<dimensions name="MuonSpectrometerEndCapShapeInner" rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner" dz="ms_e_dz_inner" z="6000.*mm"/>
+			<layer id="0" name="Layer_EndCap_Inner" nphi="16" nsides="2" dim_z="20.*mm">
+				<trd name="endcap_trapezoid_big" x1="80.*mm" x2="800.*mm" thickness="100.*mm" z1="1800.*mm" z2="1400.*mm" zmax="0.*mm" zmin="-200.*mm" vis="MuonEndCapVis"/>
+				
+			</layer>
+		</detector>
+
+		<detector id="ODD_MuonSpectroMeterEndCapInnerN_ID" name="MuonSpectrometerEndCapInnerN" type="ODDMuonEndCap" vis="MuonEndCapVis">
+			 <type_flags type="DetType_MUON +  DetType_ENDCAP"/>
+			<dimensions name="MuonSpectrometerEndCapShapeInner" rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner"  dz="ms_e_dz_inner" z="-6000.*mm"/>
+			<layer id="0" name="Layer_EndCap_Inner" nphi="16" nsides="2" dim_z="20.*mm">
+				<trd name="endcap_trapezoid_small" x1="80.*mm" x2="800.*mm" thickness="100.*mm" z1="1800.*mm" z2="1400.*mm" zmax="0.*mm" zmin="250.*mm" vis="MuonEndCapVis"/>
+			</layer>
+		</detector>
+
+		<!-- EndCapMiddle -->
+
+
+		<detector id="ODD_MuonSpectroMeterEndCapMiddleP_ID" name="MuonSpectrometerEndCapMiddleP" type="ODDMuonEndCap" vis="MuonEndCapVis">
+			 <type_flags type="DetType_MUON +  DetType_ENDCAP"/>
+			<dimensions name="MuonSpectrometerEndCapShapeInner" rmin="ms_e_rmin_middle" rmax="ms_e_rmax_middle" dz="ms_e_dz_middle" z="8600.*mm"/>
+			<layer id="0" name="Layer_EndCap_Inner" nphi="16" nsides="2" dim_z="20.*mm">
+				<trd name="endcap_trapezoid_big" x1="80.*mm" x2="800.*mm" thickness="100.*mm" z1="2400.*mm" z2="1800.*mm" zmax="0.*mm" zmin="-200.*mm" vis="MuonEndCapVis"/>
+				
+			</layer>
+		</detector>
+
+		<detector id="ODD_MuonSpectroMeterEndCapMiddleN_ID" name="MuonSpectrometerEndCapMiddleN" type="ODDMuonEndCap" vis="MuonEndCapVis">
+			 <type_flags type="DetType_MUON +  DetType_ENDCAP"/>
+			<dimensions name="MuonSpectrometerEndCapShapeMiddle" rmin="ms_e_rmin_middle" rmax="ms_e_rmax_middle" dz="ms_e_dz_middle" z="-8600.*mm"/>
+			<layer id="0" name="Layer_EndCap_Middle" nphi="16" nsides="2" dim_z="20.*mm">
+				<trd name="endcap_trapezoid_small" x1="80.*mm" x2="800.*mm" thickness="100.*mm" z1="2400.*mm" z2="1800.*mm" zmax="0.*mm" zmin="250.*mm" vis="MuonEndCapVis"/>
+			</layer>
+		</detector>
+
+		
+		
 	</detectors>
 
 </lccdd>
