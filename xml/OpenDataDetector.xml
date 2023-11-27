@@ -34,18 +34,18 @@
                         <shape name="OpenDataDetectorVolume" type="Tube" rmin="0" rmax="world_size" dz="world_size" material="Air"/>
                         <composite name="BeamPipe"/>
                         <composite name="Pixels"/>
-                        <!-- composite name="PST"/>
+                        <composite name="PST"/>
                         <composite name="ShortStrips"/>
                         <composite name="LongStrips"/>
                         <composite name="Solenoid"/>
-                        <composite name="ECal"/ -->
+                        <!-- composite name="ECal"/ -->
                 </detector>
         </detectors>
 
         <include ref="OpenDataBeamPipe.xml"/>
         <include ref="OpenDataTracker.xml"/>
-        <!-- include ref="OpenDataSolenoid.xml"/>
-        <include ref="OpenDataCalorimeter.xml"/ -->
+        <include ref="OpenDataSolenoid.xml"/>
+        <!-- include ref="OpenDataCalorimeter.xml"/ -->
 
         <!-- Plugins -->
         <include ref="OpenDataDetectorPlugins.xml"/>

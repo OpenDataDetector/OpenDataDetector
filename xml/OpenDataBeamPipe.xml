@@ -13,6 +13,7 @@
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="BeamPipe"/>
       <argument value="passive_layer: bool = true"/>
+      <argument value="acts_passive_surface: bool = true"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
       <argument value="acts_volume_bvalues_n: int = 3"/>

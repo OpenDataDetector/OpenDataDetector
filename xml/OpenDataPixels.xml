@@ -1,5 +1,12 @@
 <lccdd>
 
+  <define>
+    <constant name="pix_b0_sf_b_phi" value="16"/>
+    <constant name="pix_b1_sf_b_phi" value="32"/>
+    <constant name="pix_b2_sf_b_phi" value="52"/>
+    <constant name="pix_b3_sf_b_phi" value="78"/>
+  </define>
+
   <readouts>
     <readout name="PixelBarrelReadout">
       <segmentation type="CartesianGridXY" grid_size_x="0.05*mm" grid_size_y="0.05*mm"/>
@@ -101,19 +108,19 @@
         <tube name="CoolingPipe" rmin="1.0*mm" rmax="1.1*mm" dz="20.*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.5*mm" material="Ti" vis="orange" />
         <eltube name="CableBundle" rmin="0.0*mm" rmax="0.25*mm" dz="20.*mm" x_offset="-10.*mm" y_offset="0.*mm" z_offset="-0.2*mm" material="Cu" vis="orange" />
       </stave>
-      <layer id="0" name="PixelLayer0" rmin="28.*mm" r="34.*mm" rmax="39.*mm" outer_z="20.*mm" nphi="16" phi_tilt="0.12" phi0="0." vis="invisible">
+      <layer id="0" name="PixelLayer0" rmin="28.*mm" r="34.*mm" rmax="39.*mm" outer_z="20.*mm" nphi="pix_b0_sf_b_phi" phi_tilt="0.12" phi0="0." vis="invisible">
         <layer_material surface="outer" binning="binPhi,binZ" bins0="mat_pix_barrel_bPhi" bins1="mat_pix_barrel_bZ"/>
         <support name="SupportCylinder" rmin="37.*mm" rmax="39.*mm" dz="500.*mm" material="CarbonFiber" z_offset="0.*mm" nsides="1" vis="CarbonFiber"/>
       </layer>
-      <layer id="1" name="PixelLayer1" rmin="65.*mm" r="70.*mm" rmax="77.*mm" outer_z="20.*mm" nphi="32" phi_tilt="0.12" phi0="0." vis="invisible">
+      <layer id="1" name="PixelLayer1" rmin="65.*mm" r="70.*mm" rmax="77.*mm" outer_z="20.*mm" nphi="pix_b1_sf_b_phi" phi_tilt="0.12" phi0="0." vis="invisible">
         <layer_material surface="outer" binning="binPhi,binZ" bins0="mat_pix_barrel_bPhi" bins1="mat_pix_barrel_bZ"/>
         <support name="SupportCylinder" rmin="75.*mm" rmax="77.*mm" dz="500.*mm" material="CarbonFiber" z_offset="0.*mm" nsides="1" vis="CarbonFiber" />
       </layer>
-      <layer id="2" name="PixelLayer2" rmin="100.*mm" r="116.*mm" rmax="126.*mm" outer_z="20.*mm" nphi="52" phi_tilt="0.12" phi0="0." vis="invisible">
+      <layer id="2" name="PixelLayer2" rmin="100.*mm" r="116.*mm" rmax="126.*mm" outer_z="20.*mm" nphi="pix_b2_sf_b_phi" phi_tilt="0.12" phi0="0." vis="invisible">
         <layer_material surface="outer" binning="binPhi,binZ" bins0="mat_pix_barrel_bPhi" bins1="mat_pix_barrel_bZ"/>
         <support name="SupportCylinder" rmin="120.*mm" rmax="122.*mm" dz="500.*mm" material="CarbonFiber" z_offset="0.*mm" nsides="1" vis="CarbonFiber" />
       </layer>
-      <layer id="3" name="PixelLayer3" rmin="160.*mm" r="172.*mm" rmax="182.*mm" outer_z="20.*mm" nphi="78" phi_tilt="0.12" phi0="0." vis="invisible">
+      <layer id="3" name="PixelLayer3" rmin="160.*mm" r="172.*mm" rmax="182.*mm" outer_z="20.*mm" nphi="pix_b3_sf_b_phi" phi_tilt="0.12" phi0="0." vis="invisible">
         <layer_material surface="outer" binning="binPhi,binZ" bins0="mat_pix_barrel_bPhi" bins1="mat_pix_barrel_bZ"/>
         <support name="SupportCylinder" rmin="176.*mm" rmax="178.*mm" dz="500.*mm" material="CarbonFiber" z_offset="0.*mm" nsides="1" vis="CarbonFiber"/>
       </layer>
@@ -202,29 +209,18 @@
 
   <define>
     <!-- Pixel endcap surface binning: setting -->
+    <constant name="pix_e_v_dz" value="20.*mm"/>
     <constant name="pix_e_sf_b" value="2"/>
     <constant name="pix_e_sf_b_r" value="2"/>
     <constant name="pix_e_sf_e_r" value="1"/>
-    <constant name="pix_e_sf_min_r" value="28.*mm"/>
-    <constant name="pix_e_sf_max_r" value="168.*mm"/>
     <constant name="pix_e_sf_b_phi" value="32"/>
     <constant name="pix_e_sf_e_phi" value="1"/>
-    <constant name="pix_e_sf_min_phi" value="-3.1415927"/>
-    <constant name="pix_e_sf_max_phi" value="3.1415927"/>
     <!-- Pixel barrel surface binning: setting -->
     <constant name="pix_b_sf_b" value="2"/>
     <constant name="pix_b_sf_b_z" value="14"/>
     <constant name="pix_b_sf_e_z" value="1"/>
-    <constant name="pix_b_sf_min_z" value="-500.*mm"/>
-    <constant name="pix_b_sf_max_z" value="500.*mm"/>
-    <constant name="pix_b_sf_b0_phi" value="16"/>
-    <constant name="pix_b_sf_b1_phi" value="32"/>
-    <constant name="pix_b_sf_b2_phi" value="52"/>
-    <constant name="pix_b_sf_b3_phi" value="78"/>
+    <constant name="pix_b_clear" value="1.*mm"/>
     <constant name="pix_b_sf_e_phi" value="1"/>
-    <constant name="pix_b_sf_min_phi" value="-3.1415927"/>
-    <constant name="pix_b_sf_max_phi" value="3.1415927"/>
-
   </define>
 
   <plugins>
@@ -254,147 +250,98 @@
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN0"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -620.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN1"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -720.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN2"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -840.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN3"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -980.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN4"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -1120.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN5"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -1320.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN6"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = -1520.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
@@ -412,84 +359,56 @@
       <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer0"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_0: double = 28.*mm"/>
-      <argument value="acts_volume_bvalues_1: double = 39.*mm"/>
-      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals: bool = true"/>      
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
-      <argument value="acts_surface_binning_z_type: str = equidistant"/>
       <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
-      <argument value="acts_surface_binning_z_min: double = pix_b_sf_min_z"/>
-      <argument value="acts_surface_binning_z_max: double = pix_b_sf_max_z"/>
       <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
-      <argument value="acts_surface_binning_phi_n: int = pix_b_sf_b0_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_b_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_b_sf_max_phi"/>
+      <argument value="acts_surface_binning_phi_n: int = pix_b0_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer1"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_0: double = 65.*mm"/>
-      <argument value="acts_volume_bvalues_1: double = 77.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
-      <argument value="acts_surface_binning_z_type: str = equidistant"/>
       <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
-      <argument value="acts_surface_binning_z_min: double = pix_b_sf_min_z"/>
-      <argument value="acts_surface_binning_z_max: double = pix_b_sf_max_z"/>
       <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
-      <argument value="acts_surface_binning_phi_n: int = pix_b_sf_b1_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_b_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_b_sf_max_phi"/>
+      <argument value="acts_surface_binning_phi_n: int = pix_b1_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer2"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_0: double = 102.*mm"/>
-      <argument value="acts_volume_bvalues_1: double = 126.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
-      <argument value="acts_surface_binning_z_type: str = equidistant"/>
       <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
-      <argument value="acts_surface_binning_z_min: double = pix_b_sf_min_z"/>
-      <argument value="acts_surface_binning_z_max: double = pix_b_sf_max_z"/>
       <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
-      <argument value="acts_surface_binning_phi_n: int = pix_b_sf_b2_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_b_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_b_sf_max_phi"/>
+      <argument value="acts_surface_binning_phi_n: int = pix_b2_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer3"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_0: double = 160.*mm"/>
-      <argument value="acts_volume_bvalues_1: double = 182.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
-      <argument value="acts_surface_binning_z_type: str = equidistant"/>
       <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
-      <argument value="acts_surface_binning_z_min: double = pix_b_sf_min_z"/>
-      <argument value="acts_surface_binning_z_max: double = pix_b_sf_max_z"/>
       <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
-      <argument value="acts_surface_binning_phi_n: int = pix_b_sf_b3_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_b_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_b_sf_max_phi"/>
+      <argument value="acts_surface_binning_phi_n: int = pix_b3_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
@@ -508,147 +427,98 @@
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP0"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 620.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP1"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 720.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP2"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 840.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP3"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 980.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP4"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 1120.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP5"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 1320.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP6"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
-      <argument value="acts_volume_z: double = 1520.*mm"/>
-      <argument value="acts_volume_bvalues_n: int = 3"/>
-      <argument value="acts_volume_bvalues_2: double = 20.*mm"/>
       <argument value="acts_volume_internals: bool = true"/>
       <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
       <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
-      <argument value="acts_surface_binning_r_type: str = equidistant"/>
       <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
-      <argument value="acts_surface_binning_r_min: double = pix_e_sf_min_r"/>
-      <argument value="acts_surface_binning_r_max: double = pix_e_sf_max_r"/>
       <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
-      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
-      <argument value="acts_surface_binning_phi_min: double = pix_e_sf_min_phi"/>
-      <argument value="acts_surface_binning_phi_max: double = pix_e_sf_max_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
     </plugin>
   </plugins>
