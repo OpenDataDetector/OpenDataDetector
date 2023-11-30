@@ -77,12 +77,28 @@
         <constant name="ms_b_dz_middle" value="8.1*m"/>
         <constant name="ms_b_dz_outer" value="8.1*m"/>
         <!--Dimension of the Muon Spectrometer EndCap -->
-        <constant name="ms_e_rmin_inner" value="300.*mm"/>
-        <constant name="ms_e_rmax_inner" value="4000.*mm"/>
-        <constant name="ms_e_dz_inner" value="400.*mm"/>
-        <constant name="ms_e_rmin_middle" value="300.*mm"/>
-        <constant name="ms_e_rmax_middle" value="5170.*mm"/>
-        <constant name="ms_e_dz_middle" value="400.*mm"/>
+        <constant name="ms_e_rmin_inner" value="735.73*mm"/>
+        <constant name="ms_e_rmax_inner" value="4118.*mm"/>
+        <constant name="ms_e_dz_inner" value="280.*mm"/>
+        <constant name="ms_e_rmin_middle" value="946.*mm"/>
+        <constant name="ms_e_rmax_middle" value="5300.*mm"/>
+        <constant name="ms_e_dz_middle" value="280.*mm"/>
+        <constant name="ms_e_ch_dz" value="69.*mm"/>
+        <constant name="ms_e_ch_dx_inner1" value="480.*mm"/>
+        <constant name="ms_e_ch_dx_inner2" value="900.*mm"/>
+        <constant name="ms_e_ch_dx_inner3" value="1250.*mm"/>
+        <constant name="ms_e_ch_dy_inner1" value="350.*mm"/>
+        <constant name="ms_e_ch_dy_inner2" value="500.*mm"/>
+        <constant name="ms_e_ch_dy_inner3" value="700.*mm"/>
+        <constant name="ms_e_ch_dx_outer1" value="500.*mm"/>
+        <constant name="ms_e_ch_dx_outer2" value="900.*mm"/>
+        <constant name="ms_e_ch_dx_outer3" value="1200.*mm"/>
+        <constant name="ms_e_ch_dx_outer4" value="1500.*mm"/>
+        <constant name="ms_e_ch_dy_outer1" value="350.*mm"/>
+        <constant name="ms_e_ch_dy_outer2" value="500.*mm"/>
+        <constant name="ms_e_ch_dy_outer3" value="600.*mm"/>
+        <constant name="ms_e_ch_dy_outer4" value="600.*mm"/>
+        
           
 
         <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>

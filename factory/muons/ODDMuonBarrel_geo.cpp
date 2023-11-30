@@ -46,8 +46,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
         		
     //The radial distance on xy for the big and small barrel chambers
     //small chambers are placed above the big ones
-	double rb = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy(),2));
-	double rsm = sqrt(pow(x_ch.x(),2) + pow(rmin+0.5*x_ch.dy() + x_ch.dy(),2));
+	double rb = sqrt(pow(x_ch.x(),2) + pow(rmin+x_ch.dy(),2));
+	double rsm = sqrt(pow(x_ch.x(),2) + pow(rmin+x_ch.dy() + 2*x_ch.dy(),2));
 
     double phistep = 2*M_PI/x_det_dim.nphi();
     double phi0 = 0.5*M_PI; 
@@ -67,12 +67,12 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 		double zb = -za;	
 
 		//big  chambers dimensions
-		double ch_dx = 0.5*x_ch.dx();
-		double ch_dy = 0.5*x_ch.dy();
-		double ch_dz = 0.5*x_ch.dz(); 
-		double rtubemax = x_tb.rmax();
-		double rtubemin = x_tb.rmin();
-		double zstep = x_ch.dz() + x_det_dim.z_offset();
+		double ch_dx = x_ch.dx();
+		double ch_dy = x_ch.dy();
+		double ch_dz = x_ch.dz(); 
+		double rtubemax = x_tb.rmax1();
+		double rtubemin = x_tb.rmin1();
+		double zstep = 2*x_ch.dz() + x_det_dim.z_offset();
 		string name = "MDT_Chamber_Big";
 
 		//Switch to small barrel chambers when i is even
@@ -85,8 +85,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 			ch_dx*=0.8;
 			ch_dy*=0.8;
 			ch_dz*=0.8;
-			rtubemax*=0.5;
-			rtubemin*=0.5;
+			rtubemax=x_tb.rmax2();
+			rtubemin=x_tb.rmin2();
 			name = "MDT_Chamber_Small";
 		}
 
@@ -101,7 +101,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml,  SensitiveDetector sens){
 			//we need to multilayers with some space between them
 			Box mlBox(ch_dx, 0.4*ch_dy, ch_dz);
             Volume mlVolume("MDT_MultiLayer", mlBox, oddd.air());
-            mlVolume.setVisAttributes(oddd,x_ml.visStr());           
+            mlVolume.setVisAttributes(oddd,x_ml.visStr()); 
+            //the number of tubes along x dimension          
             int ntubes = mlBox.x()/rtubemax;
             Tube driftTubeShape(rtubemin, rtubemax, mlBox.z());
             Volume driftTubeVolume(x_tb.nameStr(), driftTubeShape, oddd.air());
