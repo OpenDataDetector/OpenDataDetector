@@ -1,0 +1,1099 @@
+<lccdd>
+    <define>
+        <!-- Pixel endcap surface binning: setting -->
+        <constant name="pix_e_v_dz" value="20.*mm"/>
+        <constant name="pix_e_sf_b" value="2"/>
+        <constant name="pix_e_sf_b_r" value="2"/>
+        <constant name="pix_e_sf_e_r" value="1"/>
+        <constant name="pix_e_sf_b_phi" value="32"/>
+        <constant name="pix_e_sf_e_phi" value="1"/>
+        <!-- Pixel barrel surface binning: setting -->
+        <constant name="pix_b_sf_b" value="2"/>
+        <constant name="pix_b_sf_b_z" value="14"/>
+        <constant name="pix_b_sf_e_z" value="1"/>
+        <constant name="pix_b_clear" value="1.*mm"/>
+        <constant name="pix_b0_sf_b_phi" value="16"/>
+        <constant name="pix_b1_sf_b_phi" value="32"/>
+        <constant name="pix_b2_sf_b_phi" value="52"/>
+        <constant name="pix_b3_sf_b_phi" value="78"/>
+        <constant name="pix_b_sf_e_phi" value="1"/>
+        <!-- Short strip endcap surface binning: setting -->
+        <constant name="ss_e_sf_b" value="2"/>
+        <constant name="ss_e_sf_b_r" value="2"/>
+        <constant name="ss_e_sf_e_r" value="1"/>
+        <constant name="ss_e_sf_b_phi" value="42"/>
+        <constant name="ss_e_sf_e_phi" value="1"/>
+        <constant name="ss_e_clear" value="1.*mm"/>
+        <!-- Short strip barrel surface binning: setting -->
+        <constant name="ss_b_sf_b" value="2"/>
+        <constant name="ss_b_sf_b_z" value="21"/>
+        <constant name="ss_b_sf_e_z" value="1"/>
+        <constant name="ss_b_clear" value="1.*mm"/>
+        <constant name="ss_b0_sf_b_phi" value="40"/>
+        <constant name="ss_b1_sf_b_phi" value="56"/>
+        <constant name="ss_b2_sf_b_phi" value="78"/>
+        <constant name="ss_b3_sf_b_phi" value="102"/>
+        <constant name="ss_b_sf_e_phi" value="1"/>
+        <!-- Long strip endcap surface binning: setting -->
+        <constant name="ls_e_sf_b" value="2"/>
+        <constant name="ls_e_sf_b_r" value="2"/>
+        <constant name="ls_e_sf_e_r" value="1"/>
+        <constant name="ls_e_sf_b_phi" value="48"/>
+        <constant name="ls_e_sf_e_phi" value="1"/>
+        <constant name="ls_e_clear" value="1.*mm"/>
+        <!-- Long strip barrel surface binning: setting -->
+        <constant name="ls_b_sf_b" value="2"/>
+        <constant name="ls_b_sf_b_z" value="21"/>
+        <constant name="ls_b_sf_e_z" value="1"/>
+        <constant name="ls_b_clear" value="1.*mm"/>
+        <constant name="ls_b0_sf_b_phi" value="60"/>
+        <constant name="ls_b1_sf_b_phi" value="80"/>
+        <constant name="ls_b_sf_e_phi" value="1"/>
+    </define>
+
+    <!-- Plugin sections, DDRec surfaces, etc. -->
+    <plugins>
+        <!--- declarations for the beam pipe -->
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="BeamPipe"/>
+            <argument value="passive_layer: bool = true"/>
+            <argument value="acts_passive_surface: bool = true"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_bvalues_n: int = 3"/>
+            <argument value="acts_volume_bvalues_0: double = 0"/>
+            <argument value="acts_volume_bvalues_1: double = pix_env_rmin"/>
+            <argument value="acts_volume_bvalues_2: double = tracker_region_zmax"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+        </plugin>
+        <!-- declarations for the pixels -->
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="Pixels"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = tracker_region_zmax"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="PixelEndcapN"/>
+            <argument value="layer_pattern: str=PixelEndcapN\d|PixelEndplate"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = pix_e_dz"/>
+            <argument value="acts_container_z: double = pix_e_nz"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN4"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN5"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapN/PixelEndcapN6"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="PixelBarrel"/>
+            <argument value="layer_pattern=PixelLayer\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = pix_b_dz"/>
+            <argument value="acts_container_binning: str = r"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_b0_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_b1_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_b2_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelBarrel/PixelLayer3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = pix_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = pix_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_b3_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="PixelEndcapP"/>
+            <argument value="layer_pattern=PixelEndcapP\d|PixelEndplate"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = pix_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = pix_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = pix_e_dz"/>
+            <argument value="acts_container_z: double = pix_e_pz"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP4"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP5"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/Pixels/PixelEndcapP/PixelEndcapP6"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = pix_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = pix_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = pix_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = pix_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="PST"/>
+            <argument value="passive_layer: bool = true"/>
+            <argument value="acts_passive_surface: bool = true"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_bvalues_n: int = 3"/>
+            <argument value="acts_volume_bvalues_0: double = pix_env_rmax"/>
+            <argument value="acts_volume_bvalues_1: double = ss_env_rmin"/>
+            <argument value="acts_volume_bvalues_2: double = tracker_region_zmax"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+        </plugin>
+        <!--- declarations for the short strips -->
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="ShortStrips"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = tracker_region_zmax"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="ShortStripEndcapN"/>
+            <argument value="layer_pattern=ShortStripEndcapN\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = ss_e_dz"/>
+            <argument value="acts_container_z: double = ss_e_nz"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapN/ShortStripEndcapN0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapN/ShortStripEndcapN1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapN/ShortStripEndcapN2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapN/ShortStripEndcapN3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapN/ShortStripEndcapN4"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapN/ShortStripEndcapN5"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="ShortStripBarrel"/>
+            <argument value="layer_pattern=ShortStripLayer\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = ss_b_dz"/>
+            <argument value="acts_container_binning: str = r"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripBarrel/ShortStripLayer0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_b0_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripBarrel/ShortStripLayer1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_b1_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripBarrel/ShortStripLayer2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_b2_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripBarrel/ShortStripLayer3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_b3_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="ShortStripEndcapP"/>
+            <argument value="layer_pattern=ShortStripEndcapP\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+            <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = ss_e_dz"/>
+            <argument value="acts_container_z: double = ss_e_pz"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapP/ShortStripEndcapP0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapP/ShortStripEndcapP1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapP/ShortStripEndcapP2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapP/ShortStripEndcapP3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapP/ShortStripEndcapP4"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/ShortStrips/ShortStripEndcapP/ShortStripEndcapP5"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+        </plugin>
+        <!-- declarations for the long strips -->
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="LongStrips"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = tracker_region_zmax"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="LongStripEndcapN"/>
+            <argument value="layer_pattern=LongStripEndcapN\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = ls_e_dz"/>
+            <argument value="acts_container_z: double = ls_e_nz"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapN/LongStripEndcapN0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapN/LongStripEndcapN1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapN/LongStripEndcapN2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapN/LongStripEndcapN3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapN/LongStripEndcapN4"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapN/LongStripEndcapN5"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="LongStripBarrel"/>
+            <argument value="layer_pattern=LongStripLayer\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = ls_b_dz"/>
+            <argument value="acts_container_binning: str = r"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripBarrel/LongStripLayer0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = ls_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = ls_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_b0_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripBarrel/LongStripLayer1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_b_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_b_sf_b"/>
+            <argument value="acts_surface_binning_z_type: str = equidistant"/>
+            <argument value="acts_surface_binning_z_autorange: bool = true"/>
+            <argument value="acts_surface_binning_z_n: int = ls_b_sf_b_z"/>
+            <argument value="acts_surface_binning_z_exp: int = ls_b_sf_e_z"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_b1_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_b_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="LongStripEndcapP"/>
+            <argument value="layer_pattern=LongStripEndcapP\d"/>
+            <argument value="acts_container: bool = true"/>
+            <argument value="acts_container_type: int = 3"/>
+            <argument value="acts_container_bvalues_n: int = 3"/>
+            <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+            <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+            <argument value="acts_container_bvalues_2: double = ls_e_dz"/>
+            <argument value="acts_container_z: double = ls_e_pz"/>
+            <argument value="acts_container_binning: str = z"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapP/LongStripEndcapP0"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapP/LongStripEndcapP1"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapP/LongStripEndcapP2"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapP/LongStripEndcapP3"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapP/LongStripEndcapP4"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="/world/OpenDataDetector/LongStrips/LongStripEndcapP/LongStripEndcapP5"/>
+            <argument value="acts_volume: bool = true"/>
+            <argument value="acts_volume_type: int = 3"/>
+            <argument value="acts_volume_internals: bool = true"/>
+            <argument value="acts_volume_internals_type: str = layer"/>
+            <argument value="acts_volume_internals_measure: str = z,r"/>
+            <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+            <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+            <argument value="acts_surface_binning_r_type: str = equidistant"/>
+            <argument value="acts_surface_binning_r_autorange: bool = true"/>
+            <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+            <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+            <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+            <argument value="acts_surface_binning_phi_autorange: bool = true"/>
+            <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+            <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="OpenDataDetector"/>
+            <argument value="acts_world: bool = true"/>
+            <argument value="acts_world_type: int = 3"/>
+            <argument value="acts_world_bvalues_n: int = 3"/>
+            <argument value="acts_world_bvalues_0: double = 0"/>
+            <argument value="acts_world_bvalues_1: double = tracker_region_rmax"/>
+            <argument value="acts_world_bvalues_2: double = tracker_region_zmax"/>
+            <argument value="acts_world_binning: str = r"/>
+            <argument value="acts_world_geo_id: str = incremental"/>
+            <argument value="acts_world_root_volume_finder: str = indexed"/>
+        </plugin>
+    </plugins>
+</lccdd>
