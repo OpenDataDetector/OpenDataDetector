@@ -13,6 +13,7 @@
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="Solenoid"/>
       <argument value="passive_layer: bool = true"/>
+      <argument value="acts_passive_surface: bool = true"/>
     </plugin>	
   </plugins>
 </lccdd>

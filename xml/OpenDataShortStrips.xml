@@ -102,7 +102,8 @@
         <module_component name="Board" alpha="0." dx="48.*mm" dy="108*mm" dz="0.25*mm" x_offset="0." y_offset="0." z_offset="-0.25*mm" material="Kapton" vis="Kapton" sensitive="false"/>
         <module_component name="Sensor" alpha="0." dx="48.*mm" dy="108.*mm" dz="0.2*mm" x_offset="0." y_offset="0." z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
       </module>
-      <stave name="ShortStripBarrelStave" nmodules="21" gap="0.5*mm" vis="invisible">
+      <!-- the dimensionality in z is [-4.8mm, 0.1mm] -->
+      <stave name="ShortStripBarrelStave" dx="24.*mm" dy="1140.*mm" dz="2.45*mm" z_offset="2.35*mm" nmodules="21" gap="0.5*mm" vis="invisible">
         <eltube name="CableBundle" rmin="0.5*mm" rmax="1.5*mm" r="245.*mm" x_offset="12.*mm" y_offset="0.*mm" z_offset="-9.*mm" material="Cu" vis="orange"/>
       </stave>
       <layer id="0" name="ShortStripLayer0" rmin="240.*mm" r="260.*mm" rmax="280.*mm" outer_z="20.*mm" nphi="40" phi_tilt="-0.15" phi0="0." vis="invisible">
@@ -203,20 +204,5 @@
       </services>
     </detector>
   </detectors>
-
-  <plugins>
-    <plugin name="DD4hep_ParametersPlugin">
-      <argument value="ShortStripEndcapN"/>
-      <argument value="layer_pattern=ShortStripEndcapN\d"/>
-    </plugin>	
-    <plugin name="DD4hep_ParametersPlugin">
-      <argument value="ShortStripEndcapP"/>
-      <argument value="layer_pattern=ShortStripEndcapP\d"/>
-    </plugin>	
-    <plugin name="DD4hep_ParametersPlugin">
-      <argument value="ShortStripBarrel"/>
-      <argument value="layer_pattern=ShortStripLayer\d"/>
-    </plugin>	
-  </plugins>
-
+  
 </lccdd>

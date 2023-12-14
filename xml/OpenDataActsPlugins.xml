@@ -12,10 +12,6 @@
         <constant name="pix_b_sf_b_z" value="14"/>
         <constant name="pix_b_sf_e_z" value="1"/>
         <constant name="pix_b_clear" value="1.*mm"/>
-        <constant name="pix_b0_sf_b_phi" value="16"/>
-        <constant name="pix_b1_sf_b_phi" value="32"/>
-        <constant name="pix_b2_sf_b_phi" value="52"/>
-        <constant name="pix_b3_sf_b_phi" value="78"/>
         <constant name="pix_b_sf_e_phi" value="1"/>
         <!-- Short strip endcap surface binning: setting -->
         <constant name="ss_e_sf_b" value="2"/>
@@ -1085,6 +1081,7 @@
         </plugin>
         <plugin name="DD4hep_ParametersPlugin">
             <argument value="OpenDataDetector"/>
+            <argument value="acts_legacy_assembly: bool = false"/>
             <argument value="acts_world: bool = true"/>
             <argument value="acts_world_type: int = 3"/>
             <argument value="acts_world_bvalues_n: int = 3"/>
