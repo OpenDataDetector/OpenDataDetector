@@ -112,15 +112,15 @@
         <module_component name="BoardA" alpha="0." dx="96.*mm" dy="108*mm" dz="0.25*mm" x_offset="0." y_offset="0." z_offset="3.05*mm" material="Kapton" vis="Kapton" sensitive="false"/>
         <module_component name="SensorA" alpha="0." dx="96.*mm" dy="108.*mm" dz="0.25*mm" x_offset="0." y_offset="0." z_offset="3.3*mm" material="Silicon" vis="Silicon" sensitive="true"/>
       </module>
-      <stave name="LongStripBarrelStave" dx="51.*mm" dy="1150.*mm" dz="3.55*mm" z_offset="0." nmodules="21" gap=".5*mm" vis="invisible">
+      <stave name="LongStripBarrelStave" nmodules="21" gap=".5*mm" vis="invisible">
         <eltube name="CableBundle" rmin="0.5*mm" rmax="1.5*mm" r="820.*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Cu" vis="orange"/>
       </stave>
-      <layer id="0" name="LongStripLayer0" rmin="810.*mm" r="820.*mm" rmax="840.*mm" outer_z="20.*mm" nphi="60" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="0" name="LongStripLayer0" rmin="790.*mm" r="820.*mm" rmax="840.*mm" outer_z="20.*mm" nphi="60" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="InnerSupportRings" rmin="795.*mm" rmax="810.*mm" dz="50.*mm" z_offset="300.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <support name="OuterSupportRings" rmin="795.*mm" rmax="810.*mm" dz="50.*mm" z_offset="1000.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_lst_barrel_bPhi" bins1="mat_lst_barrel_bZ"/>
       </layer>
-      <layer id="1" name="LongStripLayer1" rmin="1010.*mm" r="1020.*mm" rmax="1040.*mm" outer_z="20.*mm" nphi="80" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="1" name="LongStripLayer1" rmin="990.*mm" r="1020.*mm" rmax="1040.*mm" outer_z="20.*mm" nphi="80" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="InnerSupportRings" rmin="995.*mm" rmax="1010.*mm" dz="50.*mm" z_offset="300.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <support name="OuterSupportRings" rmin="995.*mm" rmax="1010.*mm" dz="50.*mm" z_offset="1000.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_lst_barrel_bPhi" bins1="mat_lst_barrel_bZ"/>
@@ -129,10 +129,10 @@
         <connector/>
       </support>
       <services>
-        <cable_routing nphi="30" phi0="0." number="10" rmin="0.*mm" rmax="0.75*mm" dz="2.*mm" z_offset="1164.*mm" gap="8.*mm" material="Cu" vis="orange">
+        <cable_routing nphi="30" phi0="0." number="10" rmin="0.*mm" rmax="0.75*mm" dz="2.*mm" z_offset="1159.*mm" gap="8.*mm" material="Cu" vis="orange">
           <box dz="2.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         </cable_routing>
-        <cooling_routing nphi="30" phi0="0.104" number="6" rmin="1.2*mm" rmax="1.4*mm" dz="0.*mm" z_offset="1164.*mm" gap="8.*mm" material="Ti" vis="orange"/>
+        <cooling_routing nphi="30" phi0="0.104" number="6" rmin="1.2*mm" rmax="1.4*mm" dz="0.*mm" z_offset="1159.*mm" gap="8.*mm" material="Ti" vis="orange"/>
       </services>
     </detector>
 
@@ -206,4 +206,20 @@
       </services>
     </detector>
   </detectors>
+
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripEndcapN"/>
+      <argument value="layer_pattern=LongStripEndcapN\d"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripEndcapP"/>
+      <argument value="layer_pattern=LongStripEndcapP\d"/>
+    </plugin>	
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripBarrel"/>
+      <argument value="layer_pattern=LongStripLayer\d"/>
+    </plugin>	
+  </plugins>
+
 </lccdd>
