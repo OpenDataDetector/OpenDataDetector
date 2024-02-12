@@ -66,38 +66,39 @@
         <constant name="hcal_e_symmetry" value="16"/>
         <constant name="hcal_e_env_safety" value="0.1*mm"/>
         <!--Dimension of the Muon Spectrometer Barrel -->
-        <constant name="ms_b_rmin_inner" value="3536.*mm"/>
-        <constant name="ms_b_rmin_middle" value="4240.*mm"/>
-        <constant name="ms_b_rmin_outer" value="4900.*mm"/>
-        <constant name="ms_b_rmax_inner" value="4118.*mm"/>
-        <constant name="ms_b_rmax_middle" value="4849.*mm"/>
-        <constant name="ms_b_rmax_outer" value="5470.*mm"/>
-        <constant name="ms_b_dz" value="8.1*m"/>
-        <constant name="ms_b_dz_inner" value="5.5*m"/>
-        <constant name="ms_b_dz_middle" value="8.1*m"/>
-        <constant name="ms_b_dz_outer" value="8.1*m"/>
+        <constant name="ms_b_rmin" value="3536.*mm"/>
+        <constant name="ms_b_rmax_inner" value="4607.*mm"/>
+        <constant name="ms_b_rmin_middle" value="4607.*mm"/>
+        <constant name="ms_b_rmax_middle" value="5680.*mm"/>
+        <constant name="ms_b_rmin_outer" value="5680.*mm"/>     
+        <constant name="ms_b_rmax" value="6762.*mm"/>
+        <constant name="ms_b_dz" value="7.2*m"/>        
         <!--Dimension of the Muon Spectrometer EndCap -->
         <constant name="ms_e_rmin_inner" value="735.73*mm"/>
-        <constant name="ms_e_rmax_inner" value="4118.*mm"/>
-        <constant name="ms_e_dz_inner" value="280.*mm"/>
+        <constant name="ms_e_rmax_inner" value="5000.*mm"/>
+        <constant name="ms_e_dz" value="1535.*mm"/>
+        <constant name="ms_e_dz_inner" value="380.*mm"/>
         <constant name="ms_e_rmin_middle" value="946.*mm"/>
-        <constant name="ms_e_rmax_middle" value="5300.*mm"/>
-        <constant name="ms_e_dz_middle" value="280.*mm"/>
-        <constant name="ms_e_ch_dz" value="69.*mm"/>
+        <constant name="ms_e_rmax_middle" value="6600.*mm"/>
+        <constant name="ms_e_dz_middle" value="380.*mm"/>
+        <constant name="ms_e_ch_dz" value="81.96*mm"/>
+        <constant name="ms_e_ch_dz_middle" value="109.28*mm"/>
         <constant name="ms_e_ch_dx_inner1" value="480.*mm"/>
         <constant name="ms_e_ch_dx_inner2" value="900.*mm"/>
         <constant name="ms_e_ch_dx_inner3" value="1250.*mm"/>
-        <constant name="ms_e_ch_dy_inner1" value="350.*mm"/>
-        <constant name="ms_e_ch_dy_inner2" value="500.*mm"/>
-        <constant name="ms_e_ch_dy_inner3" value="700.*mm"/>
-        <constant name="ms_e_ch_dx_outer1" value="500.*mm"/>
-        <constant name="ms_e_ch_dx_outer2" value="900.*mm"/>
-        <constant name="ms_e_ch_dx_outer3" value="1200.*mm"/>
-        <constant name="ms_e_ch_dx_outer4" value="1500.*mm"/>
-        <constant name="ms_e_ch_dy_outer1" value="350.*mm"/>
-        <constant name="ms_e_ch_dy_outer2" value="500.*mm"/>
-        <constant name="ms_e_ch_dy_outer3" value="600.*mm"/>
-        <constant name="ms_e_ch_dy_outer4" value="600.*mm"/>
+        <constant name="ms_e_ch_dx_inner4" value="1400.*mm"/>
+        <constant name="ms_e_ch_dy_inner1" value="450.*mm"/>
+        <constant name="ms_e_ch_dy_inner2" value="520.*mm"/>
+        <constant name="ms_e_ch_dy_inner3" value="526.*mm"/>
+        <constant name="ms_e_ch_dy_inner4" value="526.*mm"/>
+        <constant name="ms_e_ch_dx_outer1" value="650.*mm"/>
+        <constant name="ms_e_ch_dx_outer2" value="1100.*mm"/>
+        <constant name="ms_e_ch_dx_outer3" value="1800.*mm"/>
+        <constant name="ms_e_ch_dx_outer4" value="2000.*mm"/>
+        <constant name="ms_e_ch_dy_outer1" value="500.*mm"/>
+        <constant name="ms_e_ch_dy_outer2" value="630.*mm"/>
+        <constant name="ms_e_ch_dy_outer3" value="720.*mm"/>
+        <constant name="ms_e_ch_dy_outer4" value="820.*mm"/>
         
           
 

@@ -9,10 +9,10 @@
     <fraction n="0.012" ref="Ar"/>
   </material>
 
-  <material name="Vacuum">
+   <material name="Vacuum">
     <D type="density" unit="g/cm3" value="0.00000001" />
     <fraction n="1" ref="H" />
-  </material>
+  </material> 
 
   <material Z="4" name="Beryllium" state="solid">
         <MEE unit="eV" value="63.7"/>
@@ -135,5 +135,12 @@
     <fraction n="0.0142636698452849" ref="C"/>
     <fraction n="0.818763326226013" ref="Cu"/>
   </material>
+
+  <material name="ArCO2" state="gas">
+   <D type="density" unit="g/cm3" value="0.00166201" />
+   <composite n="1" ref="Ar"/>
+   <composite n="1" ref="C"/>
+   <composite n="2" ref="O"/>
+ </material>
 
 </materials>
