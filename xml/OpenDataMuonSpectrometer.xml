@@ -134,12 +134,12 @@
     </plugin>
 
 	<plugin name="DD4hep_ParametersPlugin">
-      <argument value="MuonSpectroMeterEndCaopN"/>
+      <argument value="MuonSpectrometerEndCapN"/>
       <argument value="layer_pattern: str=MuonSpectrometerEndCapN"/>
     </plugin> 
 
 	 <plugin name="DD4hep_ParametersPlugin">
-      <argument value="MuonSpectroMeterEndCapP"/>
+      <argument value="MuonSpectrometerEndCapP"/>
       <argument value="layer_pattern: str=MuonSpectrometerEndCapP"/>
     </plugin> 
 	</plugins> 
