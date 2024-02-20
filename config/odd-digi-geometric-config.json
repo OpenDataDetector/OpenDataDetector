@@ -9,10 +9,7 @@
       "value": {
         "geometric": {
           "digital": false,
-          "indices": [
-            0,
-            1
-          ],
+          "indices": [0, 1],
           "segmentation": {
             "binningdata": [
               {
@@ -43,10 +40,7 @@
       "value": {
         "geometric": {
           "digital": true,
-          "indices": [
-            0,
-            1
-          ],
+          "indices": [0, 1],
           "segmentation": {
             "binningdata": [
               {
@@ -77,10 +71,7 @@
       "value": {
         "geometric": {
           "digital": true,
-          "indices": [
-            0,
-            1
-          ],
+          "indices": [0, 1],
           "segmentation": {
             "binningdata": [
               {
