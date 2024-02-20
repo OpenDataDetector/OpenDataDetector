@@ -11,13 +11,41 @@
     </readout>
   </readouts>
 
+  <define>
+    <!-- Long strip endcap surface binning: setting -->
+    <constant name="ls_e_sf_b" value="2"/>
+    <constant name="ls_e_sf_b_r" value="2"/>
+    <constant name="ls_e_sf_e_r" value="1"/>
+    <constant name="ls_e_sf_b_phi" value="48"/>
+    <constant name="ls_e_sf_e_phi" value="1"/>
+    <constant name="ls_e_clear" value="1.*mm"/>
+    <!-- Long strip barrel surface binning: setting -->
+    <constant name="ls_b_sf_b" value="2"/>
+    <constant name="ls_b_sf_b_z" value="21"/>
+    <constant name="ls_b_sf_e_z" value="1"/>
+    <constant name="ls_b_clear" value="1.*mm"/>
+    <constant name="ls_b0_sf_b_phi" value="60"/>
+    <constant name="ls_b1_sf_b_phi" value="80"/>
+    <constant name="ls_b_sf_e_phi" value="1"/>
+  </define>
+
+
+  <detectors>
+    <!-- define the long strip assembly -->
+    <detector id="ODD_LongStrip_ID" name="LongStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+      <shape name="LongStripVolume" type="Tube" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_env_dz" material="Air"/>
+      <composite name="LongStripEndcapN"/>
+      <composite name="LongStripBarrel"/>
+      <composite name="LongStripEndcapP"/>
+    </detector>
+  </detectors>
 
   <detectors>
     <!--EndcapN-->
     <detector id="ODD_LongStripEndcapN_ID" name="LongStripEndcapN" type="ODDStripEndcap" readout="LongStripEndcapReadout" vis="invisible">
       <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="LongStripEndcapShape" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_e_dz" z="ls_e_nz"/>
-      <ring name="Ring0" r="820.*mm" nphi="48" reflect="true" phi0="0." gap="8.*mm" z_offset="15.*mm">
+      <ring name="Ring0" r="820.*mm" nphi="ls_e_sf_b_phi" reflect="true" phi0="0." gap="8.*mm" z_offset="15.*mm">
         <module name="LongStripEndcapModuleR0" vis="invisible">
           <module_component name="Sensor" alpha="-0.02" x1="53.2*mm" x2="58.6*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="-0.02" x1="53.8*mm" x2="59.2*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
@@ -27,15 +55,15 @@
             </subtraction>
             <tube name="CoolingPipe" rmin="1.4*mm" rmax="1.5*mm" dz="48.5*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Ti" vis="orange" />
           </module_component>
-          <module_component name="Board" alpha="0.02" x1="53.2*mm" x2="58.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
-          <module_component name="Sensor" alpha="0.02" x1="53.8*mm" x2="59.2*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
+          <module_component name="Board" alpha="0.02" x1="53.8*mm" x2="59.2*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
+          <module_component name="Sensor" alpha="0.02" x1="53.2*mm" x2="58.6*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
         </module>
         <support name="SupportRing0" rmin="720.*mm" rmax="735.*mm" dz="4.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <support name="SupportRing1" rmin="900.*mm" rmax="920.*mm" dz="4.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <cooling_ring rmin="1.4*mm" rmax="1.6*mm" r="922.*mm" gap="22.66*mm" nphi="64" z_offset="0.*mm" material="Ti" vis="orange"/>
       </ring>
 
-      <ring name="Ring1" r="990.*mm" nphi="48" reflect="true" phi0="0." gap="8.*mm" z_offset="-15.*mm">
+      <ring name="Ring1" r="990.*mm" nphi="ls_e_sf_b_phi" reflect="true" phi0="0." gap="8.*mm" z_offset="-15.*mm">
         <module name="LongStripEndcapModuleR1" vis="invisible">
           <module_component name="Sensor" alpha="-0.02" x1="64.6*mm" x2="70.*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="-0.02" x1="65.2*mm" x2="70.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
@@ -45,34 +73,34 @@
             </subtraction>
             <tube name="CoolingPipe" rmin="1.4*mm" rmax="1.5*mm" dz="48.5*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Ti" vis="orange" />
           </module_component>
-          <module_component name="Board" alpha="0.02" x1="64.6*mm" x2="70.*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
-          <module_component name="Sensor" alpha="0.02" x1="65.2*mm" x2="70.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
+          <module_component name="Board" alpha="0.02" x1="65.2*mm" x2="70.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
+          <module_component name="Sensor" alpha="0.02" x1="64.6*mm" x2="70.*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
         </module>
         <support name="SupportRing1" rmin="1070.*mm" rmax="1090.*mm" dz="4.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <cooling_ring rmin="1.4*mm" rmax="1.6*mm" r="1092.*mm" gap="23.85*mm" nphi="72" z_offset="0.*mm" material="Ti" vis="orange"/>
       </ring>
       <layer id="0" name="LongStripEndcapN0" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="-1300.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="1" name="LongStripEndcapN1" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="-1600.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="2" name="LongStripEndcapN2" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="-1900.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="3" name="LongStripEndcapN3" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="-2250.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="4" name="LongStripEndcapN4" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="-2600.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="5" name="LongStripEndcapN5" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="-3000.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <services>
@@ -112,15 +140,15 @@
         <module_component name="BoardA" alpha="0." dx="96.*mm" dy="108*mm" dz="0.25*mm" x_offset="0." y_offset="0." z_offset="3.05*mm" material="Kapton" vis="Kapton" sensitive="false"/>
         <module_component name="SensorA" alpha="0." dx="96.*mm" dy="108.*mm" dz="0.25*mm" x_offset="0." y_offset="0." z_offset="3.3*mm" material="Silicon" vis="Silicon" sensitive="true"/>
       </module>
-      <stave name="LongStripBarrelStave" dx="51.*mm" dy="1150.*mm" dz="3.55*mm" z_offset="0." nmodules="21" gap=".5*mm" vis="invisible">
+      <stave name="LongStripBarrelStave" dx="51.*mm" dy="1150.*mm" dz="3.55*mm" z_offset="0." nmodules="ls_b_sf_b_z" gap=".5*mm" vis="invisible">
         <eltube name="CableBundle" rmin="0.5*mm" rmax="1.5*mm" r="820.*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Cu" vis="orange"/>
       </stave>
-      <layer id="0" name="LongStripLayer0" rmin="810.*mm" r="820.*mm" rmax="840.*mm" outer_z="20.*mm" nphi="60" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="0" name="LongStripLayer0" rmin="810.*mm" r="820.*mm" rmax="840.*mm" outer_z="20.*mm" nphi="ls_b0_sf_b_phi" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="InnerSupportRings" rmin="795.*mm" rmax="810.*mm" dz="50.*mm" z_offset="300.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <support name="OuterSupportRings" rmin="795.*mm" rmax="810.*mm" dz="50.*mm" z_offset="1000.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_lst_barrel_bPhi" bins1="mat_lst_barrel_bZ"/>
       </layer>
-      <layer id="1" name="LongStripLayer1" rmin="1010.*mm" r="1020.*mm" rmax="1040.*mm" outer_z="20.*mm" nphi="80" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="1" name="LongStripLayer1" rmin="1010.*mm" r="1020.*mm" rmax="1040.*mm" outer_z="20.*mm" nphi="ls_b1_sf_b_phi" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="InnerSupportRings" rmin="995.*mm" rmax="1010.*mm" dz="50.*mm" z_offset="300.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <support name="OuterSupportRings" rmin="995.*mm" rmax="1010.*mm" dz="50.*mm" z_offset="1000.*mm" nsides="2" material="CarbonFiber" vis="CarbonFiber"/>
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_lst_barrel_bPhi" bins1="mat_lst_barrel_bZ"/>
@@ -140,7 +168,7 @@
     <detector id="ODD_LongStripEndcapP_ID" name="LongStripEndcapP" type="ODDStripEndcap" readout="LongStripEndcapReadout" vis="invisible">
       <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="LongStripEndcapShape" rmin="ls_env_rmin" rmax="ls_env_rmax" dz="ls_e_dz" z="ls_e_pz"/>
-      <ring name="Ring0" r="820.*mm" nphi="48" reflect="true" phi0="0." gap="8.*mm" z_offset="-15.*mm">
+      <ring name="Ring0" r="820.*mm" nphi="ls_e_sf_b_phi" reflect="true" phi0="0." gap="8.*mm" z_offset="-15.*mm">
         <module name="LongStripEndcapModuleR0" vis="invisible">
           <module_component name="Sensor" alpha="0.02" x1="53.2*mm" x2="58.6*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="0.02" x1="53.8*mm" x2="59.2*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
@@ -150,15 +178,15 @@
             </subtraction>
             <tube name="CoolingPipe" rmin="1.4*mm" rmax="1.5*mm" dz="48.5*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Ti" vis="orange" />
           </module_component>
-          <module_component name="Board" alpha="-0.02" x1="53.2*mm" x2="58.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
-          <module_component name="Sensor" alpha="-0.02" x1="53.8*mm" x2="59.2*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
+          <module_component name="Board" alpha="-0.02" x1="53.8*mm" x2="59.2*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
+          <module_component name="Sensor" alpha="-0.02" x1="53.2*mm" x2="58.6*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
         </module>
         <support name="SupportRing0" rmin="720.*mm" rmax="735.*mm" dz="4.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <support name="SupportRing1" rmin="900.*mm" rmax="920.*mm" dz="4.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <cooling_ring rmin="1.4*mm" rmax="1.6*mm" r="922.*mm" gap="22.66*mm" nphi="64" z_offset="0.*mm" material="Ti" vis="orange"/>
       </ring>
 
-      <ring name="Ring1" r="990.*mm" nphi="48" reflect="true" phi0="0." gap="8.*mm" z_offset="15.*mm">
+      <ring name="Ring1" r="990.*mm" nphi="ls_e_sf_b_phi" reflect="true" phi0="0." gap="8.*mm" z_offset="15.*mm">
         <module name="LongStripEndcapModuleR1" vis="invisible">
           <module_component name="Sensor" alpha="0.02" x1="64.6*mm" x2="70.*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="0.02" x1="65.2*mm" x2="70.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
@@ -168,34 +196,34 @@
             </subtraction>
             <tube name="CoolingPipe" rmin="1.4*mm" rmax="1.5*mm" dz="48.5*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Ti" vis="orange" />
           </module_component>
-          <module_component name="Board" alpha="-0.02" x1="64.6*mm" x2="70.*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
-          <module_component name="Sensor" alpha="-0.02" x1="65.2*mm" x2="70.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
+          <module_component name="Board" alpha="-0.02" x1="65.2*mm" x2="70.6*mm" length="80.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.25*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
+          <module_component name="Sensor" alpha="-0.02" x1="64.6*mm" x2="70.*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-2.5*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
         </module>
         <support name="SupportRing1" rmin="1070.*mm" rmax="1090.*mm" dz="4.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <cooling_ring rmin="1.4*mm" rmax="1.6*mm" r="1092.*mm" gap="23.85*mm" nphi="72" z_offset="0.*mm" material="Ti" vis="orange"/>
       </ring>
       <layer id="0" name="LongStripEndcapP0" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="1300.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="1" name="LongStripEndcapP1" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="1600.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="2" name="LongStripEndcapP2" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="1900.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="3" name="LongStripEndcapP3" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="2250.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="4" name="LongStripEndcapP4" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="2600.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <layer id="5" name="LongStripEndcapP5" rmin="720.*mm" rmax="1095.*mm" dz="100.*mm" z_offset="3000.*mm" vis="invisible">
-        <surface_binning nr="2" nphi="48"/>
+        <surface_binning nr="ls_e_sf_b_r" nphi="ls_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_lst_endcap_bPhi" bins1="mat_lst_endcap_bR"/>
       </layer>
       <services>
@@ -209,17 +237,519 @@
 
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStrips"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = tracker_region_zmax"/>
+      <argument value="acts_container_binning: str = z"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
       <argument value="LongStripEndcapN"/>
       <argument value="layer_pattern=LongStripEndcapN\d"/>
-    </plugin>	
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = ls_e_dz"/>
+      <argument value="acts_container_z: double = ls_e_nz"/>
+      <argument value="acts_container_binning: str = z"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+    </plugin>
     <plugin name="DD4hep_ParametersPlugin">
-      <argument value="LongStripEndcapP"/>
-      <argument value="layer_pattern=LongStripEndcapP\d"/>
-    </plugin>	
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN0"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN2"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN3"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN4"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN5"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="LongStripBarrel"/>
       <argument value="layer_pattern=LongStripLayer\d"/>
-    </plugin>	
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = ls_b_dz"/>
+      <argument value="acts_container_binning: str = r"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripBarrel/LongStripLayer0"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_b_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_b_sf_b"/>
+      <argument value="acts_surface_binning_z_type: str = equidistant"/>
+      <argument value="acts_surface_binning_z_autorange: bool = true"/>
+      <argument value="acts_surface_binning_z_n: int = ls_b_sf_b_z"/>
+      <argument value="acts_surface_binning_z_exp: int = ls_b_sf_e_z"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_b0_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_b_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripBarrel/LongStripLayer1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_b_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_b_sf_b"/>
+      <argument value="acts_surface_binning_z_type: str = equidistant"/>
+      <argument value="acts_surface_binning_z_autorange: bool = true"/>
+      <argument value="acts_surface_binning_z_n: int = ls_b_sf_b_z"/>
+      <argument value="acts_surface_binning_z_exp: int = ls_b_sf_e_z"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_b1_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_b_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="LongStripEndcapP"/>
+      <argument value="layer_pattern=LongStripEndcapP\d"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_1: double = ls_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = ls_e_dz"/>
+      <argument value="acts_container_z: double = ls_e_pz"/>
+      <argument value="acts_container_binning: str = z"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP0"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP2"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP3"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP4"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP5"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ls_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ls_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ls_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ls_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ls_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ls_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
   </plugins>
 
 </lccdd>

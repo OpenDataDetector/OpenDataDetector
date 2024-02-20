@@ -1,19 +1,34 @@
 <lccdd>
-    <detectors>
-        <detector id="ODD_BeamPipe_ID" name="BeamPipe" type="ODDCylinder" vis="Beryllium">
-            <type_flags type="DetType_TRACKER + DetType_BEAMPIPE" />
-            <beampipe/>
-            <tubs name="BeamPipeCylinder" rmin="bp_rmin" rmax="bp_rmax" dz="bp_length" material="Beryllium">
-                <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_bp_bPhi" bins1="mat_bp_bZ"/>
-            </tubs>
-        </detector>
-    </detectors>
+  <detectors>
+    <detector id="ODD_BeamPipe_ID" name="BeamPipe" type="ODDCylinder" vis="Beryllium">
+      <type_flags type="DetType_TRACKER + DetType_BEAMPIPE" />
+      <beampipe/>
+      <tubs name="BeamPipeCylinder" rmin="bp_rmin" rmax="bp_rmax" dz="bp_length" material="Beryllium">
+        <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_bp_bPhi" bins1="mat_bp_bZ"/>
+      </tubs>
+    </detector>
+  </detectors>
 
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="BeamPipe"/>
       <argument value="passive_layer: bool = true"/>
-    </plugin>	
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_bvalues_n: int = 3"/>
+      <argument value="acts_volume_bvalues_0: double = 0"/>
+      <argument value="acts_volume_bvalues_1: double = bp_rmax"/>
+      <argument value="acts_volume_bvalues_2: double = tracker_region_zmax"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+    </plugin>
   </plugins>
 
 </lccdd>

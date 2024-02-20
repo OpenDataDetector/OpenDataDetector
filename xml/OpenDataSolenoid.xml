@@ -1,18 +1,34 @@
 <lccdd>
-    <detectors>
-        <detector id="ODD_Solenoid_ID" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum">
-            <type_flags type="DetType_TRACKER" />
-            <boundary_material surface="inner" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
-            <tubs name="Solenoid" rmin="sol_rmin" rmax="sol_rmax" dz="sol_hlength" material="Aluminum">
-                <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
-            </tubs>
-        </detector>
-    </detectors>
+  <detectors>
+    <detector id="ODD_Solenoid_ID" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum">
+      <type_flags type="DetType_TRACKER" />
+      <boundary_material surface="inner" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
+      <tubs name="Solenoid" rmin="sol_rmin" rmax="sol_rmax" dz="sol_hlength" material="Aluminum">
+        <layer_material surface="representing" binning="binPhi,binZ" bins0="mat_sol_bPhi" bins1="mat_sol_bZ"/>
+      </tubs>
+    </detector>
+  </detectors>
 
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="Solenoid"/>
       <argument value="passive_layer: bool = true"/>
-    </plugin>	
+      <argument value="acts_passive_surface: bool = true"/>
+      <argument value="acts_passive_surface_proto_material: bool = true"/>
+      <argument value="acts_passive_surface_proto_material_binning_dim: int = 2"/>
+      <argument value="acts_passive_surface_proto_material_binning_z_type: str = equidistant"/>
+      <argument value="acts_passive_surface_proto_material_binning_z_n: int = 250"/>
+      <argument value="acts_passive_surface_proto_material_binning_z_autorange: bool = true"/>
+      <argument value="acts_passive_surface_proto_material_binning_phi_type: str = equidistant"/>
+      <argument value="acts_passive_surface_proto_material_binning_phi_n: int = 1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_bvalues_n: int = 3"/>
+      <argument value="acts_volume_bvalues_0: double = ls_env_rmax"/>
+      <argument value="acts_volume_bvalues_1: double = tracker_region_rmax"/>
+      <argument value="acts_volume_bvalues_2: double = tracker_region_zmax"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+    </plugin>
   </plugins>
 </lccdd>

@@ -11,13 +11,43 @@
     </readout>
   </readouts>
 
-  <detectors>
+  <define>
+    <!-- Short strip endcap surface binning: setting -->
+    <constant name="ss_e_sf_b" value="2"/>
+    <constant name="ss_e_sf_b_r" value="3"/>
+    <constant name="ss_e_sf_e_r" value="1"/>
+    <constant name="ss_e_sf_b_phi" value="42"/>
+    <constant name="ss_e_sf_e_phi" value="1"/>
+    <constant name="ss_e_clear" value="1.*mm"/>
+    <!-- Short strip barrel surface binning: setting -->
+    <constant name="ss_b_sf_b" value="2"/>
+    <constant name="ss_b_sf_b_z" value="21"/>
+    <constant name="ss_b_sf_e_z" value="1"/>
+    <constant name="ss_b_clear" value="1.*mm"/>
+    <constant name="ss_b0_sf_b_phi" value="40"/>
+    <constant name="ss_b1_sf_b_phi" value="56"/>
+    <constant name="ss_b2_sf_b_phi" value="78"/>
+    <constant name="ss_b3_sf_b_phi" value="102"/>
+    <constant name="ss_b_sf_e_phi" value="1"/>
+  </define>
 
+  <detectors>
+    <!--- define the short strip assembly -->
+    <detector id="ODD_ShortStrip_ID" name="ShortStrips" type="DD4hep_SubdetectorAssembly" vis="invisible">
+      <shape name="ShortStripVolume" type="Tube" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_env_dz" material="Air"/>
+      <composite name="ShortStripEndcapN"/>
+      <composite name="ShortStripBarrel"/>
+      <composite name="ShortStripEndcapP"/>
+    </detector>
+  </detectors>
+
+
+  <detectors>
     <!--EndcapN-->
     <detector id="ODD_ShortStripEndcapN_ID" name="ShortStripEndcapN" type="ODDStripEndcap" readout="ShortStripEndcapReadout" vis="invisible">
       <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
       <dimensions name="ShortStripEndcapShape" rmin="ss_env_rmin" rmax="ss_env_rmax" dz="ss_e_dz" z="ss_e_nz"/>
-      <ring name="Ring0" r="318*mm" nphi="42" reflect="true" phi0="0." gap="2.5*mm" z_offset="5.*mm">
+      <ring name="Ring0" r="318*mm" nphi="ss_e_sf_b_phi" reflect="true" phi0="0." gap="2.5*mm" z_offset="5.*mm">
         <module name="ShortStripEndcapModuleR0" vis="invisible">
           <module_component name="Sensor" alpha="0." x1="18.4*mm" x2="32.2*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="0." x1="19.2*mm" x2="33.*mm" length="78.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-0.375*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
@@ -29,14 +59,14 @@
         <support name="SupportRing1" rmin="370.*mm" rmax="430.*mm" dz="2.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
         <cooling_ring rmin="1.4*mm" rmax="1.6*mm" r="432.*mm" gap="21.3*mm" nphi="32" z_offset="0.*mm" material="Ti" vis="orange"/>
       </ring>
-      <ring name="Ring1" r="470*mm" nphi="42" reflect="true" phi0="0.0748*rad" gap="2.5*mm" z_offset="-5.*mm">
+      <ring name="Ring1" r="470*mm" nphi="ss_e_sf_b_phi" reflect="true" phi0="0.0748*rad" gap="2.5*mm" z_offset="-5.*mm">
         <module name="ShortStripEndcapModuleR1" vis="invisible">
           <module_component name="Sensor" alpha="0." x1="30.2*mm" x2="44.0*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="0." x1="31.0*mm" x2="44.8*mm" length="78.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-0.475*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
           <module_component name="Connector" alpha="0." x1="15.2*mm" x2="22.*mm" length="44.8*mm" thickness="0.2*mm" x_offset="0.*mm" y_offset="-0.7*mm" z_offset="0.*mm" material="Al" vis="red" sensitive="false"/>
         </module>
       </ring>
-      <ring name="Ring2" r="622*mm" nphi="42" reflect="true" phi0="0." gap="2.5*mm" z_offset="5.*mm">
+      <ring name="Ring2" r="622*mm" nphi="ss_e_sf_b_phi" reflect="true" phi0="0." gap="2.5*mm" z_offset="5.*mm">
         <module name="ShortStripEndcapModuleR2" vis="invisible">
           <module_component name="Sensor" alpha="0." x1="40.8*mm" x2="56.4*mm" length="78.*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="0.*mm" z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
           <module_component name="Board" alpha="0." x1="41.6*mm" x2="57.2*mm" length="78.8*mm" thickness="0.25*mm" x_offset="0.*mm" y_offset="-0.375*mm" z_offset="0.*mm" material="Kapton" vis="Kapton" sensitive="false"/>
@@ -49,27 +79,27 @@
         <support name="SupportRing1" rmin="670.*mm" rmax="710.*mm" dz="2.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
       </ring>
       <layer id="0" name="ShortStripEndcapN0" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="-1300.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="ss_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="1" name="ShortStripEndcapN1" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="-1550.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="ss_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="2" name="ShortStripEndcapN2" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="-1850.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="ss_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="3" name="ShortStripEndcapN3" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="-2200.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="ss_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="4" name="ShortStripEndcapN4" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="-2550.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="ss_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="5" name="ShortStripEndcapN5" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="-2950.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="ss_e_sf_b_phi"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <services>
@@ -103,22 +133,22 @@
         <module_component name="Sensor" alpha="0." dx="48.*mm" dy="108.*mm" dz="0.2*mm" x_offset="0." y_offset="0." z_offset="0.*mm" material="Silicon" vis="Silicon" sensitive="true"/>
       </module>
       <!-- the dimensionality in z is [-4.8mm, 0.1mm] -->
-      <stave name="ShortStripBarrelStave" dx="24.*mm" dy="1140.*mm" dz="2.45*mm" z_offset="2.35*mm" nmodules="21" gap="0.5*mm" vis="invisible">
+      <stave name="ShortStripBarrelStave" dx="24.*mm" dy="1140.*mm" dz="2.45*mm" z_offset="2.35*mm" nmodules="ss_b_sf_b_z" gap="0.5*mm" vis="invisible">
         <eltube name="CableBundle" rmin="0.5*mm" rmax="1.5*mm" r="245.*mm" x_offset="12.*mm" y_offset="0.*mm" z_offset="-9.*mm" material="Cu" vis="orange"/>
       </stave>
-      <layer id="0" name="ShortStripLayer0" rmin="240.*mm" r="260.*mm" rmax="280.*mm" outer_z="20.*mm" nphi="40" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="0" name="ShortStripLayer0" rmin="240.*mm" r="260.*mm" rmax="280.*mm" outer_z="20.*mm" nphi="ss_b0_sf_b_phi" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="SupportCylinder" rmin="228*mm" rmax="230.*mm" dz="1000.*mm" z_offset="0.*mm" nsides="1" material="CarbonFiber" vis="CarbonFiber"/>
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_sst_barrel_bPhi" bins1="mat_sst_barrel_bZ"/>
       </layer>
-      <layer id="1" name="ShortStripLayer1" rmin="340.*mm" r="360.*mm" rmax="380.*mm" outer_z="20.*mm" nphi="56" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="1" name="ShortStripLayer1" rmin="340.*mm" r="360.*mm" rmax="380.*mm" outer_z="20.*mm" nphi="ss_b1_sf_b_phi" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="SupportCylinder" rmin="334*mm" rmax="336.*mm" dz="1000.*mm" z_offset="0.*mm" nsides="1" material="CarbonFiber" vis="CarbonFiber" />
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_sst_barrel_bPhi" bins1="mat_sst_barrel_bZ"/>
       </layer>
-      <layer id="2" name="ShortStripLayer2" rmin="480.*mm" r="500.*mm" rmax="520.*mm" outer_z="20.*mm" nphi="78" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="2" name="ShortStripLayer2" rmin="480.*mm" r="500.*mm" rmax="520.*mm" outer_z="20.*mm" nphi="ss_b2_sf_b_phi" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="SupportCylinder" rmin="474.*mm" rmax="476.*mm" dz="1000.*mm" z_offset="0.*mm" nsides="1" material="CarbonFiber" vis="CarbonFiber" />
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_sst_barrel_bPhi" bins1="mat_sst_barrel_bZ"/>
       </layer>
-      <layer id="3" name="ShortStripLayer3" rmin="640.*mm" r="660.*mm" rmax="680.*mm" outer_z="20.*mm" nphi="102" phi_tilt="-0.15" phi0="0." vis="invisible">
+      <layer id="3" name="ShortStripLayer3" rmin="640.*mm" r="660.*mm" rmax="680.*mm" outer_z="20.*mm" nphi="ss_b3_sf_b_phi" phi_tilt="-0.15" phi0="0." vis="invisible">
         <support name="SupportCylinder" rmin="634.*mm" rmax="636.*mm" dz="1000.*mm" z_offset="0.*mm" nsides="1" material="CarbonFiber" vis="CarbonFiber" />
         <layer_material surface="inner" binning="binPhi,binZ" bins0="mat_sst_barrel_bPhi" bins1="mat_sst_barrel_bZ"/>
       </layer>
@@ -169,27 +199,27 @@
         <support name="SupportRing1" rmin="670.*mm" rmax="710.*mm" dz="2.*mm" z_offset="0.*mm" material="CarbonFiber" vis="CarbonFiber"/>
       </ring>
       <layer id="0" name="ShortStripEndcapP0" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="1300.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="42"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="1" name="ShortStripEndcapP1" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="1550.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="42"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="2" name="ShortStripEndcapP2" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="1850.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="42"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="3" name="ShortStripEndcapP3" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="2200.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="42"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="4" name="ShortStripEndcapP4" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="2550.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="42"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <layer id="5" name="ShortStripEndcapP5" rmin="210.*mm" rmax="715.*mm" dz="50.*mm" z_offset="2950.*mm" vis="invisible">
-        <surface_binning nr="3" nphi="42"/>
+        <surface_binning nr="ss_e_sf_b_r" nphi="42"/>
         <layer_material surface="representing" binning="binPhi,binR" bins0="mat_sst_endcap_bPhi" bins1="mat_sst_endcap_bR"/>
       </layer>
       <services>
@@ -207,17 +237,581 @@
 
   <plugins>
     <plugin name="DD4hep_ParametersPlugin">
+      <argument value="ShortStrips"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = tracker_region_zmax"/>
+      <argument value="acts_container_binning: str = z"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
       <argument value="ShortStripEndcapN"/>
       <argument value="layer_pattern=ShortStripEndcapN\d"/>
-    </plugin>	
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = ss_e_dz"/>
+      <argument value="acts_container_z: double = ss_e_nz"/>
+      <argument value="acts_container_binning: str = z"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+    </plugin>
     <plugin name="DD4hep_ParametersPlugin">
-      <argument value="ShortStripEndcapP"/>
-      <argument value="layer_pattern=ShortStripEndcapP\d"/>
-    </plugin>	
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapN/ShortStripEndcapN0"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapN/ShortStripEndcapN1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapN/ShortStripEndcapN2"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapN/ShortStripEndcapN3"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapN/ShortStripEndcapN4"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapN/ShortStripEndcapN5"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="ShortStripBarrel"/>
       <argument value="layer_pattern=ShortStripLayer\d"/>
-    </plugin>	
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = ss_b_dz"/>
+      <argument value="acts_container_binning: str = r"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripBarrel/ShortStripLayer0"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+      <argument value="acts_surface_binning_z_type: str = equidistant"/>
+      <argument value="acts_surface_binning_z_autorange: bool = true"/>
+      <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+      <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_b0_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripBarrel/ShortStripLayer1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+      <argument value="acts_surface_binning_z_type: str = equidistant"/>
+      <argument value="acts_surface_binning_z_autorange: bool = true"/>
+      <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+      <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_b1_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripBarrel/ShortStripLayer2"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+      <argument value="acts_surface_binning_z_type: str = equidistant"/>
+      <argument value="acts_surface_binning_z_autorange: bool = true"/>
+      <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+      <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_b2_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripBarrel/ShortStripLayer3"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_b_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_b_sf_b"/>
+      <argument value="acts_surface_binning_z_type: str = equidistant"/>
+      <argument value="acts_surface_binning_z_autorange: bool = true"/>
+      <argument value="acts_surface_binning_z_n: int = ss_b_sf_b_z"/>
+      <argument value="acts_surface_binning_z_exp: int = ss_b_sf_e_z"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_b3_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_b_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_2: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="ShortStripEndcapP"/>
+      <argument value="layer_pattern=ShortStripEndcapP\d"/>
+      <argument value="acts_container: bool = true"/>
+      <argument value="acts_container_type: int = 3"/>
+      <argument value="acts_container_bvalues_n: int = 3"/>
+      <argument value="acts_container_bvalues_0: double = ss_env_rmin"/>
+      <argument value="acts_container_bvalues_1: double = ss_env_rmax"/>
+      <argument value="acts_container_bvalues_2: double = ss_e_dz"/>
+      <argument value="acts_container_z: double = ss_e_pz"/>
+      <argument value="acts_container_binning: str = z"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapP/ShortStripEndcapP0"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapP/ShortStripEndcapP1"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapP/ShortStripEndcapP2"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapP/ShortStripEndcapP3"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapP/ShortStripEndcapP4"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="/world/OpenDataTracker/ShortStrips/ShortStripEndcapP/ShortStripEndcapP5"/>
+      <argument value="acts_volume: bool = true"/>
+      <argument value="acts_volume_type: int = 3"/>
+      <argument value="acts_volume_internals: bool = true"/>
+      <argument value="acts_volume_internals_type: str = layer"/>
+      <argument value="acts_volume_internals_measure: str = z,r"/>
+      <argument value="acts_volume_internals_clearance: double = ss_e_clear"/>
+      <argument value="acts_surface_binning_dim: int = ss_e_sf_b"/>
+      <argument value="acts_surface_binning_r_type: str = equidistant"/>
+      <argument value="acts_surface_binning_r_autorange: bool = true"/>
+      <argument value="acts_surface_binning_r_n: int = ss_e_sf_b_r"/>
+      <argument value="acts_surface_binning_r_exp: int = ss_e_sf_e_r"/>
+      <argument value="acts_surface_binning_phi_type: str = equidistant"/>
+      <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
+      <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
+      <argument value="acts_portal_proto_material_0: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+    </plugin>
   </plugins>
 
 </lccdd>
