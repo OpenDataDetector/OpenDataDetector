@@ -9,8 +9,7 @@
       "value": {
         "smearing": [
           { "index": 0, "stddev": 0.015, "type": "Gauss" },
-          { "index": 1, "stddev": 0.015, "type": "Gauss" },
-          { "index": 5, "stddev": 25, "type": "Gauss" }
+          { "index": 1, "stddev": 0.015, "type": "Gauss" }
         ]
       }
     },
@@ -19,8 +18,7 @@
       "value": {
         "smearing": [
           { "index": 0, "stddev": 0.015, "type": "Gauss" },
-          { "index": 1, "stddev": 0.015, "type": "Gauss" },
-          { "index": 5, "stddev": 25, "type": "Gauss" }
+          { "index": 1, "stddev": 0.015, "type": "Gauss" }
         ]
       }
     },
@@ -29,8 +27,7 @@
       "value": {
         "smearing": [
           { "index": 0, "stddev": 0.015, "type": "Gauss" },
-          { "index": 1, "stddev": 0.015, "type": "Gauss" },
-          { "index": 5, "stddev": 25, "type": "Gauss" }
+          { "index": 1, "stddev": 0.015, "type": "Gauss" }
         ]
       }
     },
