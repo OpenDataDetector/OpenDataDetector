@@ -12,14 +12,19 @@
   </readouts>
 
   <define>
-    <!-- Pixel endcap surface binning: setting -->
+    <!-- Overall pixel material binning-->
+    <constant name="pix_p_mat_b_z" value="200"/>
+    <constant name="pix_p_mat_b_phi" value="144"/>
+    <!-- Pixel endcap surface & material binning: setting -->
     <constant name="pix_e_v_dz" value="20.*mm"/>
     <constant name="pix_e_sf_b" value="2"/>
     <constant name="pix_e_sf_b_r" value="2"/>
     <constant name="pix_e_sf_e_r" value="1"/>
     <constant name="pix_e_sf_b_phi" value="36"/>
     <constant name="pix_e_sf_e_phi" value="1"/>
-    <!-- Pixel barrel surface binning: setting -->
+    <constant name="pix_e_mat_b_r" value="50"/>
+    <constant name="pix_e_mat_b_phi" value="144"/>
+    <!-- Pixel barrel surface & material binning: setting -->
     <constant name="pix_b_sf_b" value="2"/>
     <constant name="pix_b_sf_b_z" value="14"/>
     <constant name="pix_b_sf_e_z" value="1"/>
@@ -29,8 +34,10 @@
     <constant name="pix_b1_sf_b_phi" value="32"/>
     <constant name="pix_b2_sf_b_phi" value="52"/>
     <constant name="pix_b3_sf_b_phi" value="78"/>
+    <constant name="pix_b_mat_b_r" value="50"/>
+    <constant name="pix_b_mat_b_z" value="200"/>
+    <constant name="pix_b_mat_b_phi" value="144"/>
   </define>
-
 
   <!--- define the pixel detector container -->
   <detectors>
@@ -254,10 +261,10 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_p_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_p_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="PixelEndcapN"/>
@@ -273,10 +280,10 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN0"/>
@@ -297,17 +304,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN1"/>
@@ -328,17 +335,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN2"/>
@@ -359,17 +366,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN3"/>
@@ -390,17 +397,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN4"/>
@@ -421,17 +428,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN5"/>
@@ -452,17 +459,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN6"/>
@@ -483,17 +490,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="PixelBarrel"/>
@@ -508,17 +515,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_b_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_b_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelBarrel/PixelLayer0"/>
@@ -539,17 +546,17 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = pix_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelBarrel/PixelLayer1"/>
@@ -570,17 +577,17 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = pix_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelBarrel/PixelLayer2"/>
@@ -601,17 +608,17 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = pix_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelBarrel/PixelLayer3"/>
@@ -632,17 +639,17 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = pix_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = pix_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="PixelEndcapP"/>
@@ -659,9 +666,9 @@
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP0"/>
@@ -682,17 +689,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP1"/>
@@ -713,17 +720,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP2"/>
@@ -744,17 +751,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP3"/>
@@ -775,17 +782,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP4"/>
@@ -806,17 +813,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP5"/>
@@ -837,17 +844,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapP/PixelEndcapP6"/>
@@ -868,17 +875,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
   </plugins>
 </lccdd>

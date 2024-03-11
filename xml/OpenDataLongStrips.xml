@@ -12,6 +12,9 @@
   </readouts>
 
   <define>
+    <!-- Short strip material binning -->
+    <constant name="ls_p_mat_b_z" value="100"/>
+    <constant name="ls_p_mat_b_phi" value="144"/>
     <!-- Long strip endcap surface binning: setting -->
     <constant name="ls_e_sf_b" value="2"/>
     <constant name="ls_e_sf_b_r" value="2"/>
@@ -19,6 +22,8 @@
     <constant name="ls_e_sf_b_phi" value="48"/>
     <constant name="ls_e_sf_e_phi" value="1"/>
     <constant name="ls_e_clear" value="1.*mm"/>
+    <constant name="ls_e_mat_b_r" value="25"/>
+    <constant name="ls_e_mat_b_phi" value="144"/>
     <!-- Long strip barrel surface binning: setting -->
     <constant name="ls_b_sf_b" value="2"/>
     <constant name="ls_b_sf_b_z" value="21"/>
@@ -27,8 +32,10 @@
     <constant name="ls_b0_sf_b_phi" value="60"/>
     <constant name="ls_b1_sf_b_phi" value="80"/>
     <constant name="ls_b_sf_e_phi" value="1"/>
+    <constant name="ls_b_mat_b_r" value="50"/>
+    <constant name="ls_b_mat_b_z" value="100"/>
+    <constant name="ls_b_mat_b_phi" value="144"/>     
   </define>
-
 
   <detectors>
     <!-- define the long strip assembly -->
@@ -248,10 +255,10 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = ls_p_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = ls_p_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="LongStripEndcapN"/>
@@ -267,10 +274,10 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN0"/>
@@ -291,17 +298,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN1"/>
@@ -322,17 +329,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN2"/>
@@ -353,17 +360,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN3"/>
@@ -384,17 +391,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN4"/>
@@ -415,17 +422,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapN/LongStripEndcapN5"/>
@@ -446,17 +453,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="LongStripBarrel"/>
@@ -471,17 +478,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_b_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_b_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripBarrel/LongStripLayer0"/>
@@ -502,17 +509,17 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = ls_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = ls_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = ls_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = ls_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripBarrel/LongStripLayer1"/>
@@ -533,17 +540,17 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = ls_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_phi_n: int = ls_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_3_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_3_binning_z_n: int = 100"/>
+      <argument value="acts_portal_proto_material_3_binning_z_n: int = ls_b_mat_b_z"/>
       <argument value="acts_portal_proto_material_3_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_3_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_3_binning_phi_n: int = ls_b_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="LongStripEndcapP"/>
@@ -559,10 +566,10 @@
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP0"/>
@@ -583,17 +590,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP1"/>
@@ -614,17 +621,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP2"/>
@@ -645,17 +652,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP3"/>
@@ -676,17 +683,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP4"/>
@@ -707,17 +714,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/LongStrips/LongStripEndcapP/LongStripEndcapP5"/>
@@ -738,17 +745,17 @@
       <argument value="acts_portal_proto_material_0: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_0_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ls_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = 50"/>
+      <argument value="acts_portal_proto_material_1_binning_r_n: int = ls_e_mat_b_r"/>
       <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>
+      <argument value="acts_portal_proto_material_1_binning_phi_n: int = ls_e_mat_b_phi"/>
     </plugin>
   </plugins>
 

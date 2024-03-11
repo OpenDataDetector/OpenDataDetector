@@ -1,4 +1,11 @@
 <lccdd>
+
+<define>
+    <!-- Short strip material binning -->
+    <constant name="sol_p_mat_b_z" value="250"/>
+    <constant name="sol_p_mat_b_phi" value="1"/>
+  </define>
+
   <detectors>
     <detector id="ODD_Solenoid_ID" name="Solenoid" type="ODDCylinder" beampipe="false" vis="Aluminum">
       <type_flags type="DetType_TRACKER" />
@@ -17,10 +24,10 @@
       <argument value="acts_passive_surface_proto_material: bool = true"/>
       <argument value="acts_passive_surface_proto_material_binning_dim: int = 2"/>
       <argument value="acts_passive_surface_proto_material_binning_z_type: str = equidistant"/>
-      <argument value="acts_passive_surface_proto_material_binning_z_n: int = 250"/>
+      <argument value="acts_passive_surface_proto_material_binning_z_n: int = sol_p_mat_b_z"/>
       <argument value="acts_passive_surface_proto_material_binning_z_autorange: bool = true"/>
       <argument value="acts_passive_surface_proto_material_binning_phi_type: str = equidistant"/>
-      <argument value="acts_passive_surface_proto_material_binning_phi_n: int = 1"/>
+      <argument value="acts_passive_surface_proto_material_binning_phi_n: int = sol_p_mat_b_phi"/>
       <argument value="acts_volume: bool = true"/>
       <argument value="acts_volume_type: int = 3"/>
       <argument value="acts_volume_bvalues_n: int = 3"/>
