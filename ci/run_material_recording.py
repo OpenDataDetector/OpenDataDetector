@@ -75,7 +75,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
         )
 
         #  dd4hepSvc = acts.examples.dd4hep.DD4hepGeometryService(
-            #  xmlFileNames=[str(oddDir/ "xml/OpenDataDetector.xml")]
+        #  xmlFileNames=[str(oddDir/ "xml/OpenDataDetector.xml")]
         #  )
         #  g4geo = acts.examples.geant4.dd4hep.DDG4DetectorConstruction(dd4hepSvc)
 
@@ -95,11 +95,14 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
                         mean=acts.Vector4(0, 0, 0, 0),
                     ),
                     particles=ParametricParticleGenerator(
-                        p=(1 * u.GeV, 10 * u.GeV), eta=(-4, 4), numParticles=tracksPerEvent
+                        p=(1 * u.GeV, 10 * u.GeV),
+                        eta=(-4, 4),
+                        numParticles=tracksPerEvent,
                     ),
                 )
             ],
             outputParticles="particles_initial",
+            outputVertices="vertices_initial",
             randomNumbers=rnd,
         )
 
@@ -113,18 +116,17 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
             outputMaterialTracks="material_tracks",
         )
 
-
         #  g4AlgCfg = acts.examples.geant4.materialRecordingConfig(
-            #  level=acts.logging.INFO,
-            #  detector=g4geo,
-            #  inputParticles=evGen.config.outputParticles,
-            #  outputMaterialTracks="material_tracks",
+        #  level=acts.logging.INFO,
+        #  detector=g4geo,
+        #  inputParticles=evGen.config.outputParticles,
+        #  outputMaterialTracks="material_tracks",
         #  )
 
         #  g4AlgCfg.detectorConstruction = g4geo
 
         #  g4Alg = acts.examples.geant4.Geant4Simulation(
-            #  level=acts.logging.INFO, config=g4AlgCfg
+        #  level=acts.logging.INFO, config=g4AlgCfg
         #  )
 
         s.addAlgorithm(g4Alg)
@@ -134,7 +136,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
             acts.examples.RootMaterialTrackWriter(
                 prePostStep=True,
                 recalculateTotals=True,
-                collection="material_tracks",
+                inputMaterialTracks="material_tracks",
                 filePath=str(outfile),
                 level=acts.logging.INFO,
             )

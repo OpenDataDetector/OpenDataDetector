@@ -17,7 +17,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 # Find the DD4Hep package with corresponding library
-find_package(DD4hep 1.21 REQUIRED CONFIG COMPONENTS DDCore DDDetectors)
+find_package(DD4hep 1.27 REQUIRED CONFIG COMPONENTS DDCore DDDetectors)
 dd4hep_set_compiler_flags()
 
 # Add the main factory 

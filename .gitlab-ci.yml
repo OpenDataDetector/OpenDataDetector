@@ -5,10 +5,10 @@ stages:
   - deploy
 
 default:
-  image: ghcr.io/acts-project/ubuntu2204:v35
+  image: ghcr.io/acts-project/ubuntu2204:49
 
 variables:
-  ACTS_VERSION: v32.1.0
+  ACTS_VERSION: v35.1.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
 
 
