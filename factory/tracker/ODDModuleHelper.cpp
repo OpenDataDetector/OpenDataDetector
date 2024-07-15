@@ -87,11 +87,12 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
     if (x_comp.isSensitive()) {
       sens.setType("tracker");
       componentVolume.setSensitiveDetector(sens);
-      placedComponent.addPhysVolID("sensor", sensorNum++);
+      placedComponent.addPhysVolID("sensor", sensorNum);
       // Create the sensor element and place it
       std::string sensorName = _toString((int)sensorNum, "sensor%d");
       DetElement sensorElement(moduleElement, sensorName, sensorNum);
       sensorElement.setPlacement(placedComponent);
+      sensorNum++;
 
       // Add the sensor extension
       auto &params = ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
@@ -190,12 +191,13 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
     if (x_comp.isSensitive()) {
       sens.setType("tracker");
       componentVolume.setSensitiveDetector(sens);
-      placedComponent.addPhysVolID("sensor", sensorNum++);
+      placedComponent.addPhysVolID("sensor", sensorNum);
 
       // Create the sensor element and place it
       std::string sensorName = _toString((int)sensorNum, "sensor%d");
       DetElement sensorElement(moduleElement, sensorName, sensorNum);
       sensorElement.setPlacement(placedComponent);
+      sensorNum++;
 
       // Add the sensor extension
       auto &params = ODDHelper::ensureExtension<dd4hep::rec::VariantParameters>(
