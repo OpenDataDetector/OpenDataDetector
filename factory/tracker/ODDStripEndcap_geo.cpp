@@ -67,7 +67,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   for (xml_coll_t ring(x_det, _U(ring)); ring; ++ring, ++ringNum) {
     xml_comp_t x_ring = ring;
 
-    string ringName = "Ring" + std::to_string(ringNum);
+    string ringName = "ring" + std::to_string(ringNum);
     Assembly ringAssembly(ringName);
 
     // DetElement tree
