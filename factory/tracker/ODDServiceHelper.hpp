@@ -20,7 +20,6 @@ template <typename volume_t>
 void buildBarrelRouting(dd4hep::Detector& oddd, volume_t& barrelVolume,
                         const xml_comp_t& x_routing,
                         const std::vector<double>& layerR) {
-
   using namespace dd4hep;
 
   // Grab the cables & route them outwards
@@ -39,12 +38,10 @@ void buildBarrelRouting(dd4hep::Detector& oddd, volume_t& barrelVolume,
     double rpos = 0.5 * (layerR[ib] + layerR[ib - 1]);
 
     Tube cable(rmin, rmax, 0.5 * clength);
-    Volume cableVolume("Cable", cable,
-                       oddd.material(x_routing.materialStr()));
+    Volume cableVolume("Cable", cable, oddd.material(x_routing.materialStr()));
     cableVolume.setVisAttributes(oddd, x_routing.visStr());
 
     for (int side = -1; side < 2; side += 2) {
-
       Assembly cableboxAssembly("CableBox");
       if (x_routing.hasChild(_U(box))) {
         // The box plate for the cables
@@ -95,9 +92,8 @@ template <typename volume_t>
 void buildEndcapRouting(dd4hep::Detector& oddd, volume_t& endcapVolume,
                         const xml_comp_t& x_routing,
                         const std::vector<double>& endcapZ) {
-  
   using namespace dd4hep;
-  
+
   // Grab the cables & route them outwards
   unsigned int nphi = x_routing.nphi();
 
@@ -127,8 +123,7 @@ void buildEndcapRouting(dd4hep::Detector& oddd, volume_t& endcapVolume,
     }
 
     Tube cable(rmin, rmax, 0.5 * clength);
-    Volume cableVolume("Cable", cable,
-                       oddd.material(x_routing.materialStr()));
+    Volume cableVolume("Cable", cable, oddd.material(x_routing.materialStr()));
     cableVolume.setVisAttributes(oddd, x_routing.visStr());
 
     for (unsigned int icable = 0; icable < n * iec; ++icable) {
@@ -166,14 +161,14 @@ template <typename volume_t>
 void buildSupportCylinder(dd4hep::Detector& oddd, volume_t& motherVolume,
                           const xml_comp_t& x_mother_comp,
                           std::vector<double>& layerR) {
-  
   using namespace dd4hep;
-  
+
   size_t supportNum = 0;
   for (xml_coll_t sup(x_mother_comp, _U(support)); sup; ++sup, ++supportNum) {
     xml_comp_t x_support = sup;
     // Create the volume of the support structure
-    std::string supportName = _toString((int)supportNum, "SupportCylinder%d");
+    std::string supportName =
+        _toString(static_cast<int>(supportNum), "SupportCylinder%d");
 
     // Remember the layer radius if it is needed for operation
     if (x_support.hasChild(_Unicode(connector))) {
@@ -204,9 +199,8 @@ void buildSupportCylinder(dd4hep::Detector& oddd, volume_t& motherVolume,
 template <typename volume_t>
 void buildCoolingRings(dd4hep::Detector& oddd, volume_t& motherVolume,
                        const xml_comp_t& x_mother_comp) {
-  
   using namespace dd4hep;
-  
+
   size_t cringNum = 0;
   for (xml_coll_t cring(x_mother_comp, _Unicode(cooling_ring)); cring;
        ++cring, ++cringNum) {

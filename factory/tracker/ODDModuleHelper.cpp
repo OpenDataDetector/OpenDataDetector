@@ -30,8 +30,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
     xml_comp_t x_comp = comp;
 
     // create the component volume
-    std::string compName =
-        _toString((int)compNum, "component%d") + x_comp.materialStr();
+    std::string compName = _toString(static_cast<int>(compNum), "component%d") +
+                           x_comp.materialStr();
 
     Trapezoid trapShape(x_comp.x1(), x_comp.x2(), 0.5 * x_comp.thickness(),
                         0.5 * x_comp.thickness(), x_comp.length());
@@ -89,7 +89,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
       componentVolume.setSensitiveDetector(sens);
       placedComponent.addPhysVolID("sensor", sensorNum);
       // Create the sensor element and place it
-      std::string sensorName = _toString((int)sensorNum, "sensor%d");
+      std::string sensorName =
+          _toString(static_cast<int>(sensorNum), "sensor%d");
       DetElement sensorElement(moduleElement, sensorName, sensorNum);
       sensorElement.setPlacement(placedComponent);
       sensorNum++;
@@ -125,7 +126,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
     xml_comp_t x_comp = comp;
 
     // Component volume
-    std::string componentName = _toString((int)compNum, "component%d");
+    std::string componentName =
+        _toString(static_cast<int>(compNum), "component%d");
     Box boxShape(0.5 * x_comp.dx(), 0.5 * x_comp.dy(), 0.5 * x_comp.dz());
     // Standard component volume without cutout
     Volume componentVolume(componentName, boxShape,
@@ -194,7 +196,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
       placedComponent.addPhysVolID("sensor", sensorNum);
 
       // Create the sensor element and place it
-      std::string sensorName = _toString((int)sensorNum, "sensor%d");
+      std::string sensorName =
+          _toString(static_cast<int>(sensorNum), "sensor%d");
       DetElement sensorElement(moduleElement, sensorName, sensorNum);
       sensorElement.setPlacement(placedComponent);
       sensorNum++;

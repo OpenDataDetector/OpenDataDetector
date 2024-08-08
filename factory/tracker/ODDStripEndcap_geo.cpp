@@ -88,7 +88,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
       for (unsigned int modNum = 0; modNum < nPhi; ++modNum) {
         // The module name
-        string moduleName = _toString((int)modNum, "module%d");
+        string moduleName = _toString(static_cast<int>(modNum), "module%d");
 
         bool odd = bool(modNum % 2);
 
@@ -125,7 +125,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
       for (xml_coll_t sup(x_ring, _U(support)); sup; ++sup, ++supportNum) {
         xml_comp_t x_support = sup;
         // Create the volume of the support structure
-        string supportName = _toString((int)supportNum, "RingSupport%d");
+        string supportName =
+            _toString(static_cast<int>(supportNum), "RingSupport%d");
         Volume supportVolume(
             supportName,
             Tube(x_support.rmin(), x_support.rmax(), x_support.dz()),
@@ -160,7 +161,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     layerVolume.setVisAttributes(oddd, x_layer.visStr());
 
-    string diskElName = _toString((int)layNum, "disk%d");
+    string diskElName = _toString(static_cast<int>(layNum), "disk%d");
 
     // The DetElement tree
     DetElement layerElement(x_layer.nameStr(), layNum);

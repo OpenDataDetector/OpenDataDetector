@@ -89,7 +89,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
         module.first, Position(0., positionY, staveOffset));
     placedModule.addPhysVolID("module", moduleNum);
 
-    string moduleName = _toString((int)moduleNum, "module%d");
+    string moduleName = _toString(static_cast<int>(moduleNum), "module%d");
     // Clone the detector element
     auto moduleElement = module.second.clone(moduleName, moduleNum);
     moduleElement.setPlacement(placedModule);
@@ -175,7 +175,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     // Loop over the staves and place them
     for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum) {
-      string placedStaveName = _toString((int)staveNum, "stave%d");
+      string placedStaveName = _toString(static_cast<int>(staveNum), "stave%d");
       // position of the stave
       double phi = phi0 + staveNum * phiStep;
       double x = r * cos(phi);
@@ -222,7 +222,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
       layerParams.set<bool>("passive_surface", true);
       layerParams.set<int>("passive_surface_count", nMaterialSurfaces);
     }
-    
+
     PlacedVolume placedLayer = barrelVolume.placeVolume(layerVolume);
     placedLayer.addPhysVolID("layer", layerNum);
 

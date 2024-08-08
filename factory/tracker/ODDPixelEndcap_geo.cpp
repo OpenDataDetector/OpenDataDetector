@@ -69,7 +69,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     xml_comp_t x_ring = ring;
 
     // The ring name
-    string ringName = _toString((int)ringNum, "ring%d");
+    string ringName = _toString(static_cast<int>(ringNum), "ring%d");
     Assembly ringAssembly(ringName);
     ringAssembly.setVisAttributes(oddd, x_ring.visStr());
 
@@ -90,7 +90,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
       // Loop over modules
       for (unsigned int modNum = 0; modNum < nModules; ++modNum) {
         // The module name
-        string moduleName = _toString((int)modNum, "module%d");
+        string moduleName = _toString(static_cast<int>(modNum), "module%d");
 
         bool odd = bool(modNum % 2);
 
@@ -153,7 +153,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     layerVolume.setVisAttributes(oddd, x_layer.visStr());
 
-    string diskElName = _toString((int)layNum, "disk%d");
+    string diskElName = _toString(static_cast<int>(layNum), "disk%d");
 
     // The DetElement tree
     DetElement layerElement(layerName, layNum);
