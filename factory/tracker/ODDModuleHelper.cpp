@@ -175,8 +175,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
 
     // Calculate the module dimension
     double cylength =
-        2. * abs(std::copysign(0.5 * x_comp.dy(), x_comp.y_offset()) +
-                 x_comp.y_offset());
+        2. * std::fabs(std::copysign(0.5 * x_comp.dy(), x_comp.y_offset()) +
+                       x_comp.y_offset());
     ylength = cylength > ylength ? cylength : ylength;
 
     // Visualization
