@@ -3,11 +3,11 @@
   <readouts>
     <readout name="PixelBarrelReadout">
       <segmentation type="CartesianGridXY" grid_size_x="0.05*mm" grid_size_y="0.05*mm"/>
-      <id>system:4,layer:4,stave:8,module:4,sensor:1,x:24:-12,y:-12</id>
+      <id>system:4,layer:4,stave:8,module:4,sensor:1,x:32:-12,y:-12</id>
     </readout>
     <readout name="PixelEndcapReadout">
       <segmentation type="CartesianGridXY" grid_size_x="0.05*mm" grid_size_y="0.05*mm"/>
-      <id>system:4,layer:4,ring:2,module:8,sensor:2,x:24:-12,y:-12</id>
+      <id>system:4,layer:4,ring:2,module:8,sensor:2,x:32:-12,y:-12</id>
     </readout>
   </readouts>
 
