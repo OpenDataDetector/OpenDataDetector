@@ -700,13 +700,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = ss_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = ss_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = ss_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = ss_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
