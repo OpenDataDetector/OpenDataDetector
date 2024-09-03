@@ -30,6 +30,20 @@
             <argument value="acts_world_binning: str = r"/>
             <argument value="acts_world_geo_id: str = incremental"/>
             <argument value="acts_world_root_volume_finder: str = indexed"/>
+            <argument value="acts_portal_proto_material_0: bool = true"/>
+            <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
+            <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
+            <argument value="acts_portal_proto_material_0_binning_r_n: int = 100"/>
+            <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
+            <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
+            <argument value="acts_portal_proto_material_0_binning_phi_n: int = 1"/>
+            <argument value="acts_portal_proto_material_1: bool = true"/>
+            <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
+            <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
+            <argument value="acts_portal_proto_material_1_binning_r_n: int = 100"/>
+            <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
+            <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
+            <argument value="acts_portal_proto_material_1_binning_phi_n: int = 1"/>            
         </plugin>
     </plugins>
 
