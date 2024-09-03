@@ -2,8 +2,8 @@
     <define>
         <!-- Material binning section -->
         <!-- beam pipe section -->
-        <constant name="mat_bp_bPhi" value="144"/>
-        <constant name="mat_bp_bZ" value="10"/>
+        <constant name="mat_bp_bPhi" value="1"/>
+        <constant name="mat_bp_bZ" value="250"/>
         <!-- pixel section -->
         <constant name="mat_pix_barrel_bPhi" value="144"/>
         <constant name="mat_pix_barrel_bZ" value="200"/>
@@ -25,5 +25,9 @@
         <!-- Solenoid section -->
         <constant name="mat_sol_bPhi" value="144"/>
         <constant name="mat_sol_bZ" value="100"/>
+        <!-- detector frame -->
+        <constant name="mat_pix_bPhi" value="144"/>
+        <constant name="mat_pix_bZ" value="100"/>
+        <constant name="mat_pix_bR" value="100"/>
     </define>
 </lccdd>
