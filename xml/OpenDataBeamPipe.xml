@@ -24,10 +24,8 @@
       <argument value="acts_portal_proto_material_2: bool = true"/>
       <argument value="acts_portal_proto_material_2_binning_dim: int = 1"/>
       <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = 1"/>
+      <argument value="acts_portal_proto_material_2_binning_z_n: int = 100"/>
       <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = 1"/>
     </plugin>
   </plugins>
 

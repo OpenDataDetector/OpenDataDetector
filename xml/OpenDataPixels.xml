@@ -308,13 +308,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN1"/>
@@ -339,13 +332,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN2"/>
@@ -370,13 +356,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN3"/>
@@ -401,13 +380,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN4"/>
@@ -432,13 +404,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN5"/>
@@ -463,13 +428,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="/world/OpenDataTracker/Pixels/PixelEndcapN/PixelEndcapN6"/>
@@ -494,13 +452,6 @@
       <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
       <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
       <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
-      <argument value="acts_portal_proto_material_1: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_1_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_1_binning_phi_n: int = pix_e_mat_b_phi"/>
     </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="PixelBarrel"/>
@@ -543,13 +494,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_b0_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_2: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
-      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
@@ -574,13 +518,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_b1_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_2: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
-      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
@@ -605,13 +542,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_b2_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_2: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
-      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
@@ -636,13 +566,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_b3_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_b_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_2: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_2_binning_z_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_z_n: int = pix_b_mat_b_z"/>
-      <argument value="acts_portal_proto_material_2_binning_z_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_2_binning_phi_n: int = pix_b_mat_b_phi"/>
       <argument value="acts_portal_proto_material_3: bool = true"/>
       <argument value="acts_portal_proto_material_3_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_3_binning_z_type: str = equidistant"/>
@@ -686,13 +609,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
@@ -717,13 +633,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
@@ -748,13 +657,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
@@ -779,13 +681,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
@@ -810,13 +705,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
@@ -841,13 +729,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
@@ -872,13 +753,6 @@
       <argument value="acts_surface_binning_phi_type: str = equidistant"/>
       <argument value="acts_surface_binning_phi_n: int = pix_e_sf_b_phi"/>
       <argument value="acts_surface_binning_phi_exp: int = pix_e_sf_e_phi"/>
-      <argument value="acts_portal_proto_material_0: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_dim: int = 2"/>
-      <argument value="acts_portal_proto_material_0_binning_r_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_r_n: int = pix_e_mat_b_r"/>
-      <argument value="acts_portal_proto_material_0_binning_r_autorange: bool = true"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_type: str = equidistant"/>
-      <argument value="acts_portal_proto_material_0_binning_phi_n: int = pix_e_mat_b_phi"/>
       <argument value="acts_portal_proto_material_1: bool = true"/>
       <argument value="acts_portal_proto_material_1_binning_dim: int = 2"/>
       <argument value="acts_portal_proto_material_1_binning_r_type: str = equidistant"/>
