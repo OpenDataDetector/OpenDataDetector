@@ -1,0 +1,149 @@
+<lccdd>
+
+	<display>
+		<vis name="MuonBarrelVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
+		<vis name="MuonChamberVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
+        <vis name="MuonTubeVis" alpha="0.5" r="1." g="0.0" b="0.0" showDaughters="true" visible="false"/>
+		 <vis name="MuonGasTubeVis" alpha="0.5" r="0." g="1." b="0.0" showDaughters="true" visible="false"/>
+        <vis name="MuonEndCapVis" alpha="0.5" r="0.0" g="0.0" b="0.5" showDaughters="true" visible="true"/>
+	</display>
+
+	 <readouts>
+    <readout name="MuonBarrelHits">
+      <segmentation type="CartesianGridXY" grid_size_x="20.*mm" grid_size_y="20.*mm" />
+      <id>system:8,chamber:11,tube:18,x:37:-13,y:-14</id>
+    </readout>
+    <readout name="MuonEndcapHits">
+      <segmentation type="CartesianGridXY" grid_size_x="20.*mm" grid_size_y="20.*mm" />
+      <id>system:8,chamber:8,layer:4,tube:18,x:38:-13,y:-13</id>
+    </readout>
+  </readouts>
+
+  <detectors>
+
+		<!-- Barrel-->
+		<detector id="ODD_MuonSpectroMeterBarrel_ID" name="MuonSpectrometerBarrel" type="ODDMuonBarrel" readout="MuonBarrelHits" vis="MuonBarrelVis">
+			 <type_flags type="DetType_MUON +  DetType_BARREL"/>
+			 <dimensions name="MuonSpectrometerBarrelShape" rmin="ms_b_rmin" rmax="ms_b_rmax" dz="ms_b_dz" z="0.*m"/>
+			     <layer name="InnerLayer"  rmin="ms_b_rmin" rmax="ms_b_rmax_inner" nphi="18" nz="16" z_offset="3">
+			 	<chamber name="chamber" dx="805.*mm" dy="250.*mm" dz="400.*mm" x="0." z="2.*m" y_offset="10.*mm" vis="MuonChamberVis">	
+                    <tubs rmin="1.*mm" rmax="34.*mm"  startphi="0.0*deg" deltaphi="360.*deg" repeat="6" vis="MuonGasTubeVis" sensitive="true" material="ArCO2"/>	
+					<shell name="tubeshell" rmin="34.*mm" rmax="35.*mm"  startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>	                    
+			 	</chamber>
+			</layer>  
+			<layer name="MiddleLayer"  rmin="ms_b_rmin_middle" rmax="ms_b_rmax_middle" nphi="18" nz="16" z_offset="3">
+			 	<chamber  name="chamber" dx="910.*mm" dy="250.*mm" dz="425.*mm" x="0." z="2.*m" y_offset="10.*mm" vis="MuonChamberVis">
+                    <tubs  rmin="1.*mm" rmax="34.*mm"  startphi="0.0*deg" deltaphi="360.*deg" repeat="6" vis="MuonGasTubeVis" sensitive="true" material="ArCO2"/>	
+					<shell name="tubeshell" rmin="34.*mm" rmax="35.*mm"  startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>	              
+			 	</chamber>
+			 </layer>    
+			 <layer name="OuterLayer"  rmin="ms_b_rmin_outer" rmax="ms_b_rmax_outer" nphi="18" nz="16" z_offset="3">
+			 	<chamber  name="chamber" dx="1050.*mm" dy="250.*mm" dz="425.*mm" x="0." z="2.*m" y_offset="10.*mm" vis="MuonChamberVis">		 		
+                    <tubs rmin="1.*mm" rmax="34.*mm"  startphi="0.0*deg" deltaphi="360.*deg" repeat="6" vis="MuonGasTubeVis" sensitive="true" material="ArCO2"/>				
+					<shell name="tubeshell" rmin="34.*mm" rmax="35.*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>		 
+			 	</chamber>
+			</layer>    
+		</detector>   
+
+
+			<!--EndCap-->			
+ 				
+			<detector id="ODD_MuonSpectrometerEndCapP_ID" name="MuonSpectrometerEndCapP" type="ODDMuonEndCap" readout="MuonEndcapHits" vis="MuonEndCapVis">
+			 <type_flags type="DetType_MUON +  DetType_ENDCAP"/>
+			 <dimensions name="MuonSpectrometerEndCapShapeP" rmin="ms_e_rmin_inner" rmax="ms_e_rmax_middle" dz="ms_e_dz" z="8735.*mm"/>
+			 <layer  rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner" dz="ms_e_dz_inner" z="-1155.*mm" nphi="10">	
+			<chamber dx="ms_e_ch_dx_inner1" dy="ms_e_ch_dy_inner1" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber dx="ms_e_ch_dx_inner2" dy="ms_e_ch_dy_inner2" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber dx="ms_e_ch_dx_inner3" dy="ms_e_ch_dy_inner3" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>	
+			<chamber dx="ms_e_ch_dx_inner4" dy="ms_e_ch_dy_inner4" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>	 				 
+			<tubs  rmin="1.*mm" rmax="29.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="30.*mm" z_offset="52.*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="29.*mm" rmax="30.*mm" startphi="0.0*deg" deltaphi="360.*deg"  vis="MuonTubeVis"  sensitive="false" material="Aluminum"/>							
+			</layer>  
+			 <layer  rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner" dz="ms_e_dz_inner" z="-385.*mm" nphi="10">
+			<chamber  dx="ms_e_ch_dx_inner1" dy="ms_e_ch_dy_inner1" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_inner2" dy="ms_e_ch_dy_inner2" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_inner3" dy="ms_e_ch_dy_inner3" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_inner4" dy="ms_e_ch_dy_inner4" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>	
+			<tubs name="MDT_Tube_Gas" rmin="1.*mm" rmax="29.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="30.*mm" z_offset="52.*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="29.*mm" rmax="30.*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>								
+			</layer>  
+			<layer  rmin="ms_e_rmin_middle" rmax="ms_e_rmax_middle" dz="ms_e_dz_middle" z="385.*mm" nphi="10">
+			<chamber  dx="ms_e_ch_dx_outer1" dy="ms_e_ch_dy_outer1" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_outer2" dy="ms_e_ch_dy_outer2" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_outer3" dy="ms_e_ch_dy_outer3" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_outer4" dy="ms_e_ch_dy_outer4" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>														 
+			<tubs  rmin="1.*mm" rmax="39.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="40.*mm" z_offset="69.3*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="39.*mm" rmax="40.*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>
+			</layer> 
+		 	<layer  rmin="ms_e_rmin_middle" rmax="ms_e_rmax_middle" dz="ms_e_dz_middle" z="1155.*mm" nphi="10">	
+			<chamber  dx="ms_e_ch_dx_outer1" dy="ms_e_ch_dy_outer1" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_outer2" dy="ms_e_ch_dy_outer2" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_outer3" dy="ms_e_ch_dy_outer3" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber  dx="ms_e_ch_dx_outer4" dy="ms_e_ch_dy_outer4" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>			
+			<tubs  rmin="1.*mm" rmax="39.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="40.*mm" z_offset="69.3*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="39.*mm" rmax="40.*mm" startphi="0.0*deg" deltaphi="360.*deg"  vis="MuonTubeVis" sensitive="false" material="Aluminum"/>
+			</layer>      
+			 
+		</detector>     
+
+		<!-- EndCapN-->
+		   <detector id="ODD_MuonSpectrometerEndCapN_ID" name="MuonSpectrometerEndCapN" type="ODDMuonEndCap" readout="MuonEndcapHits" vis="MuonEndCapVis">
+			<type_flags type="DetType_MUON + DetType_ENDCAP"/>
+			<dimensions name="MuonSpectrometerEndCapShapeP" rmin="ms_e_rmin_inner" rmax="ms_e_rmax_middle" dz="ms_e_dz" z="-8735.*mm"/>
+			<layer rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner" dz="ms_e_dz_inner" z="1155.*mm" nphi="10">	
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner1" dy="ms_e_ch_dy_inner1" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner2" dy="ms_e_ch_dy_inner2" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner3" dy="ms_e_ch_dy_inner3" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner4" dy="ms_e_ch_dy_inner4" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>	 				
+			<tubs name="MDT_Tube_Gas" rmin="1.*mm" rmax="29.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="30.*mm"  z_offset="52.*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="29.*mm" rmax="30.*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>				
+			</layer>   
+			<layer rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner" dz="ms_e_dz_inner" z="385.*mm" nphi="10">
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner1" dy="ms_e_ch_dy_inner1" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner2" dy="ms_e_ch_dy_inner2" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner3" dy="ms_e_ch_dy_inner3" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_inner4" dy="ms_e_ch_dy_inner4" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis"/>
+			<tubs name="MDT_Tube_Gas" rmin="1.*mm" rmax="29.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="30.*mm" z_offset="52.*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="29.*mm" rmax="30.*mm" startphi="0.0*deg" deltaphi="360.*deg" vis="MuonTubeVis" sensitive="false" material="Aluminum"/>								
+			</layer>  
+			<layer rmin="ms_e_rmin_middle" rmax="ms_e_rmax_middle" dz="ms_e_dz_middle" z="-385.*mm" nphi="10">
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer1" dy="ms_e_ch_dy_outer1" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer2" dy="ms_e_ch_dy_outer2" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer3" dy="ms_e_ch_dy_outer3" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer4" dy="ms_e_ch_dy_outer4" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<tubs name="MDT_Tube_Gas" rmin="1.*mm" rmax="39.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="40.*mm"  z_offset="69.3*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="39.*mm" rmax="40.*mm" startphi="0.0*deg" deltaphi="360.*deg"  vis="MuonTubeVis" sensitive="false" material="Aluminum"/>														
+			</layer>
+			<layer rmin="ms_e_rmin_middle" rmax="ms_e_rmax_middle" dz="ms_e_dz_middle" z="-1155.*mm" nphi="10">	
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer1" dy="ms_e_ch_dy_outer1" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer2" dy="ms_e_ch_dy_outer2" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer3" dy="ms_e_ch_dy_outer3" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>
+			<chamber name="Chamber_EndCap" dx="ms_e_ch_dx_outer4" dy="ms_e_ch_dy_outer4" dz="ms_e_ch_dz_middle" zmax="0.*mm" zmin="-220.*mm" vis="MuonChamberVis"/>			
+			<tubs name="MDT_Tube_Gas" rmin="1.*mm" rmax="39.*mm"  startphi="0.0*deg" deltaphi="360.*deg" z="-20.*mm" nz="3" vis="MuonGasVis" x_offset="40.*mm" z_offset="69.3*mm" sensitive="true" material="ArCO2"/>
+			<shell name="MDT_Tube_Shell" rmin="39.*mm" rmax="40.*mm" startphi="0.0*deg" deltaphi="360.*deg"  vis="MuonTubeVis"  sensitive="false" material="Aluminum"/>
+			</layer>  
+		</detector>    
+		 
+	</detectors>
+
+	<plugins>	
+
+ 	 <plugin name="DD4hep_ParametersPlugin">
+      <argument value="MuonSpectrometerBarrel"/>
+      <argument value="layer_pattern: str=MuonSpectrometerBarrel"/>
+    </plugin>
+
+	<plugin name="DD4hep_ParametersPlugin">
+      <argument value="MuonSpectrometerEndCapN"/>
+      <argument value="layer_pattern: str=MuonSpectrometerEndCapN"/>
+    </plugin> 
+
+	 <plugin name="DD4hep_ParametersPlugin">
+      <argument value="MuonSpectrometerEndCapP"/>
+      <argument value="layer_pattern: str=MuonSpectrometerEndCapP"/>
+    </plugin> 
+	</plugins> 
+
+	</lccdd>
+
+

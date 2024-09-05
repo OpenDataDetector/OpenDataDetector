@@ -14,7 +14,7 @@
         <!-- Envelopes -->
         <define>
                 <!--World-->
-                <constant name="world_size" value="10.*m"/>
+                <constant name="world_size" value="12.*m"/>
                 <constant name="world_x" value="world_size"/>
                 <constant name="world_y" value="world_size"/>
                 <constant name="world_z" value="world_size"/>
@@ -35,9 +35,10 @@
 
         <!-- Sub detectors / parts -->
         <include ref="OpenDataBeamPipe.xml"/>
-        <include ref="OpenDataTracker.xml"/>
-        <include ref="OpenDataSolenoid.xml"/>
-        <include ref="OpenDataCalorimeter.xml"/>
+        <include ref="OpenDataTracker.xml"/>   
+        <include ref="OpenDataSolenoid.xml"/>   
+        <include ref="OpenDataCalorimeter.xml"/>      
+         <include ref="OpenDataMuonSpectrometer.xml"/>   
 
         <!-- Fields -->
         <fields>
@@ -53,7 +54,7 @@
         </fields>
 
         <!-- Plugins -->
-        <plugins>
+          <plugins>
                 <include ref="OpenDataDetectorPlugins.xml" />
-        </plugins>
+        </plugins>  
 </lccdd>
