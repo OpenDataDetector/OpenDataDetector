@@ -36,7 +36,7 @@
     <constant name="ss_b_sf_e_phi" value="1"/>
     <constant name="ss_b_mat_b_r" value="25"/>
     <constant name="ss_b_mat_b_z" value="100"/>
-    <constant name="ss_b_mat_b_phi" value="144"/>    
+    <constant name="ss_b_mat_b_phi" value="144"/>
   </define>
 
   <detectors>
@@ -244,6 +244,27 @@
   </detectors>
 
   <plugins>
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+      <argument value="ShortStripEndcapN"/>
+      <argument value="dimension=2"/>
+      <argument value="u_x=-1."/>
+      <argument value="v_z=1."/>
+      <argument value="n_y=1."/>
+    </plugin>
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+      <argument value="ShortStripEndcapP"/>
+      <argument value="dimension=2"/>
+      <argument value="u_x=-1."/>
+      <argument value="v_z=1."/>
+      <argument value="n_y=1."/>
+    </plugin>
+    <plugin name="DD4hep_GenericSurfaceInstallerPlugin">
+      <argument value="ShortStripBarrel"/>
+      <argument value="dimension=2"/>
+      <argument value="u_x=1."/>
+      <argument value="v_y=1."/>
+      <argument value="n_z=1."/>
+    </plugin>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="ShortStrips"/>
       <argument value="acts_container: bool = true"/>

@@ -54,6 +54,7 @@
 
         <!-- Plugins -->
         <plugins>
-                <include ref="OpenDataDetectorPlugins.xml" />
+                <plugin name="DD4hepVolumeManager"/>
+                <plugin name="InstallSurfaceManager"/>
         </plugins>
 </lccdd>
