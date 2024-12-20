@@ -1,0 +1,45 @@
+run-full-chain:
+  extends: .lcg_base
+  stage: test
+  needs: 
+    - build-odd
+    - build-acts
+  artifacts:
+    paths:
+      - full_chain
+    expire_in: 1 month
+    expose_as: ACTS full chain output
+    when: always
+
+  before_script:
+   - !reference [.lcg_base, before_script]
+   - source acts-install/bin/this_acts.sh
+   - source odd-install/bin/this_odd.sh
+   - source acts-install/python/setup.sh
+
+  script:
+    - mkdir full_chain
+    - ci/full_chain_odd.py -o output -n 100000 2>&1 > full_chain/output.log
+    - ls -al output
+    - |
+      cp output/performance_finding_ckf.root full_chain
+      cp output/performance_finding_ambi.root full_chain
+      cp output/performance_seeding.root full_chain
+    - >
+      histcmp 
+      --label-reference $(cat ci/reference/commit.txt) 
+      --label-monitored $CI_COMMIT_SHORT_SHA
+      --title "ODD full chain ckf"
+      -o full_chain/full_chain.html
+      -p full_chain/plots
+      full_chain/performance_finding_ckf.root
+      ci/reference/performance_finding_ckf.root
+    - >
+      histcmp 
+      --label-reference "reference"
+      --label-monitored "current"
+      --title "ODD full chain ambi"
+      -o full_chain/full_chain.html
+      -p full_chain/plots
+      full_chain/performance_finding_ambi.root
+      ci/reference/performance_finding_ambi.root

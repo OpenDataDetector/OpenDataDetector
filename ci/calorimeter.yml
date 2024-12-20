@@ -1,0 +1,253 @@
+simulate-ecal-barrel:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_ecal_barrel
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source odd-install/bin/this_odd.sh
+    - mkdir analysis_ecal_barrel
+    - cd analysis_ecal_barrel
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5, 10, 20, 50]
+        NUMEVENTS: [1000]
+      - ENERGY: [100]
+        NUMEVENTS: [500]
+
+validate-ecal-barrel:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - simulate-ecal-barrel
+  artifacts:
+    paths:
+      - analysis_ecal_barrel/validation
+    expire_in: 1 month
+    expose_as: ECAL validation barrel
+    when: always
+  when: always
+  script:
+    - mkdir analysis_ecal_barrel/validation
+    - cd analysis_ecal_barrel/validation
+    - ls
+    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
+    - python3 ../../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+    - python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalBarrel.root -l MR reference
+
+simulate-ecal-rightEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_ecal_rightEndcap
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source odd-install/bin/this_odd.sh
+    - mkdir analysis_ecal_rightEndcap
+    - cd analysis_ecal_rightEndcap
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle gamma --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5, 10, 20]
+        NUMEVENTS: [500]
+      - ENERGY: [50, 100]
+        NUMEVENTS: [250]
+
+validate-ecal-rightEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - simulate-ecal-rightEndcap
+  artifacts:
+    paths:
+      - analysis_ecal_rightEndcap/validation
+    expire_in: 1 month
+    expose_as: ECAL right-endcap validation
+    when: always
+  when: always
+  script:
+    - mkdir analysis_ecal_rightEndcap/validation
+    - cd analysis_ecal_rightEndcap/validation
+    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
+    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+    - python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalEndcap.root -l MR reference
+
+simulate-ecal-leftEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_ecal_leftEndcap
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source odd-install/bin/this_odd.sh
+    - mkdir analysis_ecal_leftEndcap
+    - cd analysis_ecal_leftEndcap
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle gamma --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5, 10, 20]
+        NUMEVENTS: [500]
+      - ENERGY: [50, 100]
+        NUMEVENTS: [250]
+
+validate-ecal-leftEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - simulate-ecal-leftEndcap
+  artifacts:
+    paths:
+      - analysis_ecal_leftEndcap/validation
+    expire_in: 1 month
+    expose_as: ECAL left-endcap validation
+    when: always
+  when: always
+  script:
+    - mkdir analysis_ecal_leftEndcap/validation
+    - cd analysis_ecal_leftEndcap/validation
+    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
+    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+    - python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalEndcap.root -l MR reference
+
+simulate-hcal-barrel:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_hcal_barrel
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source odd-install/bin/this_odd.sh
+    - mkdir analysis_hcal_barrel
+    - cd analysis_hcal_barrel
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle pi- --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_pion_theta1.57_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5, 10, 20]
+        NUMEVENTS: [5000]
+      - ENERGY: [50]
+        NUMEVENTS: [1000]
+      - ENERGY: [100]
+        NUMEVENTS: [500]
+
+validate-hcal-barrel:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - simulate-hcal-barrel
+  artifacts:
+    paths:
+      - analysis_hcal_barrel/validation
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - mkdir analysis_hcal_barrel/validation
+    - cd analysis_hcal_barrel/validation
+    - ls
+    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
+    - python3 ../../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+
+simulate-hcal-rightEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_hcal_rightEndcap
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source odd-install/bin/this_odd.sh
+    - mkdir analysis_hcal_rightEndcap
+    - cd analysis_hcal_rightEndcap
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle pi- --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_pion_theta0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5, 10]
+        NUMEVENTS: [5000]
+      - ENERGY: [20, 50]
+        NUMEVENTS: [1000]
+      - ENERGY: [100]
+        NUMEVENTS: [500]
+
+validate-hcal-rightEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - simulate-hcal-rightEndcap
+  artifacts:
+    paths:
+      - analysis_hcal_rightEndcap/validation
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - mkdir analysis_hcal_rightEndcap/validation
+    - cd analysis_hcal_rightEndcap/validation
+    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
+    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+
+simulate-hcal-leftEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - analysis_hcal_leftEndcap
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - source odd-install/bin/this_odd.sh
+    - mkdir analysis_hcal_leftEndcap
+    - cd analysis_hcal_leftEndcap
+    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle pi- --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_pion_thetaM0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
+  parallel:
+    matrix:
+      - ENERGY: [5, 10]
+        NUMEVENTS: [2500]
+      - ENERGY: [20, 50]
+        NUMEVENTS: [1000]
+      - ENERGY: [100]
+        NUMEVENTS: [500]
+
+validate-hcal-leftEndcap:
+  extends: .lcg_base
+  stage: analysis
+  needs:
+    - simulate-hcal-leftEndcap
+  artifacts:
+    paths:
+      - analysis_hcal_leftEndcap/validation
+    expire_in: 1 month
+    when: always
+  when: always
+  script:
+    - mkdir analysis_hcal_leftEndcap/validation
+    - cd analysis_hcal_leftEndcap/validation
+    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
+    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root

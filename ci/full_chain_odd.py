@@ -16,7 +16,7 @@ from acts.examples.simulation import (
 )
 from acts.examples.reconstruction import (
     addSeeding,
-    TruthSeedRanges,
+    CkfConfig,
     addCKFTracks,
     TrackSelectorConfig,
     addAmbiguityResolution,
@@ -28,8 +28,10 @@ from acts.examples.reconstruction import (
 )
 from acts.examples.odd import getOpenDataDetector
 
+
 def getOpenDataDetector(odd_dir, mdecorator=None):
     import acts.examples.dd4hep
+
     dd4hepConfig = acts.examples.dd4hep.DD4hepGeometryService.Config(
         xmlFileNames=[str(odd_dir / "xml/OpenDataDetector.xml")]
     )
@@ -46,6 +48,7 @@ def getOpenDataDetector(odd_dir, mdecorator=None):
     trackingGeometry, deco = detector.finalize(dd4hepConfig, mdecorator)
 
     return detector, trackingGeometry, deco
+
 
 parser = argparse.ArgumentParser(description="OpenDataDetector full chain example")
 parser.add_argument(
@@ -95,11 +98,11 @@ s = acts.examples.Sequencer(
 )
 
 addParticleGun(
-        s,
-        MomentumConfig(1.0 * u.GeV, 10.0 * u.GeV, transverse=True),
-        EtaConfig(-3.0, 3.0, True),
-        ParticleConfig(2, acts.PdgParticle.eMuon, True),
-        rnd=rnd,
+    s,
+    MomentumConfig(1.0 * u.GeV, 10.0 * u.GeV, transverse=True),
+    EtaConfig(-3.0, 3.0, True),
+    ParticleConfig(2, acts.PdgParticle.eMuon, True),
+    rnd=rnd,
 )
 
 addFatras(
@@ -107,9 +110,14 @@ addFatras(
     trackingGeometry,
     field,
     preSelectParticles=ParticleSelectorConfig(),
+    postSelectParticles=ParticleSelectorConfig(
+        pt=(1.0 * u.GeV, None),
+        eta=(-3.0, 3.0),
+        measurements=(9, None),
+        removeNeutral=True,
+    ),
     enableInteractions=True,
     outputDirRoot=outputDir,
-    # outputDirCsv=outputDir,
     rnd=rnd,
 )
 
@@ -119,7 +127,6 @@ addDigitization(
     field,
     digiConfigFile=oddDigiConfig,
     outputDirRoot=outputDir,
-    # outputDirCsv=outputDir,
     rnd=rnd,
 )
 
@@ -127,7 +134,6 @@ addSeeding(
     s,
     trackingGeometry,
     field,
-    TruthSeedRanges(),
     geoSelectionConfigFile=oddSeedingSel,
     outputDirRoot=outputDir,
     initialSigmas=[
@@ -135,9 +141,10 @@ addSeeding(
         1 * u.mm,
         1 * u.degree,
         1 * u.degree,
-        0.1 / u.GeV,
+        0.1 * u.e / u.GeV,
         1 * u.ns,
     ],
+    initialSigmaPtRel=0.1,
     initialVarInflation=[1.0] * 6,
 )
 
@@ -150,9 +157,39 @@ addCKFTracks(
         absEta=(None, 3.0),
         loc0=(-4.0 * u.mm, 4.0 * u.mm),
         nMeasurementsMin=7,
+        maxHoles=2,
+        maxOutliers=2,
+    ),
+    CkfConfig(
+        chi2CutOffMeasurement=15.0,
+        chi2CutOffOutlier=25.0,
+        numMeasurementsCutOff=10,
+        seedDeduplication=True,
+        stayOnSeed=True,
+        pixelVolumes=[16, 17, 18],
+        stripVolumes=[23, 24, 25],
+        maxPixelHoles=1,
+        maxStripHoles=2,
+        constrainToVolumes=[
+            2,  # beam pipe
+            32,
+            4,  # beam pip gap
+            16,
+            17,
+            18,  # pixel
+            20,  # PST
+            23,
+            24,
+            25,  # short strip
+            26,
+            8,  # long strip gap
+            28,
+            29,
+            30,  # long strip
+        ],
     ),
     outputDirRoot=outputDir,
-    # outputDirCsv=outputDir,
+    writeCovMat=True,
 )
 
 addAmbiguityResolution(
@@ -161,13 +198,13 @@ addAmbiguityResolution(
         maximumSharedHits=3, maximumIterations=1000000, nMeasurementsMin=7
     ),
     outputDirRoot=outputDir,
-    # outputDirCsv=outputDir,
+    writeCovMat=True,
 )
 
 addVertexFitting(
     s,
     field,
-    vertexFinder=VertexFinder.Iterative,
+    vertexFinder=VertexFinder.AMVF,
     outputDirRoot=outputDir,
 )
 

@@ -161,12 +161,19 @@ with ProcessPoolExecutor(args.jobs) as ex:
     events_per_proc[-1] += args.events - sum(events_per_proc)
     #  print(sum(events_per_proc))
 
-
     for i, events in enumerate(events_per_proc):
+        if events == 0:
+            continue
         #  out = Path(f"mp_output/{i}")
         #  out.mkdir(exist_ok=True, parents=True)
-        futures.append(ex.submit(runMaterialRecording, 1247*(i+1), events, args.output / f"geant4_material_tracks_{i:>02d}.root"))
-
+        futures.append(
+            ex.submit(
+                runMaterialRecording,
+                1247 * (i + 1),
+                events,
+                args.output / f"geant4_material_tracks_{i:>02d}.root",
+            )
+        )
 
     n = 0
 

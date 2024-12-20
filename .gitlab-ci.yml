@@ -5,42 +5,59 @@ stages:
   - deploy
 
 default:
-  image: ghcr.io/acts-project/ubuntu2204:49
+  image: registry.cern.ch/ghcr.io/acts-project/alma9-base:70
 
 variables:
-  ACTS_VERSION: v35.1.0
+  ACTS_VERSION: v38.0.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
+  LCG_PLATFORM: el9
+  LCG_VERSION: 105a # somehow the calo validation does not work with newer root
 
+  CCACHE_KEY_SUFFIX: r1
+  CCACHE_DIR: ${CI_PROJECT_DIR}/ccache_${CCACHE_KEY_SUFFIX}
+  CCACHE_MAXSIZE: 1G
+
+
+.lcg_base:
+  tags:
+    - cvmfs
+
+  before_script:
+    - source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_VERSION}/x86_64-${LCG_PLATFORM}-gcc13-opt/setup.sh
+    - python3 -m pip install -r ci/requirements_lcg${LCG_VERSION}.txt
+    - export PATH=/root/.local/bin:$PATH
 
 build-acts:
+  extends: .lcg_base
   stage: build
+
   cache:
-    key: "acts_${ACTS_VERSION}_v1"
-    policy: pull-push
-    paths: 
-      - acts-install
+    key: ccache-acts_$CI_COMMIT_REF_SLUG
+    when: always
+    paths:
+      - ${CCACHE_DIR}
+
   artifacts:
     paths:
       - acts-install
   script:
     - git clone --depth 1 ${ACTS_GIT_URL} --branch ${ACTS_VERSION}
-    - > 
-      test -d acts-install ||
-      (cmake -S acts -B acts-build -GNinja
-      -DCMAKE_BUILD_TYPE=Release 
-      -DCMAKE_CXX_STANDARD=17 
-      -DCMAKE_INSTALL_PREFIX=$PWD/acts-install
-      -DACTS_BUILD_EXAMPLES=ON
-      -DACTS_BUILD_EXAMPLES_DD4HEP=ON
-      -DACTS_BUILD_EXAMPLES_GEANT4=ON
-      -DACTS_BUILD_PLUGIN_DD4HEP=ON
-      -DACTS_BUILD_ANALYSIS_APPS=ON
-      -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS=ON
-      && cmake --build acts-build --
-      && cmake --install acts-build
-      && cp -r acts/Examples/Scripts/Python/* acts-install/python) # this is a workaround, see https://github.com/acts-project/acts/issues/1242
+
+    # temprorary patch
+    - |
+      pushd acts
+      curl https://patch-diff.githubusercontent.com/raw/acts-project/acts/pull/3945.diff | git apply
+      curl https://patch-diff.githubusercontent.com/raw/acts-project/acts/pull/3946.diff | git apply
+      popd
+
+    - ccache -z
+    - ci/build_acts.sh
+    - ccache -s
+    # this is a workaround, see https://github.com/acts-project/acts/issues/1242
+    - cp -r acts/Examples/Scripts/Python/* acts-install/python
 
 build-odd:
+  extends: .lcg_base
   stage: build
   artifacts:
     paths:
@@ -49,140 +66,17 @@ build-odd:
     - >
       cmake -S . -B odd-build -GNinja
       -DCMAKE_INSTALL_PREFIX=$PWD/odd-install
-    - cmake --build odd-build --
+    - cmake --build odd-build
     - cmake --install odd-build
 
-run-full-chain:
-  stage: test
-  needs: 
-    - build-odd
-    - build-acts
-  artifacts:
-    paths:
-      - full_chain
-    expire_in: 1 month
-    expose_as: ACTS full chain output
-    when: always
-  script:
-    - ls -al acts-install/python
-    - source acts-install/bin/this_acts.sh
-    - source odd-install/bin/this_odd.sh
-    - source acts-install/python/setup.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir full_chain
-    - ci/full_chain_odd.py -o output -n 100000 2>&1 > full_chain/output.log
-    - >
-      cp output/performance_ckf.root full_chain
-      && cp output/performance_seeding.root full_chain
-    - pip install -r ci/requirements.txt
-    - source /usr/local/bin/thisroot.sh
-    - >
-      histcmp 
-      --label-reference $(cat ci/reference/commit.txt) 
-      --label-monitored $CI_COMMIT_SHORT_SHA
-      --title "ODD full chain"
-      -o full_chain/full_chain.html
-      -p full_chain/plots
-      full_chain/performance_ckf.root
-      ci/reference/performance_ckf.root
+include: 
+  - local: ci/tracking.yml
+  - local: ci/detector.yml
+  - local: ci/calorimeter.yml
 
-run-material-composition:
-  stage: test
-  needs: 
-    - build-odd
-    - build-acts
-  artifacts:
-    paths:
-      - plots
-    expire_in: 1 month
-    expose_as: Material composition
-    when: always
-  script:
-    - source acts-install/bin/this_acts.sh
-    - source odd-install/bin/this_odd.sh
-    - source acts-install/python/setup.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - ci/run_material_recording.py -o g4 -n 100000
-    - hadd g4/geant4_material_tracks.root g4/geant4_material_tracks_*.root
-    - pip install -r ci/requirements.txt
-    - mkdir plots
-    - ci/make_detector_plot.py ci/composition_config.json plots/layout.pdf
-    - ci/material_composition.sh g4/geant4_material_tracks.root plots/material_composition.root
-    - source /usr/local/bin/thisroot.sh
-    - ci/make_material_plots.py plots/material_composition.root ci/composition_config.json plots
-    - >
-      histcmp 
-      --label-reference $(cat ci/reference/commit.txt) 
-      --label-monitored $CI_COMMIT_SHORT_SHA
-      --title "ODD material composition"
-      -o plots/material.html
-      plots/material_composition.root
-      ci/reference/material_composition.root
-
-run-ddsim:
-  stage: test
-  needs:
-    - build-odd
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - python3 $(which ddsim) --enableGun --numberOfEvents 100 --gun.thetaMin 0.1415 --gun.thetaMax 3.0  --gun.distribution uniform --compactFile xml/OpenDataDetector.xml --outputFile ddsim.root
-
-check-overlaps:
-  stage: test
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - check_overlaps
-    expire_in: 1 month
-    when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir check_overlaps
-    - cd check_overlaps
-    - python3 $(which checkOverlaps) -c ../xml/OpenDataDetector.xml -t 0.01 >out 2> err
-    - >
-      export FAIL=`cat err | sed -n 's/.*Number of illegal overlaps\/extrusions : //p'`
-    - echo $FAIL
-    - if [ "$FAIL" -gt 0 ]; then exit 1; fi
-
-export-geometry:
-  stage: test
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - export_geometry
-    expire_in: 1 month
-    when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir export_geometry
-    - geoConverter -compact2gdml -input xml/OpenDataDetector.xml -output export_geometry/OpenDataDetector.gdml
-    - root -x 'ci/export_geometry_gdml2tgeo.C("export_geometry/OpenDataDetector.gdml", "export_geometry/ODD.root")'
-    - git clone https://github.com/kjvbrt/root2gltf.git
-    - cd root2gltf
-    - git checkout 3b263d0eda2d245c81316d2dd12303761a78f002
-    - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-    - apt-get update
-    - apt-get install -y nodejs libxi-dev libglu1-mesa-dev libglew-dev pkg-config
-    - npm ci
-    - node . ../export_geometry/ODD.root -c ../ci/export_geometry_config.json
-    - mv ODD.gltf ../export_geometry/.
-
+    
 pages:
+  image: registry.cern.ch/docker.io/library/ubuntu:24.04
   stage: deploy
   needs:
     - export-geometry
@@ -204,276 +98,3 @@ pages:
     - cp ../export_geometry/ODD.gltf src/assets/geometry/ODD.gltf
     - yarn deploy
     - mv docs ../public
-
-simulate-ecal-barrel:
-  stage: analysis
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - analysis_ecal_barrel
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_ecal_barrel
-    - cd analysis_ecal_barrel
-    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta1.57_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
-  parallel:
-    matrix:
-      - ENERGY: [5, 10, 20, 50]
-        NUMEVENTS: [1000]
-      - ENERGY: [100]
-        NUMEVENTS: [500]
-
-validate-ecal-barrel:
-  stage: analysis
-  needs:
-    - simulate-ecal-barrel
-  artifacts:
-    paths:
-      - analysis_ecal_barrel/validation
-    expire_in: 1 month
-    expose_as: ECAL validation barrel
-    when: always
-  when: always
-  script:
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_ecal_barrel/validation
-    - cd analysis_ecal_barrel/validation
-    - ls
-    - pip install -r ../../ci/requirements.txt
-    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
-    - python3 ../../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
-    - python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalBarrel.root -l MR reference
-
-simulate-ecal-rightEndcap:
-  stage: analysis
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - analysis_ecal_rightEndcap
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_ecal_rightEndcap
-    - cd analysis_ecal_rightEndcap
-    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle gamma --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_theta0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
-  parallel:
-    matrix:
-      - ENERGY: [5, 10, 20]
-        NUMEVENTS: [500]
-      - ENERGY: [50, 100]
-        NUMEVENTS: [250]
-
-validate-ecal-rightEndcap:
-  stage: analysis
-  needs:
-    - simulate-ecal-rightEndcap
-  artifacts:
-    paths:
-      - analysis_ecal_rightEndcap/validation
-    expire_in: 1 month
-    expose_as: ECAL right-endcap validation
-    when: always
-  when: always
-  script:
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_ecal_rightEndcap/validation
-    - cd analysis_ecal_rightEndcap/validation
-    - pip install -r ../../ci/requirements.txt
-    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
-    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
-    - python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalEndcap.root -l MR reference
-
-simulate-ecal-leftEndcap:
-  stage: analysis
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - analysis_ecal_leftEndcap
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_ecal_leftEndcap
-    - cd analysis_ecal_leftEndcap
-    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle gamma --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_gamma_thetaM0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
-  parallel:
-    matrix:
-      - ENERGY: [5, 10, 20]
-        NUMEVENTS: [500]
-      - ENERGY: [50, 100]
-        NUMEVENTS: [250]
-
-validate-ecal-leftEndcap:
-  stage: analysis
-  needs:
-    - simulate-ecal-leftEndcap
-  artifacts:
-    paths:
-      - analysis_ecal_leftEndcap/validation
-    expire_in: 1 month
-    expose_as: ECAL left-endcap validation
-    when: always
-  when: always
-  script:
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_ecal_leftEndcap/validation
-    - cd analysis_ecal_leftEndcap/validation
-    - pip install -r ../../ci/requirements.txt
-    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
-    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
-    - python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalEndcap.root -l MR reference
-
-simulate-hcal-barrel:
-  stage: analysis
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - analysis_hcal_barrel
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_hcal_barrel
-    - cd analysis_hcal_barrel
-    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle pi- --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_pion_theta1.57_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
-  parallel:
-    matrix:
-      - ENERGY: [5, 10, 20]
-        NUMEVENTS: [5000]
-      - ENERGY: [50]
-        NUMEVENTS: [1000]
-      - ENERGY: [100]
-        NUMEVENTS: [500]
-
-validate-hcal-barrel:
-  stage: analysis
-  needs:
-    - simulate-hcal-barrel
-  artifacts:
-    paths:
-      - analysis_hcal_barrel/validation
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_hcal_barrel/validation
-    - cd analysis_hcal_barrel/validation
-    - ls
-    - pip install -r ../../ci/requirements.txt
-    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal -i {} -o "$(basename {} edm4hep.root)"results.root'  \;
-    - python3 ../../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
-
-simulate-hcal-rightEndcap:
-  stage: analysis
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - analysis_hcal_rightEndcap
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_hcal_rightEndcap
-    - cd analysis_hcal_rightEndcap
-    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle pi- --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_pion_theta0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
-  parallel:
-    matrix:
-      - ENERGY: [5, 10]
-        NUMEVENTS: [5000]
-      - ENERGY: [20, 50]
-        NUMEVENTS: [1000]
-      - ENERGY: [100]
-        NUMEVENTS: [500]
-
-validate-hcal-rightEndcap:
-  stage: analysis
-  needs:
-    - simulate-hcal-rightEndcap
-  artifacts:
-    paths:
-      - analysis_hcal_rightEndcap/validation
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_hcal_rightEndcap/validation
-    - cd analysis_hcal_rightEndcap/validation
-    - pip install -r ../../ci/requirements.txt
-    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
-    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
-
-simulate-hcal-leftEndcap:
-  stage: analysis
-  needs:
-    - build-odd
-  artifacts:
-    paths:
-      - analysis_hcal_leftEndcap
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source odd-install/bin/this_odd.sh
-    - /usr/local/bin/geant4-config --install-datasets
-    - source /usr/local/bin/geant4.sh
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_hcal_leftEndcap
-    - cd analysis_hcal_leftEndcap
-    - ddsim --enableGun --numberOfEvents $NUMEVENTS --gun.energy $ENERGY*GeV --gun.particle pi- --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile ODD_pion_thetaM0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root
-  parallel:
-    matrix:
-      - ENERGY: [5, 10]
-        NUMEVENTS: [2500]
-      - ENERGY: [20, 50]
-        NUMEVENTS: [1000]
-      - ENERGY: [100]
-        NUMEVENTS: [500]
-
-validate-hcal-leftEndcap:
-  stage: analysis
-  needs:
-    - simulate-hcal-leftEndcap
-  artifacts:
-    paths:
-      - analysis_hcal_leftEndcap/validation
-    expire_in: 1 month
-    when: always
-  when: always
-  script:
-    - source /usr/local/bin/thisdd4hep.sh
-    - mkdir analysis_hcal_leftEndcap/validation
-    - cd analysis_hcal_leftEndcap/validation
-    - pip install -r ../../ci/requirements.txt
-    - find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap'  \;
-    - python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
-    

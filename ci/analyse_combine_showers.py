@@ -82,6 +82,7 @@ def run(inputlist, outname):
     f_fitResolution.SetParName(0,"const")
     f_fitResolution.SetParName(1,"sqrt")
     f_fitResolution.SetParLimits(0,0,1)
+    f_fitResolution.SetParLimits(1,0,10)
     result = g_resolution.Fit(f_fitResolution, 'S')
     formula = "#frac{#sigma_{E}}{E} = " + str(round(result.Get().Parameter(0)*100,2))+"% #oplus #frac{"+str(round(result.Get().Parameter(1)*100,2))+"%}{#sqrt{E}}"
     constString = "const term: "+str(round(result.Get().Parameter(0),4))+" #pm "+str(round(result.Get().Error(0),4))

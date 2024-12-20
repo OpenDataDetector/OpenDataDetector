@@ -1,0 +1,112 @@
+.detector_job:
+  extends: .lcg_base
+  stage: test
+  needs:
+    - build-odd
+  before_script:
+   - !reference [.lcg_base, before_script]
+   - source odd-install/bin/this_odd.sh
+
+run-material-composition:
+  extends: .detector_job
+  stage: test
+  needs: 
+    - build-odd
+    - build-acts
+
+  before_script:
+   - !reference [.lcg_base, before_script]
+   - source acts-install/bin/this_acts.sh
+   - source odd-install/bin/this_odd.sh
+   - source acts-install/python/setup.sh
+
+  artifacts:
+    paths:
+      - plots
+    expire_in: 1 month
+    expose_as: Material composition
+    when: always
+  script:
+    - ci/run_material_recording.py -o g4 -n 100000 -j8
+    - hadd g4/geant4_material_tracks.root g4/geant4_material_tracks_*.root
+    - pip install -r ci/requirements.txt
+    - mkdir plots
+    - ci/make_detector_plot.py ci/composition_config.json plots/layout.pdf
+    - ci/material_composition.sh g4/geant4_material_tracks.root plots/material_composition.root
+    - ci/make_material_plots.py plots/material_composition.root ci/composition_config.json plots
+    - >
+      histcmp 
+      --label-reference $(cat ci/reference/commit.txt) 
+      --label-monitored $CI_COMMIT_SHORT_SHA
+      --title "ODD material composition"
+      -o plots/material.html
+      plots/material_composition.root
+      ci/reference/material_composition.root
+
+run-ddsim:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  script:
+    - python3 $(which ddsim) --enableGun --numberOfEvents 100 --gun.thetaMin 0.1415 --gun.thetaMax 3.0  --gun.distribution uniform --compactFile xml/OpenDataDetector.xml --outputFile ddsim.root
+
+check-overlaps:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - check_overlaps
+    expire_in: 1 month
+    when: always
+  script:
+    - mkdir check_overlaps
+    - cd check_overlaps
+    - python3 $(which checkOverlaps) -c ../xml/OpenDataDetector.xml -t 0.01 >out 2> err
+    - >
+      export FAIL=`cat err | sed -n 's/.*Number of illegal overlaps\/extrusions : //p'`
+    - echo $FAIL
+    - if [ "$FAIL" -gt 0 ]; then exit 1; fi
+
+export-geometry-gdml-tgeo:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  artifacts:
+    paths:
+      - export_geometry
+    expire_in: 1 month
+    when: always
+  script:
+    - mkdir export_geometry
+    - geoConverter -compact2gdml -input xml/OpenDataDetector.xml -output export_geometry/OpenDataDetector.gdml
+    - root -x 'ci/export_geometry_gdml2tgeo.C("export_geometry/OpenDataDetector.gdml", "export_geometry/ODD.root")'
+
+export-geometry:
+  image: registry.cern.ch/docker.io/library/node:16.20.2-bookworm
+
+  stage: test
+
+  needs:
+    - export-geometry-gdml-tgeo
+
+  artifacts:
+    paths:
+      - export_geometry
+    expire_in: 1 month
+    when: always
+
+  script:
+    - apt-get update
+    - apt-get install -y curl gnupg git
+    - apt-get update
+    - apt-get install -y libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+    - git clone https://github.com/kjvbrt/root2gltf.git
+    - cd root2gltf
+    - git checkout 3b263d0eda2d245c81316d2dd12303761a78f002
+    - npm ci
+    - node . ../export_geometry/ODD.root -c ../ci/export_geometry_config.json
+    - mv ODD.gltf ../export_geometry/.
