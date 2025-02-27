@@ -18,6 +18,6 @@ cmake -S $source_dir -B $build_dir -GNinja \
 -DACTS_BUILD_ANALYSIS_APPS=ON \
 -DACTS_BUILD_EXAMPLES_PYTHON_BINDINGS=ON
 
-cmake --build $build_dir
+cmake --build $build_dir -- -j8
 
 cmake --install $build_dir

@@ -3,7 +3,7 @@ import argparse
 import acts, acts.examples
 from pathlib import Path
 import acts.examples.dd4hep
-import acts.examples.geant4.dd4hep
+import acts.examples.geant4
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import shutil
@@ -15,28 +15,11 @@ from acts.examples import (
     EventGenerator,
     RandomNumbers,
 )
+from acts.examples.odd import getOpenDataDetector
 import os
 
 u = acts.UnitConstants
 
-def getOpenDataDetector(odd_dir, mdecorator=None):
-    import acts.examples.dd4hep
-    dd4hepConfig = acts.examples.dd4hep.DD4hepGeometryService.Config(
-        xmlFileNames=[str(odd_dir / "xml/OpenDataDetector.xml")]
-    )
-    detector = acts.examples.dd4hep.DD4hepDetector()
-
-    config = acts.MaterialMapJsonConverter.Config()
-    if mdecorator is None:
-        mdecorator = acts.JsonMaterialDecorator(
-            rConfig=config,
-            jFileName=str(odd_dir / "config/odd-material-mapping-config.json"),
-            level=acts.logging.WARNING,
-        )
-
-    trackingGeometry, deco = detector.finalize(dd4hepConfig, mdecorator)
-
-    return detector, trackingGeometry, deco
 
 parser = argparse.ArgumentParser(description="OpenDataDetector material recording")
 parser.add_argument(
@@ -57,7 +40,7 @@ parser.add_argument(
     help="Output directories. Default: $PWD",
 )
 args = parser.parse_args()
-if args.jobs == -1: 
+if args.jobs == -1:
     args.jobs = multiprocessing.cpu_count()
 
 
@@ -68,16 +51,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
 
         tracksPerEvent = 10
 
-        detector, trackingGeometry, decorators = getOpenDataDetector(oddDir)
-
-        detectorConstructionFactory = (
-            acts.examples.geant4.dd4hep.DDG4DetectorConstructionFactory(detector)
-        )
-
-        #  dd4hepSvc = acts.examples.dd4hep.DD4hepGeometryService(
-        #  xmlFileNames=[str(oddDir/ "xml/OpenDataDetector.xml")]
-        #  )
-        #  g4geo = acts.examples.geant4.dd4hep.DDG4DetectorConstruction(dd4hepSvc)
+        detector = getOpenDataDetector(odd_dir=oddDir)
 
         s = acts.examples.Sequencer(events=events, numThreads=1)
 
@@ -110,7 +84,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
 
         g4Alg = acts.examples.geant4.Geant4MaterialRecording(
             level=acts.logging.INFO,
-            detectorConstructionFactory=detectorConstructionFactory,
+            detector=detector,
             randomNumbers=rnd,
             inputParticles=evGen.config.outputParticles,
             outputMaterialTracks="material_tracks",
@@ -131,7 +105,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
 
         s.addAlgorithm(g4Alg)
 
-        outfile = outputDir/ "geant4_material_tracks.root"
+        outfile = outputDir / "geant4_material_tracks.root"
         s.addWriter(
             acts.examples.RootMaterialTrackWriter(
                 prePostStep=True,
@@ -178,6 +152,6 @@ with ProcessPoolExecutor(args.jobs) as ex:
     n = 0
 
     for f in as_completed(futures):
-        n+=1
+        n += 1
         print(n, " / ", len(futures))
         f.result()

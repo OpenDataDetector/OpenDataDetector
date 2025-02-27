@@ -13,6 +13,7 @@ from acts.examples.simulation import (
     addGeant4,
     ParticleSelectorConfig,
     addDigitization,
+    addDigiParticleSelection,
 )
 from acts.examples.reconstruction import (
     addSeeding,
@@ -27,27 +28,6 @@ from acts.examples.reconstruction import (
     VertexFinder,
 )
 from acts.examples.odd import getOpenDataDetector
-
-
-def getOpenDataDetector(odd_dir, mdecorator=None):
-    import acts.examples.dd4hep
-
-    dd4hepConfig = acts.examples.dd4hep.DD4hepGeometryService.Config(
-        xmlFileNames=[str(odd_dir / "xml/OpenDataDetector.xml")]
-    )
-    detector = acts.examples.dd4hep.DD4hepDetector()
-
-    config = acts.MaterialMapJsonConverter.Config()
-    if mdecorator is None:
-        mdecorator = acts.JsonMaterialDecorator(
-            rConfig=config,
-            jFileName=str(odd_dir / "config/odd-material-mapping-config.json"),
-            level=acts.logging.WARNING,
-        )
-
-    trackingGeometry, deco = detector.finalize(dd4hepConfig, mdecorator)
-
-    return detector, trackingGeometry, deco
 
 
 parser = argparse.ArgumentParser(description="OpenDataDetector full chain example")
@@ -84,9 +64,9 @@ oddDigiConfig = geoDir / "config/odd-digi-smearing-config.json"
 oddSeedingSel = geoDir / "config/odd-seeding-config.json"
 oddMaterialDeco = acts.IMaterialDecorator.fromFile(oddMaterialMap)
 
-detector, trackingGeometry, decorators = getOpenDataDetector(
-    geoDir, mdecorator=oddMaterialDeco
-)
+detector = getOpenDataDetector(odd_dir=geoDir, mdecorator=oddMaterialDeco)
+trackingGeometry = detector.trackingGeometry()
+decorators = detector.contextDecorators()
 field = detector.field
 rnd = acts.examples.RandomNumbers(seed=42)
 
@@ -109,13 +89,6 @@ addFatras(
     s,
     trackingGeometry,
     field,
-    preSelectParticles=ParticleSelectorConfig(),
-    postSelectParticles=ParticleSelectorConfig(
-        pt=(1.0 * u.GeV, None),
-        eta=(-3.0, 3.0),
-        measurements=(9, None),
-        removeNeutral=True,
-    ),
     enableInteractions=True,
     outputDirRoot=outputDir,
     rnd=rnd,
@@ -128,6 +101,16 @@ addDigitization(
     digiConfigFile=oddDigiConfig,
     outputDirRoot=outputDir,
     rnd=rnd,
+)
+
+addDigiParticleSelection(
+    s,
+    ParticleSelectorConfig(
+        pt=(1.0 * u.GeV, None),
+        eta=(-3.0, 3.0),
+        measurements=(9, None),
+        removeNeutral=True,
+    ),
 )
 
 addSeeding(

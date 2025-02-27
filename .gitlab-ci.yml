@@ -8,7 +8,7 @@ default:
   image: registry.cern.ch/ghcr.io/acts-project/alma9-base:70
 
 variables:
-  ACTS_VERSION: v38.0.0
+  ACTS_VERSION: v39.0.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
   LCG_PLATFORM: el9
   LCG_VERSION: 105a # somehow the calo validation does not work with newer root
@@ -45,16 +45,15 @@ build-acts:
 
     # temprorary patch
     - |
+      # Patches:
       pushd acts
-      curl https://patch-diff.githubusercontent.com/raw/acts-project/acts/pull/3945.diff | git apply
-      curl https://patch-diff.githubusercontent.com/raw/acts-project/acts/pull/3946.diff | git apply
+      curl https://patch-diff.githubusercontent.com/raw/acts-project/acts/pull/4073.diff | git apply
       popd
 
     - ccache -z
     - ci/build_acts.sh
     - ccache -s
     # this is a workaround, see https://github.com/acts-project/acts/issues/1242
-    - cp -r acts/Examples/Scripts/Python/* acts-install/python
 
 build-odd:
   extends: .lcg_base
@@ -66,7 +65,10 @@ build-odd:
     - >
       cmake -S . -B odd-build -GNinja
       -DCMAKE_INSTALL_PREFIX=$PWD/odd-install
-    - cmake --build odd-build
+      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    - nproc
+    - free -h
+    - cmake --build odd-build -- -j3
     - cmake --install odd-build
 
 include: 
