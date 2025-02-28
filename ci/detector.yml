@@ -29,7 +29,6 @@ run-material-composition:
   script:
     - ci/run_material_recording.py -o g4 -n 100000 -j8
     - hadd g4/geant4_material_tracks.root g4/geant4_material_tracks_*.root
-    - pip install -r ci/requirements.txt
     - mkdir plots
     - ci/make_detector_plot.py ci/composition_config.json plots/layout.pdf
     - ci/material_composition.sh g4/geant4_material_tracks.root plots/material_composition.root

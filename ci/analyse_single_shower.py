@@ -11,6 +11,10 @@ parser.add_argument('--hcal', action='store_true', help='Perform analysis for HC
 args = parser.parse_args()
 
 ROOT.gSystem.Load("libedm4hep")
+ROOT.gInterpreter.Declare("""
+#include "edm4hep/SimCalorimeterHitData.h"
+#include "edm4hep/MCParticleData.h"
+""")
 #__________________________________________________________
 def run(inputlist, outname, ncpu, endcapInsteadOfBarrel, hcalInsteadOfEcal):
     outname = outname

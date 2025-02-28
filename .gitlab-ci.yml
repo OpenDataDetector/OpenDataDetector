@@ -11,7 +11,7 @@ variables:
   ACTS_VERSION: v39.2.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
   LCG_PLATFORM: el9
-  LCG_VERSION: 105a # somehow the calo validation does not work with newer root
+  LCG_VERSION: 107
 
   CCACHE_KEY_SUFFIX: r1
   CCACHE_DIR: ${CI_PROJECT_DIR}/ccache_${CCACHE_KEY_SUFFIX}
