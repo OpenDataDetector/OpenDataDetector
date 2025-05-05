@@ -16,8 +16,8 @@
         </readout>
 
         <readout name="HCalEndcapCollection">
-            <segmentation type="CartesianGridXY" grid_size_x="HCal_cell_size" grid_size_y="HCal_cell_size" />
-              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+            <segmentation type="CartesianGridXZ" grid_size_x="HCal_cell_size" grid_size_z="HCal_cell_size" />
+              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,z:-16</id>
         </readout>
 
 
@@ -31,9 +31,15 @@
         <vis name="HCalAbsorberVis" alpha="1.0" r="0.4" g="0.4" b="0.0" showDaughters="false" visible="true"/>
         <vis name="HCalHiddenEnvelope" alpha="0.0" r="1.0" g="1.0" b="1.0" showDaughters="true" visible="false"/>
     </display>
+   <regions>
+    <region name="HCalBarrelRegion">
+    </region>
+    <region name="HCalEndcapRegion">
+    </region>
+  </regions>
 
     <detectors>
-        <detector name="HCalBarrel" type="DD4hep_PolyhedraBarrelCalorimeter2" id="ODD_HCalBarrel_ID" readout="HCalBarrelCollection" gap="0.*cm">
+        <detector name="HCalBarrel" type="DD4hep_PolyhedraBarrelCalorimeter2" id="ODD_HCalBarrel_ID" readout="HCalBarrelCollection" gap="0.*cm" region="HCalBarrelRegion">
 
             <comment>Hadronic Calorimeter Barrel</comment>
 
@@ -54,7 +60,7 @@
             </layer>
         </detector>
 
-        <detector name="HCalEndcap" type="DD4hep_PolyhedraEndcapCalorimeter2"  reflect="true" id="ODD_HCalEndcap_ID" readout="HCalEndcapCollection">
+        <detector name="HCalEndcap" type="ODDPolyhedraEndcapCalorimeter"  reflect="true" id="ODD_HCalEndcap_ID" readout="HCalEndcapCollection" gap="0.25*cm" region="HCalEndcapRegion">
 
             <comment>Hadronic Calorimeter Endcap</comment>
 
@@ -67,6 +73,8 @@
                 </shape>
                 <rotation x="0*deg" y="0*deg" z="90*deg-180*deg/hcal_e_outer_symmetry"/>
             </envelope>
+
+            <staves vis="ECalStaveVis" />
 
             <dimensions numsides="hcal_e_symmetry" zmin="hcal_e_min_z" rmin="hcal_e_inner_radius" rmax="hcal_e_outer_radius"/>
 

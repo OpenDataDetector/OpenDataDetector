@@ -16,8 +16,8 @@
         </readout>
 
         <readout name="ECalEndcapCollection">
-            <segmentation type="CartesianGridXY" grid_size_x="ECal_cell_size" grid_size_y="ECal_cell_size" />
-              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+            <segmentation type="CartesianGridXZ" grid_size_x="ECal_cell_size" grid_size_z="ECal_cell_size" />
+              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,z:-16</id>
         </readout>
 
 
@@ -45,7 +45,7 @@
         <detector name="ECalBarrel" type="DD4hep_PolyhedraBarrelCalorimeter2" id="ODD_ECalBarrel_ID" readout="ECalBarrelCollection" vis="BlueVis" gap="0.*cm" region="ECalBarrelRegion">
 
             <comment>EM Calorimeter Barrel</comment>
-            
+
             <type_flags type=" DetType_CALORIMETER + DetType_ELECTROMAGNETIC + DetType_BARREL"/>
 
             <envelope vis="ECALVis">
@@ -68,7 +68,7 @@
             </layer>
         </detector>
 
-        <detector name="ECalEndcap" type="DD4hep_PolyhedraEndcapCalorimeter2"  reflect="true" id="ODD_ECalEndcap_ID" readout="ECalEndcapCollection" vis="ECALVis" region="ECalEndcapRegion">
+        <detector name="ECalEndcap" type="ODDPolyhedraEndcapCalorimeter"  reflect="true" id="ODD_ECalEndcap_ID" readout="ECalEndcapCollection" vis="ECALVis" gap="0.25*cm" region="ECalEndcapRegion">
 
             <comment>Electromagnetic Calorimeter Endcap</comment>
 
@@ -82,6 +82,7 @@
                 <rotation x="0*deg" y="0*deg" z="90*deg-180*deg/ecal_e_outer_symmetry"/>
             </envelope>
 
+            <staves vis="ECalStaveVis" />
 
             <dimensions numsides="ecal_e_symmetry" zmin="ecal_e_min_z" rmin="ecal_e_inner_radius" rmax="ecal_e_outer_radius"/>
 
