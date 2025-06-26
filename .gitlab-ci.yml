@@ -8,7 +8,7 @@ default:
   image: registry.cern.ch/ghcr.io/acts-project/alma9-base:70
 
 variables:
-  ACTS_VERSION: v39.2.0
+  ACTS_VERSION: v39.2.1
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
   LCG_PLATFORM: el9
   LCG_VERSION: 107
