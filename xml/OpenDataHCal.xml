@@ -12,12 +12,12 @@
     <readouts>
         <readout name="HCalBarrelCollection">
             <segmentation type="CartesianGridXY" grid_size_x="HCal_cell_size" grid_size_y="HCal_cell_size" />
-              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+              <id>system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16</id>
         </readout>
 
         <readout name="HCalEndcapCollection">
             <segmentation type="CartesianGridXZ" grid_size_x="HCal_cell_size" grid_size_z="HCal_cell_size" />
-              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,z:-16</id>
+              <id>system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,z:-16</id>
         </readout>
 
 
@@ -39,7 +39,7 @@
   </regions>
 
     <detectors>
-        <detector name="HCalBarrel" type="DD4hep_PolyhedraBarrelCalorimeter2" id="ODD_HCalBarrel_ID" readout="HCalBarrelCollection" gap="0.*cm" region="HCalBarrelRegion">
+        <detector name="HCalBarrel" type="ODDPolyhedraBarrelCalorimeter" id="ODD_HCalBarrel_ID" readout="HCalBarrelCollection" gap="0.*cm" region="HCalBarrelRegion">
 
             <comment>Hadronic Calorimeter Barrel</comment>
 

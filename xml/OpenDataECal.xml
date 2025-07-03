@@ -12,12 +12,12 @@
     <readouts>
         <readout name="ECalBarrelCollection">
             <segmentation type="CartesianGridXY" grid_size_x="ECal_cell_size" grid_size_y="ECal_cell_size" />
-              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+              <id>system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,y:-16</id>
         </readout>
 
         <readout name="ECalEndcapCollection">
             <segmentation type="CartesianGridXZ" grid_size_x="ECal_cell_size" grid_size_z="ECal_cell_size" />
-              <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,z:-16</id>
+              <id>system:8,barrel:3,module:4,stave:1,layer:6,slice:5,x:32:-16,z:-16</id>
         </readout>
 
 
@@ -42,7 +42,7 @@
 
 
     <detectors>
-        <detector name="ECalBarrel" type="DD4hep_PolyhedraBarrelCalorimeter2" id="ODD_ECalBarrel_ID" readout="ECalBarrelCollection" vis="BlueVis" gap="0.*cm" region="ECalBarrelRegion">
+        <detector name="ECalBarrel" type="ODDPolyhedraBarrelCalorimeter" id="ODD_ECalBarrel_ID" readout="ECalBarrelCollection" vis="BlueVis" gap="0.*cm" region="ECalBarrelRegion">
 
             <comment>EM Calorimeter Barrel</comment>
 

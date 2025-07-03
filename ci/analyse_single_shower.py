@@ -8,12 +8,14 @@ parser.add_argument('-o', '--outfile', type=str, default="showerAnalysis.root", 
 parser.add_argument('-n', '--ncpus', type=int, default=2, help='Number of CPUs to use in analysis')
 parser.add_argument('--endcap', action='store_true', help='Perform analysis for endcap instead of barrel')
 parser.add_argument('--hcal', action='store_true', help='Perform analysis for HCal instead of ECal')
+parser.add_argument('--digi', action='store_true', help='Perform analysis for digitised hits instead of sim')
 args = parser.parse_args()
 
 ROOT.gSystem.Load("libedm4hep")
 ROOT.gInterpreter.Declare("""
 #include "edm4hep/SimCalorimeterHitData.h"
 #include "edm4hep/MCParticleData.h"
+#include "edm4hep/CalorimeterHitData.h"
 """)
 #__________________________________________________________
 def run(inputlist, outname, ncpu, endcapInsteadOfBarrel, hcalInsteadOfEcal):
@@ -24,21 +26,25 @@ def run(inputlist, outname, ncpu, endcapInsteadOfBarrel, hcalInsteadOfEcal):
         collname = "Endcap"
     else:
         collname = "Barrel"
+    if args.digi:
+        collprefix = "digi"
+    else:
+        collprefix = ""
     ROOT.ROOT.EnableImplicitMT(ncpu)
     df = ROOT.RDataFrame("events", inputlist)
     print ("Initialization done")
     # Create histograms with energy distributions
     if hcalInsteadOfEcal:
         h_cal = df\
-            .Define("edepEcal","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
+            .Define("edepEcal","ROOT::VecOps::RVec<float> result; for (auto&p: "+collprefix+"ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
             .Define("sumEdepEcal","std::accumulate(edepEcal.begin(),edepEcal.end(),0.)")\
-            .Define("edepHcal","ROOT::VecOps::RVec<float> result; for (auto&p: HCal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
+            .Define("edepHcal","ROOT::VecOps::RVec<float> result; for (auto&p: "+collprefix+"HCal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
             .Define("sumEdepHcal","std::accumulate(edepHcal.begin(),edepHcal.end(),0.)")\
             .Define("sumEdep","sumEdepEcal+sumEdepHcal")\
             .Histo1D("sumEdep")
     else:
         h_cal = df\
-            .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
+            .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: "+collprefix+"ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
             .Define("sumEdep","std::accumulate(edep.begin(),edep.end(),0.)")\
             .Histo1D("sumEdep")
     h_mc = df\
@@ -47,9 +53,9 @@ def run(inputlist, outname, ncpu, endcapInsteadOfBarrel, hcalInsteadOfEcal):
         .Histo1D("gunMC")
     if hcalInsteadOfEcal:
         h_ratio = df\
-            .Define("edepEcal","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
+            .Define("edepEcal","ROOT::VecOps::RVec<float> result; for (auto&p: "+collprefix+"ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
             .Define("sumEdepEcal","std::accumulate(edepEcal.begin(),edepEcal.end(),0.)")\
-            .Define("edepHcal","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
+            .Define("edepHcal","ROOT::VecOps::RVec<float> result; for (auto&p: "+collprefix+"ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
             .Define("sumEdepHcal","std::accumulate(edepHcal.begin(),edepHcal.end(),0.)")\
             .Define("sumEdep","sumEdepEcal+sumEdepHcal")\
             .Define("eMC","ROOT::VecOps::RVec<float> result; for(auto& m:MCParticles){result.push_back(sqrt(m.momentum.x*m.momentum.x+m.momentum.y*m.momentum.y+m.momentum.z*m.momentum.z));} return result;")\
@@ -58,7 +64,7 @@ def run(inputlist, outname, ncpu, endcapInsteadOfBarrel, hcalInsteadOfEcal):
             .Histo1D("eratio")
     else:
         h_ratio = df\
-            .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
+            .Define("edep","ROOT::VecOps::RVec<float> result; for (auto&p: "+collprefix+"ECal"+collname+"Collection) {result.push_back(p.energy);} return result;")\
             .Define("sumEdep","std::accumulate(edep.begin(),edep.end(),0.)")\
             .Define("eMC","ROOT::VecOps::RVec<float> result; for(auto& m:MCParticles){result.push_back(sqrt(m.momentum.x*m.momentum.x+m.momentum.y*m.momentum.y+m.momentum.z*m.momentum.z));} return result;")\
             .Define("gunMC","eMC[0]")\
