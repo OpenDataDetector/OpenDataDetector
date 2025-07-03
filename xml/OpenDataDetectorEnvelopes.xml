@@ -6,8 +6,8 @@
         <constant name="bp_rmax" value="24.4*mm"/>
         <constant name="bp_length" value="4.0*m"/>
         <!--The tracker region definition -->
-        <constant name="tracker_region_rmax" value="1.2*m"/>
-        <constant name="tracker_region_zmax" value="4.0*m"/>
+        <constant name="tracker_region_rmax" value="1080*mm"/> <!-- 1080*mm is tracking sensitivity-->
+        <constant name="tracker_region_zmax" value="3030*mm"/> <!-- 3030*mm is tracking sensitivity -->
         <!--Dimensions of the Pixel volume & sub volumes -->
         <constant name="pix_env_rmin" value="25.*mm"/>
         <constant name="pix_env_rmax" value="200.*mm"/>
