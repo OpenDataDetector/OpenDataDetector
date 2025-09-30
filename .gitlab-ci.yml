@@ -78,26 +78,26 @@ include:
   - local: ci/calorimeter.yml
 
     
-pages:
-  image: registry.cern.ch/docker.io/library/ubuntu:24.04
-  stage: deploy
-  needs:
-    - export-geometry
-  artifacts:
-    expose_as: Geometry output
-    paths:
-      - public
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  script:
-    - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-    - apt-get update
-    - apt-get install -y nodejs build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config libpango1.0-dev libgif-dev python-is-python3
-    - npm install -g yarn
-    - git clone https://github.com/acts-project/odd-phoenix.git -b updated phoenix
-    - cd phoenix
-    - yarn
-    - cp ../export_geometry/ODD.gltf src/assets/geometry/ODD.gltf
-    - yarn deploy
-    - mv docs ../public
+# pages:
+#   image: registry.cern.ch/docker.io/library/ubuntu:24.04
+#   stage: deploy
+#   needs:
+#     - export-geometry
+#   artifacts:
+#     expose_as: Geometry output
+#     paths:
+#       - public
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#   script:
+#     - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+#     - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+#     - apt-get update
+#     - apt-get install -y nodejs build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config libpango1.0-dev libgif-dev python-is-python3
+#     - npm install -g yarn
+#     - git clone https://github.com/acts-project/odd-phoenix.git -b updated phoenix
+#     - cd phoenix
+#     - yarn
+#     - cp ../export_geometry/ODD.gltf src/assets/geometry/ODD.gltf
+#     - yarn deploy
+#     - mv docs ../public
