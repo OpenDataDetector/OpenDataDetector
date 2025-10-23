@@ -20,7 +20,7 @@
                 <constant name="world_z" value="world_size"/>
 
                 <!-- BField -->
-                <constant name="Field_nominal_value" value="2*tesla"/>
+                <constant name="Field_nominal_value" value="3*tesla"/>
                 <constant name="outerField_nominal_value" value="0.5*tesla"/>
         </define>
         <include ref="OpenDataDetectorEnvelopes.xml"/>
@@ -41,11 +41,6 @@
 
         <!-- Fields -->
         <fields>
-                <!-- <field name="MagnetFields_Constant" type="ConstantField" field="magnetic"> -->
-                        <!-- <strength x="0" y="0" z="2.0*tesla"/> -->
-                <!-- </field> -->
-
-                <!-- Can also define solenoid field like this:  -->
                 <field type="solenoid" name="GlobalSolenoid" inner_field="Field_nominal_value"
                         outer_field="outerField_nominal_value" zmax="sol_hlength"
                         inner_radius="sol_rmin"
