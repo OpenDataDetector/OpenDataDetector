@@ -1,3 +1,0 @@
-odd-material-maps.root filter=lfs diff=lfs merge=lfs -text
-odd-bfield.root filter=lfs diff=lfs merge=lfs -text
-odd-bfield.csv filter=lfs diff=lfs merge=lfs -text
