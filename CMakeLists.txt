@@ -5,32 +5,47 @@
 # Mozilla Public License Version 2.0
 
 # Set up the project.
-cmake_minimum_required( VERSION 3.14 )
-project( OpenDataDetector VERSION 0.1 LANGUAGES CXX )
+cmake_minimum_required(VERSION 3.14)
+project(OpenDataDetector VERSION 0.1 LANGUAGES CXX)
 
 # Standard CMake include(s).
-include( GNUInstallDirs )
+include(GNUInstallDirs)
 
 # Set a better default for installation directory
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/install" CACHE PATH "default install path" FORCE)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/install" CACHE PATH "default install path" FORCE)
 endif()
 
 # Find the DD4Hep package with corresponding library
 find_package(DD4hep 1.27 REQUIRED CONFIG COMPONENTS DDCore DDDetectors)
 dd4hep_set_compiler_flags()
 
-# Add the main factory 
+# Add the main factory
 add_subdirectory(factory)
 
+# Install the compact and data files
+install(DIRECTORY xml DESTINATION share/OpenDataDetector)
+install(DIRECTORY data DESTINATION share/OpenDataDetector)
+
+unset(IS_INSTALLED_VERSION CACHE)
 
 configure_file(
-  ${CMAKE_CURRENT_LIST_DIR}/setup.sh.in
-  ${PROJECT_BINARY_DIR}/this_odd.sh
-  @ONLY)
-install(
-  FILES ${PROJECT_BINARY_DIR}/this_odd.sh
-  DESTINATION ${CMAKE_INSTALL_BINDIR})
+    ${CMAKE_CURRENT_LIST_DIR}/setup.sh.in
+    ${PROJECT_BINARY_DIR}/this_odd.sh
+    @ONLY
+)
 
-# Install the compact files
-install(DIRECTORY xml DESTINATION share/OpenDataDetector)
+set(IS_INSTALLED_VERSION ON)
+
+configure_file(
+    ${CMAKE_CURRENT_LIST_DIR}/setup.sh.in
+    ${PROJECT_BINARY_DIR}/install_this_odd.sh
+    @ONLY
+)
+install(
+    FILES ${PROJECT_BINARY_DIR}/install_this_odd.sh
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    RENAME this_odd.sh
+)
+
+unset(IS_INSTALLED_VERSION CACHE)
