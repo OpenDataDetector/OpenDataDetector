@@ -32,7 +32,7 @@ run-material-composition:
     - mkdir plots
     - ci/make_detector_plot.py ci/composition_config.json plots/layout.pdf
     - ci/material_composition.sh g4/geant4_material_tracks.root plots/material_composition.root
-    - ci/make_material_plots.py plots/material_composition.root ci/composition_config.json plots
+    - PYTHONPATH=$(pwd)/ci:$PYTHONPATH ci/make_material_plots.py plots/material_composition.root ci/composition_config.json plots
     - >
       histcmp 
       --label-reference $(cat ci/reference/commit.txt) 
