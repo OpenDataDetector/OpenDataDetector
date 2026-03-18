@@ -7,6 +7,7 @@
 #include "DD4hep/DetFactoryHelper.h"
 #include "XML/Utilities.h"
 
+#include <numbers>
 #include <iostream>
 #include <fstream>
 
