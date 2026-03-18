@@ -93,5 +93,34 @@
       "zmax": -3600,
       "colour": "#a56ea5"
     }
+  ],
+  "muonbarrel" : [
+    {
+      "rmin": 3536 ,
+      "rmax": 6762 ,
+      "zmin": -7200 ,
+      "zmax": 7200 ,
+      "colour": "#8a2be2"
+    }
+  ],
+  "muonendcap" : [ 
+    {
+      "rmin": 735.73 ,
+      "rmax": 7000,
+      "zmin": 7200 ,
+      "zmax": 10270,
+      "colour": "#000000"
+
+    },
+
+    {
+      "rmin": 735.73 ,
+      "rmax": 7000 ,
+      "zmin": -10270,
+      "zmax": -7200 ,
+      "colour": "#000000"
+    }
+
   ]
+
 }

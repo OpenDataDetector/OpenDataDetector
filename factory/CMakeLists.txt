@@ -7,8 +7,10 @@ add_library(
     tracker/ODDStripBarrel_geo.cpp
     tracker/ODDStripEndcap_geo.cpp
     calorimeter/ODDPolyhedraEndcapCalorimeter_geo.cpp
-    calorimeter/ODDPolyhedraBarrelCalorimeter_geo.cpp)
-
+    calorimeter/ODDPolyhedraBarrelCalorimeter_geo.cpp
+    muons/ODDMuonBarrel_geo.cpp
+    muons/ODDMuonEndCap_geo.cpp)
+    
 target_link_libraries(OpenDataDetector PUBLIC DD4hep::DDCore DD4hep::DDRec)
 
 # Not sure why this needs to be set, but dd4hep fails to compile otherwise

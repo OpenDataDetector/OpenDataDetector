@@ -66,6 +66,35 @@
         <constant name="hcal_e_symmetry" value="16"/>
         <constant name="hcal_e_env_safety" value="0.1*mm"/>
 
+        <!--Dimension of the Muon Spectrometer Barrel -->
+        <constant name="ms_b_rmin" value="3536.*mm"/>
+        <constant name="ms_b_rmax_inner" value="4607.*mm"/>
+        <constant name="ms_b_rmin_middle" value="4607.*mm"/>
+        <constant name="ms_b_rmax_middle" value="5680.*mm"/>
+        <constant name="ms_b_rmin_outer" value="5680.*mm"/>     
+        <constant name="ms_b_rmax" value="6762.*mm"/>
+        <constant name="ms_b_dz" value="7.2*m"/>        
+        <!--Dimension of the Muon Spectrometer EndCap -->
+        <constant name="ms_e_rmin_inner" value="540.73*mm"/>
+        <constant name="ms_e_rmax_inner" value="5000.*mm"/>
+        <constant name="ms_e_dz" value="1535.*mm"/>
+        <constant name="ms_e_dz_inner" value="380.*mm"/>
+        <constant name="ms_e_rmin_middle" value="946.*mm"/>
+        <constant name="ms_e_rmax_middle" value="7000.*mm"/>
+        <constant name="ms_e_dz_middle" value="380.*mm"/>
+        <constant name="ms_e_ch_dz" value="90.96*mm"/>
+        <constant name="ms_e_ch_dz_middle" value="109.28*mm"/>
+        <constant name="ms_e_ch_dx_inner1" value="530.*mm"/>
+        <constant name="ms_e_ch_dx_inner2" value="1400.*mm"/>      
+        <constant name="ms_e_ch_dy_inner1" value="800.*mm"/>
+        <constant name="ms_e_ch_dy_inner2" value="1200.*mm"/>       
+        <constant name="ms_e_ch_dx_outer1" value="1100.*mm"/>
+        <constant name="ms_e_ch_dx_outer2" value="2500.*mm"/>        
+        <constant name="ms_e_ch_dy_outer1" value="1000.*mm"/>
+        <constant name="ms_e_ch_dy_outer2" value="1700.*mm"/>
+       
+          
+
         <include ref="detector_types.xml"/>
     </define>
 </lccdd>

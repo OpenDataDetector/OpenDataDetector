@@ -49,6 +49,11 @@ calo = {
     "hcalendcap": "HCal endcap",
 }
 
+muon = {
+    "muonbarrel": "Muon barrel",
+    "muonendcap": "Muon endcap",
+}
+
 with args.config.open() as f:
     config = json.load(f)
 configcolours = {det: config[det][0]["colour"] for det in config.keys()}
@@ -56,7 +61,8 @@ configcolours = {det: config[det][0]["colour"] for det in config.keys()}
 for group, names in [
     ("tracker_", {**tracker}),
     ("calo_", {**calo}),
-    ("", {**tracker, **calo}),
+    ("muon_", {**muon}),
+    ("", {**tracker, **calo, **muon}),
 ]:
     for y in ("x0", "l0"):
         for x in ("phi", "eta"):

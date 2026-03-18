@@ -35,6 +35,8 @@ names = {
     "ecalendcap": "ECal endcap",
     "hcalbarrel": "HCal barrel",
     "hcalendcap": "HCal endcap",
+    "muonbarrel": "Muon barrel",
+    "muonendcap": "Muon endcap",
 }
 
 with args.config.open() as f:
