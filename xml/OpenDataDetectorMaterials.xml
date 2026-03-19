@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <materials>
 
-
   <material name="Air">
     <D type="density" unit="g/cm3" value="0.0012"/>
     <fraction n="0.754" ref="N"/>

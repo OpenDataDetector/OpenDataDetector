@@ -1,0 +1,5 @@
+<lccdd>
+
+    <include ref="detectors/MuonSystem.xml"/>
+
+</lccdd>

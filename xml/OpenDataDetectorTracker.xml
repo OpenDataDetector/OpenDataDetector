@@ -1,8 +1,10 @@
 <lccdd>
 
-    <include ref="OpenDataPixels.xml"/>
-    <include ref="OpenDataShortStrips.xml"/>
-    <include ref="OpenDataLongStrips.xml"/>
+        <include ref="detectors/BeamPipe.xml"/>
+        <include ref="detectors/TrackerPixels.xml"/>
+        <include ref="detectors/TrackerShortStrips.xml"/>
+        <include ref="detectors/TrackerLongStrips.xml"/>
+        <include ref="detectors/Solenoid.xml"/>
 
     <detectors>
         <detector id="1000" name="OpenDataTracker" type="DD4hep_SubdetectorAssembly" vis="invisible">

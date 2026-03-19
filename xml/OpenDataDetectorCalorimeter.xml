@@ -6,8 +6,8 @@
         </limitset>
     </limits>
 
-    <include ref="OpenDataECal.xml"/>
-    <include ref="OpenDataHCal.xml"/>
+    <include ref="detectors/CalorimeterECal.xml"/>
+    <include ref="detectors/CalorimeterHCal.xml"/>
 
     <detectors>
         <detector id="ODD_ECal_ID" name="ECal" type="DD4hep_SubdetectorAssembly" vis="invisible">

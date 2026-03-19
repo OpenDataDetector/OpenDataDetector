@@ -3,13 +3,13 @@
       "PST_2"
   ],
   "subParts": {
-      "Beampipe" : [["BeamPipe_0"], true],
-      "Tracker > pixels" : [["Pixels_1"], true],
-      "Tracker > shortStrips" : [["ShortStrips_3"], true],
-      "Tracker > longStrips" : [["LongStrips_4"], true],
-      "Solenoid" : [["Solenoid_5"], true],
-      "ECal" : [["ECal_6"], true],
-      "HCal" : [["HCal_7"], true]
+      "Beampipe" : [["BeamPipe_1"], true],
+      "Tracker > pixels" : [["Pixels_0"], true],
+      "Tracker > shortStrips" : [["ShortStrips_2"], true],
+      "Tracker > longStrips" : [["LongStrips_3"], true],
+      "Solenoid" : [["Solenoid_2"], true],
+      "ECal" : [["ECal_3"], true],
+      "HCal" : [["HCal_4"], true]
   },
   "maxLevel": 4
 }

@@ -2,17 +2,18 @@
 <lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
         xmlns:xs="http://www.w3.org/2001/XMLSchema" xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
 
-        <includes>
-                <gdmlFile ref="elements.xml"/>
-                <gdmlFile ref="OpenDataMaterials.xml"/>
-        </includes>
-
         <info name="Open Data Detector" title="Open Data Detector" author="Andreas.Salzburger@cern.ch" url="" status="alpha" version="0">
                 <comment>Demonstrator Detector for algorithmic research and development</comment>
         </info>
+        
+        <!-- Material definitions -->
+        <includes>
+                <gdmlFile ref="OpenDataDetectorElements.xml"/>
+                <gdmlFile ref="OpenDataDetectorMaterials.xml"/>
+        </includes>
 
-        <!-- Envelopes -->
-        <define>
+        <!-- Global definitions -->
+       <define>
                 <!--World-->
                 <constant name="world_size" value="12.*m"/>
                 <constant name="world_x" value="world_size"/>
@@ -23,22 +24,23 @@
                 <constant name="Field_nominal_value" value="3*tesla"/>
                 <constant name="outerField_nominal_value" value="0.5*tesla"/>
         </define>
+        
+        <!-- Envelopes -->
         <include ref="OpenDataDetectorEnvelopes.xml"/>
-
 
         <!-- Identifier definitions -->
         <include ref="OpenDataDetectorIdentifiers.xml"/>
 
-        <!-- Auxiliary definitions-->
-        <include ref="OpenDataMaterialBinning.xml"/>
-        <include ref="OpenDataVisualization.xml"/>
+        <!-- Visualization definitions -->
+        <include ref="OpenDataDetectorVisualization.xml"/>
 
-        <!-- Sub detectors / parts -->
-        <include ref="OpenDataBeamPipe.xml"/>
-        <include ref="OpenDataTracker.xml"/>   
-        <include ref="OpenDataSolenoid.xml"/>   
-        <include ref="OpenDataCalorimeter.xml"/>      
-         <include ref="OpenDataMuonSpectrometer.xml"/>   
+        <!-- ACTS support -->
+        <include ref="OpenDataDetectorActsSupport.xml"/>
+
+        <!-- All Sub-detectors -->
+        <include ref="OpenDataDetectorTracker.xml"/>
+        <include ref="OpenDataDetectorCalorimeter.xml"/>
+        <include ref="OpenDataDetectorMuonSystem.xml"/>
 
         <!-- Fields -->
         <fields>
@@ -52,11 +54,11 @@
                         inner_radius="sol_rmin"
                         outer_radius="sol_rmax" />
         </fields>
-         <!-- Plugins -->
+
+        <!-- Plugins -->
         <plugins>
                 <plugin name="DD4hepVolumeManager"/>
                 <plugin name="InstallSurfaceManager"/>
         </plugins>
-
 
 </lccdd>

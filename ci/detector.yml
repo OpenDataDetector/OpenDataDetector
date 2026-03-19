@@ -42,6 +42,38 @@ run-material-composition:
       plots/material_composition.root
       ci/reference/material_composition.root
 
+construct-tracker:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  script:
+    - geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -load
+
+construct-tracker-calorimeter:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  script:
+    - geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -input xml/OpenDataDetectorCalorimeter.xml -load
+
+construct-tracker-calorimeter-muon:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  script:
+    - geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -input xml/OpenDataDetectorCalorimeter.xml -input xml/OpenDataDetectorMuonSystem.xml -load
+
+construct-full-odd:
+  extends: .detector_job
+  stage: test
+  needs:
+    - build-odd
+  script:
+    - geoDisplay -input xml/OpenDataDetector.xml -load
+
 run-ddsim:
   extends: .detector_job
   stage: test

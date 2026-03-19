@@ -1,5 +1,4 @@
 <lccdd>
-
 <define>
     <!-- Short strip material binning -->
     <constant name="sol_p_mat_b_z" value="250"/>

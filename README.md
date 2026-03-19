@@ -4,15 +4,28 @@
 
 The `OpenDataDetector` (ODD) is attempted to provide a template (HL-)LHC style particle detector for algorithm research and development.
 
-## Tracking Detector
+## Sub-detector layout
 
-The ODD Tracking system is an evolution of the detector used for the `Tracking Machine Learning Challenge` (part 1 and 2), and comprises a system of several components:
- * a central beam pipe
- * an innermost Pixel tracking system
- * a middle Short Strip system
- * an outermost Long Strip system
- * an enclosing solenoid 
- * an optional first Electric Calorimeter implementation
+The detector description is organized into staged XML fragments in `xml/`:
+
+- `OpenDataDetector.xml`: full detector steering file (backward-compatible full build)
+- `OpenDataDetectorDefs.xml`: global definitions bundle
+  - material includes (`OpenDataDetectorElements.xml`, `OpenDataDetectorMaterials.xml`)
+  - world and field constants
+  - envelopes, identifiers, visualization
+  - ACTS support include
+- `OpenDataDetectorActsSupport.xml`: ACTS-specific support (material binning constants)
+- `OpenDataDetectorTracker.xml`: tracker stage
+  - includes `xml/detectors/BeamPipe.xml`
+  - includes `xml/detectors/TrackerPixels.xml`
+  - includes `xml/detectors/TrackerShortStrips.xml`
+  - includes `xml/detectors/TrackerLongStrips.xml`
+  - includes `xml/detectors/Solenoid.xml`
+- `OpenDataDetectorCalorimeter.xml`: calorimeter stage
+  - includes `xml/detectors/CalorimeterECal.xml`
+  - includes `xml/detectors/CalorimeterHCal.xml`
+- `OpenDataDetectorMuonSystem.xml`: muon stage
+  - includes `xml/detectors/MuonSystem.xml`
 
  ## Build instructions
 
@@ -33,7 +46,42 @@ cmake --build <path_to_build_area>
 
 ### Displaying with DD4hep
 
-You can use the built-in `geoPluginRun` from DD4hep for displaying the detector:
+You can use DD4hep geometry tools to load either the full detector or staged detector compositions.
+
+### Runtime environment
+
+```sh
+source /Users/salzburg/cernbox/configs/acts/acts_setup.sh
+odd run odd-split
+```
+
+### Full detector (backward compatible)
+
+```sh
+geoDisplay xml/OpenDataDetector.xml -load
+```
+
+### Staged detector loading
+
+Tracker and solenoid only:
+
+```sh
+geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -load
+```
+
+Tracker, solenoid, and calorimeter:
+
+```sh
+geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -input xml/OpenDataDetectorCalorimeter.xml -load
+```
+
+Full staged chain (global + tracker + calo + muon):
+
+```sh
+geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -input xml/OpenDataDetectorCalorimeter.xml -input xml/OpenDataDetectorMuonSystem.xml -load
+```
+
+You can also display with `geoPluginRun`:
 
 ```sh
 geoPluginRun -input xml/OpenDataDetector.xml  -interactive -plugin DD4hep_GeometryDisplay -level 8
