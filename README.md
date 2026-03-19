@@ -48,12 +48,6 @@ cmake --build <path_to_build_area>
 
 You can use DD4hep geometry tools to load either the full detector or staged detector compositions.
 
-### Runtime environment
-
-```sh
-source /Users/salzburg/cernbox/configs/acts/acts_setup.sh
-odd run odd-split
-```
 
 ### Full detector (backward compatible)
 
