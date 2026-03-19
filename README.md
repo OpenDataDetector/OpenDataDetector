@@ -1,6 +1,6 @@
 # OpenDataDetector
 
-[![](https://zenodo.org/badge/DOI/10.5281/zenodo.4674401.svg)](https://doi.org/10.5281/zenodo.4674401)
+
 
 The `OpenDataDetector` (ODD) is attempted to provide a template (HL-)LHC style particle detector for algorithm research and development.
 
@@ -27,27 +27,27 @@ The detector description is organized into staged XML fragments in `xml/`:
 - `OpenDataDetectorMuonSystem.xml`: muon stage
   - includes `xml/detectors/MuonSystem.xml`
 
- ## Build instructions
+## Build instructions
 
  The ODD library can be built using `CMake` with minimal dependencies (mainly required by DD4hep), dependencies are:
- * BOOST
- * DD4hep
- * ROOT
- * Geant4
 
- ### Building with CMake    
+- BOOST
+- DD4hep
+- ROOT
+- Geant4
+
+### Building with CMake
 
 The following will build the ODD DD4hep detector:
 
 ```shell
 cmake -S <path_to_source> -B <path_to_build_area>  -DDD4hep_DIR=<path_to_DD4hp> cmake -DGeant4_DIR=<path_to_Geant4> -DROOT_DIR=<path_to_ROOT> -DCMAKE_CXX_STANDARD=17
 cmake --build <path_to_build_area>
- ```
+```
 
 ### Displaying with DD4hep
 
 You can use DD4hep geometry tools to load either the full detector or staged detector compositions.
-
 
 ### Full detector (backward compatible)
 
@@ -80,3 +80,13 @@ You can also display with `geoPluginRun`:
 ```sh
 geoPluginRun -input xml/OpenDataDetector.xml  -interactive -plugin DD4hep_GeometryDisplay -level 8
 ```
+
+## Logos
+
+Branding assets live under [`logos/`](logos/).
+
+| *Icon* | *Description* |
+| --- | --- |
+| <img src="logos/odd_tech_light.png" alt="ODD tech light" width="300" /> | Light, high-contrast treatment suited to documentation, slides, and print. |
+| <img src="logos/odd_retro_80s.png" alt="ODD retro 80s" width="300" /> | Neon / synthwave-inspired lockup for informal or campaign-style use. |
+| <img src="logos/odd_console_data.png" alt="ODD console data" width="300" /> | Terminal- or data-stream aesthetic (monospace, scanlines, or log-style treatments) for tooling, demos, and hacker-lab contexts. |
