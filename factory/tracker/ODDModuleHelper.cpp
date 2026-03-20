@@ -22,8 +22,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleTrapezoidalModule(
   DetElement moduleElement("ModuleElementTemplate", 0);
 
   // Place the components inside the module
-  unsigned int compNum = 0;
-  unsigned int sensorNum = 0;
+  int compNum = 0;
+  int sensorNum = 0;
 
   for (xml_coll_t comp(x_module, _U(module_component)); comp;
        ++comp, ++compNum) {
@@ -118,8 +118,8 @@ std::pair<Assembly, DetElement> ODDModuleHelper::assembleRectangularModule(
   DetElement moduleElement("ModuleElementTemplate", 0);
 
   // Place the components inside the module
-  unsigned int compNum = 0;
-  unsigned int sensorNum = 0;
+  int compNum = 0;
+  int sensorNum = 0;
 
   for (xml_coll_t comp(x_module, _U(module_component)); comp;
        ++comp, ++compNum) {

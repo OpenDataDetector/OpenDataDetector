@@ -46,8 +46,8 @@ using namespace dd4hep;
     auto bin = binTokens.begin();
     std::string bin0 = *(bin);
     std::string bin1 = *(++bin);
-    size_t nBins0 = x_material.attr<int>("bins0");
-    size_t nBins1 = x_material.attr<int>("bins1");
+    int nBins0 = x_material.attr<int>("bins0");
+    int nBins1 = x_material.attr<int>("bins1");
     // Add the material tags
     std::string btmSurface = baseTag + "_"s + mSurface;
     params.set<bool>(btmSurface, true);

@@ -34,9 +34,9 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 	Tube endcapMuonShape(x_det_dim.rmin(), x_det_dim.rmax(), x_det_dim.dz());
 	Volume endcapMuonVolume(detName, endcapMuonShape, oddd.air());
 
-	unsigned int chamberNum = 1;
-	unsigned int tubeNum = 1;
-	unsigned int layerNum = 1;
+	int chamberNum = 1;
+	int tubeNum = 1;
+	int layerNum = 1;
 
 	std::string tubeName, chamberName, layerName;
 
@@ -95,8 +95,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 
 				// loop over the tube layers along z
 				double zt = -x_ch.dy() + x_shell.rmax();
-				int ntubesy = x_ch.dz()/(x_shell.rmax()); // global y direction of the tube layers
-				int ntubesz = x_ch.dy() / (x_shell.rmax()); // global z direction of the tube layers
+				int ntubesy = static_cast<int>(x_ch.dz() / x_shell.rmax()); // global y direction of the tube layers
+				int ntubesz = static_cast<int>(x_ch.dy() / x_shell.rmax()); // global z direction of the tube layers
 				double lowerTubeLength = dx1;
 				double upperTubeLength = dx2;
 				double h{0.};

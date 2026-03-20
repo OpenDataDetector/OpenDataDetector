@@ -66,7 +66,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   Volume staveInnerVol("stave_inner", staveTrdInner, air);
 
   double layer_pos_y = -(detZ / 2);
-  int layer_num = 1;
+  size_t layer_num = 1;
 
   // Copy of the LayeredCaloData from CLD factory
   // Create caloData object to extend driver with data required for reconstruction
@@ -110,10 +110,10 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     caloLayer.cellSize1 = cell_sizeY;
 
     for (int j = 0; j < l_repeat; j++) {
-      string layer_name = _toString(layer_num, "layer%d");
+      string layer_name = _toString(static_cast<int>(layer_num), "layer%d");
       std::cout << "- layer named " << layer_name << std::endl;
       double layer_thickness = lay->thickness();
-      DetElement layer(stave, layer_name, layer_num);
+      DetElement layer(stave, layer_name, static_cast<int>(layer_num));
       layer_pos_y += layer_thickness / 2;
       // Layer trapezoid shape & volume
       Trapezoid layer_trd(innerFaceLen / 2 - gap, outerFaceLen / 2 - gap, layer_thickness / 2, layer_thickness / 2, staveThickness / 2);
@@ -179,15 +179,15 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
       // Layer physical volume.
       PlacedVolume layer_phv = staveInnerVol.placeVolume(layer_vol, Position(0, layer_pos_y, 0));
-      std::cout << " Placing layer " << layer_num << " with half dimension of " << layer_thickness / 2 
+      std::cout << " Placing layer " << static_cast<int>(layer_num) << " with half dimension of " << layer_thickness / 2 
       << ", " << staveThickness / 2 << " at " << 0 << ", " << layer_pos_y <<  ", " << 0 << std::endl;
-      layer_phv.addPhysVolID("layer", layer_num);
+      layer_phv.addPhysVolID("layer", static_cast<int>(layer_num));
       layer.setPlacement(layer_phv);
 
       // The rest of the data is constant; only the distance needs to be updated
       // Store the position up to the inner face of the layer
       caloLayer.distance = rmin + layer_pos_y + staveThickness / 2 - layer_thickness / 2;
-      std::cout << "Layer: " << layer_num << " Rmin: " << rmin << " layer_pos_z: " << layer_pos_y
+      std::cout << "Layer: " << static_cast<int>(layer_num) << " Rmin: " << rmin << " layer_pos_z: " << layer_pos_y
                 << " Dist: " << caloLayer.distance
                 << " inner_thickness: " << caloLayer.inner_thickness
                 << " outer_thickness: " << caloLayer.outer_thickness

@@ -39,8 +39,8 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 	Volume barrelMuonVolume(detName, barrelMuonShape, oddd.air());
 
 	// The identifiers for the chambers and the gas-tubes
-	unsigned int chamberNum = 1;
-	unsigned int tubeNum = 1;
+	int chamberNum = 1;
+	int tubeNum = 1;
 
 	std::string tubeName, chamberName;
 
@@ -112,7 +112,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 			Tube ShellTubeShape(rshellmin, rshellmax, chBox.x());
 			Volume driftShellVolume(x_shell.nameStr(), ShellTubeShape, oddd.material(x_shell.materialStr()));
 			driftShellVolume.setVisAttributes(oddd, x_shell.visStr());
-			int ntubes = (chBox.z()) / rshellmax;
+			int ntubes = static_cast<int>(chBox.z() / rshellmax);
 			double ygap = 2 * (ch_dy - 2 * (sqrt(3) * rshellmax + rshellmax));
 
 			// Place the tubes and the chambers

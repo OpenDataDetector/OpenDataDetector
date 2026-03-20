@@ -59,6 +59,12 @@ build-acts:
 build-odd:
   extends: .lcg_base
   stage: build
+  variables:
+    ODD_STRICT_CXX_FLAGS: >-
+      -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow
+      -Wformat=2 -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough
+      -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wcast-align
+      -Werror
   artifacts:
     paths:
       - odd-install
@@ -67,6 +73,7 @@ build-odd:
       cmake -S . -B odd-build -GNinja
       -DCMAKE_INSTALL_PREFIX=$PWD/odd-install
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+      -DCMAKE_CXX_FLAGS="${ODD_STRICT_CXX_FLAGS}"
     - nproc
     - free -h
     - cmake --build odd-build -- -j3

@@ -63,7 +63,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   DetElement diskElementTemplate("DiskElementTemplate", 0);
 
   // build the ring templates
-  size_t ringNum = 0;
+  int ringNum = 0;
   for (xml_coll_t ring(x_det, _U(ring)); ring; ++ring, ++ringNum) {
     xml_comp_t x_ring = ring;
 
@@ -80,13 +80,13 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
           ODDModuleHelper::assembleTrapezoidalModule(oddd, sens, x_module);
 
       // Place the modules
-      unsigned int nPhi = x_ring.nphi();
+      int nPhi = x_ring.nphi();
       double phiStep = 2 * M_PI / nPhi;
       double phi0 = x_ring.phi0();
       double r = x_ring.r();
       double zgap = x_ring.gap();
 
-      for (unsigned int modNum = 0; modNum < nPhi; ++modNum) {
+      for (int modNum = 0; modNum < nPhi; ++modNum) {
         // The module name
         string moduleName = _toString(static_cast<int>(modNum), "module%d");
 
@@ -121,7 +121,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
       // Now add the ring detector Element to the disk
       diskElementTemplate.add(ringElement);
 
-      size_t supportNum = 0;
+      int supportNum = 0;
       for (xml_coll_t sup(x_ring, _U(support)); sup; ++sup, ++supportNum) {
         xml_comp_t x_support = sup;
         // Create the volume of the support structure
@@ -150,7 +150,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
   // Loop over the layers and place the disk, remember the z positions
   std::vector<double> endcapZ;
-  size_t layNum = 0;
+  int layNum = 0;
   for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layNum) {
     xml_comp_t x_layer = lay;
     // The Layer envelope volume
@@ -201,7 +201,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     }
 
     // Add the proto layer material
-    unsigned int nMaterialSurfaces = 0;
+    int nMaterialSurfaces = 0;
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       ODDHelper::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,

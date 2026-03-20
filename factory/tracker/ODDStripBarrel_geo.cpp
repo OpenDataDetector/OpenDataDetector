@@ -75,13 +75,13 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
   // Place the modules into the stave
   double gap = x_stave.gap();
-  unsigned int nModules = x_stave.nmodules();
+  int nModules = x_stave.nmodules();
   double ystep = length + gap;
   double ymin = (nModules * 0.5 - 0.5) * ystep;
   double staveHlength = ymin + 0.5 * ystep;
 
   // Loop over the modules and place them in the stave
-  for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
+  for (int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
     double positionY = -ymin + moduleNum * ystep;
 
     // Place them along local y
@@ -113,7 +113,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     // (as it should)
     double rStep = (rMax - rMin) / (0.5 * nModules);
 
-    for (unsigned int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
+    for (int moduleNum = 0; moduleNum < nModules; ++moduleNum) {
       double positionY = -ymin + moduleNum * ystep;
       double rCable = rMin + abs(moduleNum - 0.5 * nModules) * rStep;
 
@@ -149,7 +149,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   std::vector<double> layerR;
 
   // Loop over the layers to build staves
-  size_t layerNum = 0;
+  int layerNum = 0;
   for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layerNum) {
     xml_comp_t x_layer = lay;
 
@@ -166,7 +166,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     DetElement layerElement(barrelDetector, x_layer.nameStr(), layerNum);
 
     // Place the staves in the layer
-    unsigned int nStaves = x_layer.nphi();
+    int nStaves = x_layer.nphi();
     double phiStep = 2. * M_PI / nStaves;
     double phiTilt = x_layer.phi_tilt();
     double phi0 = x_layer.phi0();
@@ -174,7 +174,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     layerR.push_back(r);
 
     // Loop over the staves and place them
-    for (unsigned int staveNum = 0; staveNum < nStaves; ++staveNum) {
+    for (int staveNum = 0; staveNum < nStaves; ++staveNum) {
       string placedStaveName = _toString(static_cast<int>(staveNum), "stave%d");
       // position of the stave
       double phi = phi0 + staveNum * phiStep;
@@ -210,7 +210,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     layerParams.set<double>("envelope_z_max", 10.);
 
     // Add the proto layer material
-    unsigned int nMaterialSurfaces = 0;
+    int nMaterialSurfaces = 0;
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       ODDHelper::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,

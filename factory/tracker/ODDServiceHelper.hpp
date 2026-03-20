@@ -23,19 +23,21 @@ void buildBarrelRouting(dd4hep::Detector& oddd, volume_t& barrelVolume,
   using namespace dd4hep;
 
   // Grab the cables & route them outwards
-  unsigned int nphi = x_routing.nphi();
+  int nphi = x_routing.nphi();
 
   double phiStep = 2 * M_PI / nphi;
   double phi0 = x_routing.phi0();
   double rmin = x_routing.rmin();
   double rmax = x_routing.rmax();
-  double n = x_routing.number();
+  int n = x_routing.number();
 
   // Loop over the layer routings
-  for (unsigned int ib = 1; ib < layerR.size(); ++ib) {
+  for (int ib = 1; ib < static_cast<int>(layerR.size()); ++ib) {
+    const size_t ibIdx = static_cast<size_t>(ib);
+    const size_t ibPrevIdx = static_cast<size_t>(ib - 1);
     double gap = x_routing.gap();
-    double clength = layerR[ib] - layerR[ib - 1] - 2. * gap;
-    double rpos = 0.5 * (layerR[ib] + layerR[ib - 1]);
+    double clength = layerR[ibIdx] - layerR[ibPrevIdx] - 2. * gap;
+    double rpos = 0.5 * (layerR[ibIdx] + layerR[ibPrevIdx]);
 
     Tube cable(rmin, rmax, 0.5 * clength);
     Volume cableVolume("Cable", cable, oddd.material(x_routing.materialStr()));
@@ -46,7 +48,7 @@ void buildBarrelRouting(dd4hep::Detector& oddd, volume_t& barrelVolume,
       if (x_routing.hasChild(_U(box))) {
         // The box plate for the cables
         xml_comp_t x_box = x_routing.child(_U(box));
-        Box box(x_box.dz(), n * ib * rmax, 0.5 * clength);
+        Box box(x_box.dz(), static_cast<double>(n * ib) * rmax, 0.5 * clength);
         Volume boxVolume("CableBand", box,
                          oddd.material(x_routing.materialStr()));
         boxVolume.setVisAttributes(oddd, x_box.visStr());
@@ -55,13 +57,13 @@ void buildBarrelRouting(dd4hep::Detector& oddd, volume_t& barrelVolume,
             boxVolume, Position(side * (rmax + x_box.dz()), 0., 0.));
       }
 
-      for (unsigned int icable = 0; icable < n * ib; ++icable) {
+      for (int icable = 0; icable < n * ib; ++icable) {
         // Place the pipe in the stave
         cableboxAssembly.placeVolume(
             cableVolume, Position(0., (-n * ib + 1 + 2 * icable) * rmax, 0.));
       }
 
-      for (unsigned int iphi = 0; iphi < nphi; ++iphi) {
+      for (int iphi = 0; iphi < nphi; ++iphi) {
         // Calculate the phi
         double phi = phi0 + iphi * phiStep;
 
@@ -95,25 +97,28 @@ void buildEndcapRouting(dd4hep::Detector& oddd, volume_t& endcapVolume,
   using namespace dd4hep;
 
   // Grab the cables & route them outwards
-  unsigned int nphi = x_routing.nphi();
+  int nphi = x_routing.nphi();
 
   double phiStep = 2 * M_PI / nphi;
   double phi0 = x_routing.phi0();
   double rmin = x_routing.rmin();
   double rmax = x_routing.rmax();
   double r = x_routing.r();
-  double n = x_routing.number();
+  int n = x_routing.number();
 
   // Loop over the layer routings
-  for (unsigned int iec = 1; iec < endcapZ.size(); ++iec) {
+  for (int iec = 1; iec < static_cast<int>(endcapZ.size()); ++iec) {
+    const size_t iecIdx = static_cast<size_t>(iec);
+    const size_t iecPrevIdx = static_cast<size_t>(iec - 1);
     double gap = x_routing.gap();
-    double clength = std::abs(endcapZ[iec] - endcapZ[iec - 1]) - 2. * gap;
+    double clength =
+        std::abs(endcapZ[iecIdx] - endcapZ[iecPrevIdx]) - 2. * gap;
 
     Assembly cableboxAssembly("CableBox");
     if (x_routing.hasChild(_U(box))) {
       // The box plate for the cables
       xml_comp_t x_box = x_routing.child(_U(box));
-      Box box(x_box.dz(), n * iec * rmax, 0.5 * clength);
+      Box box(x_box.dz(), static_cast<double>(n * iec) * rmax, 0.5 * clength);
       Volume boxVolume("CableBand", box,
                        oddd.material(x_routing.materialStr()));
       boxVolume.setVisAttributes(oddd, x_box.visStr());
@@ -126,20 +131,20 @@ void buildEndcapRouting(dd4hep::Detector& oddd, volume_t& endcapVolume,
     Volume cableVolume("Cable", cable, oddd.material(x_routing.materialStr()));
     cableVolume.setVisAttributes(oddd, x_routing.visStr());
 
-    for (unsigned int icable = 0; icable < n * iec; ++icable) {
+    for (int icable = 0; icable < n * iec; ++icable) {
       // Place the pipe in the stave
       cableboxAssembly.placeVolume(
           cableVolume, Position(0., (-n * iec + 1 + 2 * icable) * rmax, 0.));
     }
 
-    for (unsigned int iphi = 0; iphi < nphi; ++iphi) {
+    for (int iphi = 0; iphi < nphi; ++iphi) {
       // Calculate the phi
       double phi = phi0 + iphi * phiStep;
 
       // The layer position
       double xpos = r * cos(phi);
       double ypos = r * sin(phi);
-      double zpos = 0.5 * (endcapZ[iec] + endcapZ[iec - 1]);
+      double zpos = 0.5 * (endcapZ[iecIdx] + endcapZ[iecPrevIdx]);
 
       // Place the pipe in the stave
       endcapVolume.placeVolume(
@@ -207,8 +212,8 @@ void buildCoolingRings(dd4hep::Detector& oddd, volume_t& motherVolume,
     xml_comp_t x_cooling_ring = cring;
 
     double r = x_cooling_ring.r();
-    double nPhi = x_cooling_ring.nphi();
-    double phiStep = 2. * M_PI / nPhi;
+    int nPhi = x_cooling_ring.nphi();
+    double phiStep = 2. * M_PI / static_cast<double>(nPhi);
     double zpos = x_cooling_ring.z_offset();
     double dz = 2 * (r * M_PI / nPhi - x_cooling_ring.gap());
 
@@ -219,7 +224,7 @@ void buildCoolingRings(dd4hep::Detector& oddd, volume_t& motherVolume,
     coolingSegement.setVisAttributes(oddd, x_cooling_ring.visStr());
 
     // Create the segments around the ring
-    for (unsigned int iphi = 0; iphi < nPhi; ++iphi) {
+    for (int iphi = 0; iphi < nPhi; ++iphi) {
       // position & orientation
       double phi = iphi * phiStep;
       Position segementPos(r * cos(phi), r * sin(phi), zpos);

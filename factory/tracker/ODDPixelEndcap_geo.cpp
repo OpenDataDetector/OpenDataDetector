@@ -63,7 +63,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   DetElement diskElementTemplate("DiskElementTemplate", 0);
 
   // Loop over the rings to create a template disk
-  size_t ringNum = 0;
+  int ringNum = 0;
   for (xml_coll_t ring(xml, _U(ring)); ring; ++ring, ++ringNum) {
     // Get the ring
     xml_comp_t x_ring = ring;
@@ -83,12 +83,12 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
       double r = x_ring.r();
       double phi0 = x_ring.phi0();
-      unsigned int nModules = x_ring.nphi();
+      int nModules = x_ring.nphi();
       double zgap = x_ring.gap();
       double phiStep = 2. * M_PI / nModules;
 
       // Loop over modules
-      for (unsigned int modNum = 0; modNum < nModules; ++modNum) {
+      for (int modNum = 0; modNum < nModules; ++modNum) {
         // The module name
         string moduleName = _toString(static_cast<int>(modNum), "module%d");
 
@@ -138,7 +138,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
   buildCoolingRings(oddd, diskAssembly, x_det);
 
   // Loop over the layers and place the disk
-  size_t layNum = 0;
+  int layNum = 0;
   // Remember the layers for the service routing
   std::vector<double> endcapZ;
   for (xml_coll_t lay(xml, _U(layer)); lay; ++lay, ++layNum) {
@@ -191,7 +191,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
     }
 
     // Add the proto layer material
-    unsigned int nMaterialSurfaces = 0;
+    int nMaterialSurfaces = 0;
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       ODDHelper::xmlToProtoSurfaceMaterial(x_layer_material, layerParams,
@@ -227,7 +227,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens) {
 
     DetElement endplateElement(x_endplate.nameStr(), 0);
     dd4hep::DetType typeFlags{};
-    endplateElement.setTypeFlag(typeFlags.to_ulong());
+    endplateElement.setTypeFlag(static_cast<unsigned int>(typeFlags.to_ulong()));
 
     // Place the layer with appropriate Acts::Extension
     // Configure the ACTS extension
