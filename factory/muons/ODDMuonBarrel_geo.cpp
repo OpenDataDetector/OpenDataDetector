@@ -120,7 +120,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 			{
 
 				// place the chambers once in side A and once in side B
-				chamberName = _toString((int)chamberNum, "chamber%d");
+				chamberName = _toString(static_cast<int>(chamberNum), "chamber%d");
 				double z = (j % 2) ? za : zb;
 				Volume chVolume(chamberName, chBox, oddd.air());
 				chVolume.setVisAttributes(oddd, x_ch.visStr());
@@ -140,7 +140,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 					for (int t = 0; t < ntubes; t++)
 					{
 
-						tubeName = _toString((int)tubeNum, "tube%d");
+						tubeName = _toString(static_cast<int>(tubeNum), "tube%d");
 						Volume driftTubeVolume(tubeName, driftTubeShape, oddd.material(x_gas.materialStr()));
 						driftTubeVolume.setVisAttributes(oddd, x_gas.visStr());
 						driftTubeVolume.setSensitiveDetector(sens);

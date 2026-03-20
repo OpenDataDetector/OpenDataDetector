@@ -47,7 +47,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 		double phi0 = 0.5 * M_PI;
 		double phistep = 2 * M_PI / x_l.nphi();
 		double r = x_l.rmin();
-		layerName = _toString((int)layerNum, "layer%d");
+		layerName = _toString(static_cast<int>(layerNum), "layer%d");
 		Tube layerMuonShape(x_l.rmin(), x_l.rmax(), x_l.dz());
 		Volume layerMuonVolume(layerName, layerMuonShape, oddd.air());
 		PlacedVolume pvlayer = endcapMuonVolume.placeVolume(layerMuonVolume, Position(0, 0, x_l.z()));
@@ -84,7 +84,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 				double y = r * sin(phi);
 
 				// create the volumes for the chambers and place them
-				chamberName = _toString((int)chamberNum, "chamber%d");
+				chamberName = _toString(static_cast<int>(chamberNum), "chamber%d");
 				Volume chVolume(chamberName, chTrap, oddd.air());
 				chVolume.setVisAttributes(oddd, x_ch.visStr());
 	
@@ -113,7 +113,7 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 						// loop over the tubes along x
 							
 							// create and place the tubes inside the chambers (gas+shell)
-						tubeName = _toString((int)tubeNum, "tube%d");
+						tubeName = _toString(static_cast<int>(tubeNum), "tube%d");
 						Volume driftTubeVolume(tubeName, driftTubeShape, oddd.material(x_gas.materialStr()));
 						driftTubeVolume.setVisAttributes(oddd, x_gas.visStr());
 						driftTubeVolume.setSensitiveDetector(sens);
