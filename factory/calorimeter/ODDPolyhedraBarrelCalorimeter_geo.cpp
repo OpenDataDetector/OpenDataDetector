@@ -1,5 +1,6 @@
 #include "DD4hep/DetFactoryHelper.h"
 #include "DDRec/DetectorData.h"
+#include "DD4hep/Printout.h"
 #include "XML/Layering.h"
 #include "XML/Utilities.h"
 
@@ -180,11 +181,8 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       // The rest of the data is constant; only the distance needs to be updated
       // Store the position up to the inner face of the layer
       caloLayer.distance = rmin + layer_pos_z + staveThickness / 2 - layer_thickness / 2;
-      std::cout << "Layer: " << static_cast<int>(layer_num) << " Rmin: " << rmin << " layer_pos_z: " << layer_pos_z
-                << " Dist: " << caloLayer.distance
-                << " inner_thickness: " << caloLayer.inner_thickness
-                << " outer_thickness: " << caloLayer.outer_thickness
-                << std::endl;
+      printout(INFO, "ODDPolyhedraBarrelCalorimeter", "Layer: %d Rmin: %g layer_pos_z: %g Dist: %g inner_thickness: %g outer_thickness: %g",
+               static_cast<int>(layer_num), rmin, layer_pos_z, caloLayer.distance, caloLayer.inner_thickness, caloLayer.outer_thickness);
       // Push back a copy to the caloData structure
       caloData->layers.push_back(caloLayer);
 

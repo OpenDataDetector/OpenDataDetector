@@ -1,5 +1,6 @@
 #include "DD4hep/DetFactoryHelper.h"
 #include "DDRec/DetectorData.h"
+#include "DD4hep/Printout.h"
 #include "XML/Layering.h"
 #include "XML/Utilities.h"
 
@@ -102,7 +103,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   for(xml_coll_t xc(x_det,_U(layer)); xc; ++xc)  {
     xml_comp_t       x_layer  = xc;
     int              l_repeat = x_layer.repeat();
-    std::cout << "ODD Polyhedra ENDCAP.\n Number of layers: " << l_repeat << std::endl;
+    printout(INFO, "ODDPolyhedraEndcapCalorimeter", "ODD Polyhedra ENDCAP. Number of layers: %d", l_repeat);
     if ( l_repeat <= 0 ) throw std::runtime_error(x_det.nameStr()+"> Invalid repeat value");
     const Layer* lay = layering.layer(layer_num - 1); // Get the layer from the layering engine.
     LayeredCalorimeterData::Layer caloLayer;
@@ -111,14 +112,14 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
     for (int j = 0; j < l_repeat; j++) {
       string layer_name = _toString(static_cast<int>(layer_num), "layer%d");
-      std::cout << "- layer named " << layer_name << std::endl;
+      printout(INFO, "ODDPolyhedraEndcapCalorimeter", "- layer named %s", layer_name.c_str());
       double layer_thickness = lay->thickness();
       DetElement layer(stave, layer_name, static_cast<int>(layer_num));
       layer_pos_y += layer_thickness / 2;
       // Layer trapezoid shape & volume
       Trapezoid layer_trd(innerFaceLen / 2 - gap, outerFaceLen / 2 - gap, layer_thickness / 2, layer_thickness / 2, staveThickness / 2);
       Volume layer_vol(layer_name, layer_trd, air);
-      std::cout << "Layer of trapezoidal shape with dimensions " <<  layer_thickness / 2 << " , " << staveThickness / 2 << std::endl;
+      printout(INFO, "ODDPolyhedraEndcapCalorimeter", "Layer of trapezoidal shape with dimensions %g , %g", layer_thickness / 2, staveThickness / 2);
 
       // Create the slices (sublayers) within the layer.
       double slice_pos_y = -(layer_thickness / 2);
@@ -159,9 +160,8 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
         // slice PlacedVolume
         PlacedVolume slice_phv = layer_vol.placeVolume(slice_vol, Position(0, slice_pos_y, 0));
         slice_phv.addPhysVolID("slice", slice_number);
-        std::cout << "Slice " << slice_number << " made of " << x_slice.materialStr() << " with name " << slice_name
-                  << " and half sizes " << slice_thickness / 2 << " , " << staveThickness / 2 <<
-                  "     placed in layer at y = " << slice_pos_y  << std::endl;
+        printout(INFO, "ODDPolyhedraEndcapCalorimeter", "Slice %d made of %s with name %s and half sizes %g , %g     placed in layer at y = %g",
+                 slice_number, x_slice.materialStr().c_str(), slice_name.c_str(), slice_thickness / 2, staveThickness / 2, slice_pos_y);
 
         slice.setPlacement(slice_phv);
         // Increment Z position for next slice.
@@ -179,19 +179,16 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
       // Layer physical volume.
       PlacedVolume layer_phv = staveInnerVol.placeVolume(layer_vol, Position(0, layer_pos_y, 0));
-      std::cout << " Placing layer " << static_cast<int>(layer_num) << " with half dimension of " << layer_thickness / 2 
-      << ", " << staveThickness / 2 << " at " << 0 << ", " << layer_pos_y <<  ", " << 0 << std::endl;
+      printout(INFO, "ODDPolyhedraEndcapCalorimeter", " Placing layer %d with half dimension of %g, %g at 0, %g, 0",
+               static_cast<int>(layer_num), layer_thickness / 2, staveThickness / 2, layer_pos_y);
       layer_phv.addPhysVolID("layer", static_cast<int>(layer_num));
       layer.setPlacement(layer_phv);
 
       // The rest of the data is constant; only the distance needs to be updated
       // Store the position up to the inner face of the layer
       caloLayer.distance = rmin + layer_pos_y + staveThickness / 2 - layer_thickness / 2;
-      std::cout << "Layer: " << static_cast<int>(layer_num) << " Rmin: " << rmin << " layer_pos_z: " << layer_pos_y
-                << " Dist: " << caloLayer.distance
-                << " inner_thickness: " << caloLayer.inner_thickness
-                << " outer_thickness: " << caloLayer.outer_thickness
-                << std::endl;
+      printout(INFO, "ODDPolyhedraEndcapCalorimeter", "Layer: %d Rmin: %g layer_pos_z: %g Dist: %g inner_thickness: %g outer_thickness: %g",
+               static_cast<int>(layer_num), rmin, layer_pos_y, caloLayer.distance, caloLayer.inner_thickness, caloLayer.outer_thickness);
       // Push back a copy to the caloData structure
       caloData->layers.push_back(caloLayer);
 
