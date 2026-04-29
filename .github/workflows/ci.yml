@@ -32,7 +32,7 @@ jobs:
             ccache-acts-${{ env.CCACHE_KEY_SUFFIX }}-${{ github.ref_name }}-
             ccache-acts-${{ env.CCACHE_KEY_SUFFIX }}-
       - name: Build ACTS in LCG view
-        uses: aidasoft/run-lcg-view@v4
+        uses: aidasoft/run-lcg-view@v6
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
