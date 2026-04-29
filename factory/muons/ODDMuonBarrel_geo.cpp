@@ -6,13 +6,12 @@
 
 #include "DD4hep/DetFactoryHelper.h"
 #include "XML/Utilities.h"
+#include "DDRec/DetectorData.h"
 
 #include <numbers>
-#include <iostream>
-#include <fstream>
-
 using namespace std;
 using namespace dd4hep;
+using dd4hep::rec::LayeredCalorimeterData;
 
 /// Standard create_element(...) create muon spectrometer barrel like geometry
 ///
@@ -32,8 +31,6 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 	dd4hep::xml::setDetectorTypeFlag(xml, barrelMuonDetector);
 
 	dd4hep::xml::Dimension x_det_dim(x_det.dimensions());
-	string barrelShapeName = x_det_dim.nameStr();
-
 	// The shape and volume
 	Tube barrelMuonShape(x_det_dim.rmin(), x_det_dim.rmax(), x_det_dim.dz());
 	Volume barrelMuonVolume(detName, barrelMuonShape, oddd.air());
@@ -161,6 +158,21 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 	// visualize the barrel cylinder
 	barrelMuonVolume.setVisAttributes(oddd, x_det.visStr());
 
+	// The muon barrel envelope is cylindrical, so Pandora should use radial normals.
+	LayeredCalorimeterData* caloData = new LayeredCalorimeterData;
+	caloData->layoutType = LayeredCalorimeterData::BarrelLayout;
+	caloData->inner_symmetry = 0;
+	caloData->outer_symmetry = 0;
+	caloData->inner_phi0 = 0.;
+	caloData->outer_phi0 = 0.;
+	caloData->gap0 = 0.;
+	caloData->gap1 = 0.;
+	caloData->gap2 = 0.;
+	caloData->extent[0] = x_det_dim.rmin();
+	caloData->extent[1] = x_det_dim.rmax();
+	caloData->extent[2] = 0;
+	caloData->extent[3] = x_det_dim.dz();
+
 	// Place Volume
 	Volume motherVolume = oddd.pickMotherVolume(barrelMuonDetector);
 	Position translation(0., 0., x_det_dim.z());
@@ -168,6 +180,9 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens)
 	PlacedVolume placedMuonBarrel = motherVolume.placeVolume(barrelMuonVolume, translation);
 	placedMuonBarrel.addPhysVolID("system", x_det.id());
 	barrelMuonDetector.setPlacement(placedMuonBarrel);
+	
+	barrelMuonDetector.addExtension<LayeredCalorimeterData>(caloData);
+
 	return barrelMuonDetector;
 }
 

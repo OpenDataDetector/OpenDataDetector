@@ -69,10 +69,8 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   double layer_pos_y = -(detZ / 2);
   size_t layer_num = 1;
 
-  // Copy of the LayeredCaloData from CLD factory
-  // Create caloData object to extend driver with data required for reconstruction
   LayeredCalorimeterData* caloData = new LayeredCalorimeterData;
-  caloData->layoutType = LayeredCalorimeterData::BarrelLayout;
+  caloData->layoutType = LayeredCalorimeterData::EndcapLayout;
   Segmentation seg = sens.readout().segmentation();
   std::vector<double> cellSizeVector =
       seg.segmentation()->cellDimensions(0); // Assume uniform cell sizes, provide dummy cellID
@@ -80,22 +78,15 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   double cell_sizeY = cellSizeVector[1];
   caloData->inner_symmetry = numsides;
   caloData->outer_symmetry = numsides;
-  /** NOTE: phi0=0 means lower face flat parallel to experimental floor
-   *  This is achieved by rotating the modules with respect to the envelope
-   *  which is assumed to be a Polyhedron and has its axes rotated with respect
-   *  to the world by 180/nsides. In any other case (e.g. if you want to have
-   *  a tip of the calorimeter touching the ground) this value needs to be computed
-   */
   caloData->inner_phi0 = 0.;
   caloData->outer_phi0 = 0.;
   caloData->gap0 = 0.;
   caloData->gap1 = 0.;
   caloData->gap2 = 0.;
-  /// extent of the calorimeter in the r-z-plane [ rmin, rmax, zmin, zmax ] in mm.
   caloData->extent[0] = rmin;
-  caloData->extent[1] = rmin + totalThickness;
-  caloData->extent[2] = 0.;
-  caloData->extent[3] = detZ / 2.0;
+  caloData->extent[1] = rmax;
+  caloData->extent[2] = zmin;
+  caloData->extent[3] = zmin + totalThickness;
 
   endcapVol.setAttributes(description,x_det.regionStr(),x_det.limitsStr(),x_det.visStr());
 
@@ -162,7 +153,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
         slice_phv.addPhysVolID("slice", slice_number);
         printout(INFO, "ODDPolyhedraEndcapCalorimeter", "Slice %d made of %s with name %s and half sizes %g , %g     placed in layer at y = %g",
                  slice_number, x_slice.materialStr().c_str(), slice_name.c_str(), slice_thickness / 2, staveThickness / 2, slice_pos_y);
-
         slice.setPlacement(slice_phv);
         // Increment Z position for next slice.
         slice_pos_y += slice_thickness / 2;
@@ -185,8 +175,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       layer.setPlacement(layer_phv);
 
       // The rest of the data is constant; only the distance needs to be updated
-      // Store the position up to the inner face of the layer
-      caloLayer.distance = rmin + layer_pos_y + staveThickness / 2 - layer_thickness / 2;
+      caloLayer.distance = zmin + layer_pos_y + detZ / 2 - layer_thickness / 2;
       printout(INFO, "ODDPolyhedraEndcapCalorimeter", "Layer: %d Rmin: %g layer_pos_z: %g Dist: %g inner_thickness: %g outer_thickness: %g",
                static_cast<int>(layer_num), rmin, layer_pos_y, caloLayer.distance, caloLayer.inner_thickness, caloLayer.outer_thickness);
       // Push back a copy to the caloData structure
@@ -252,4 +241,3 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 }
 
 DECLARE_DETELEMENT(ODDPolyhedraEndcapCalorimeter,create_detector)
-

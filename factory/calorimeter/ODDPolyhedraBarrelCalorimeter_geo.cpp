@@ -72,8 +72,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   double layer_dim_x = innerFaceLen / 2 - gap * 2;
   size_t layer_num = 1;
 
-  // Copy of the LayeredCaloData from CLD factory
-  // Create caloData object to extend driver with data required for reconstruction
   LayeredCalorimeterData* caloData = new LayeredCalorimeterData;
   caloData->layoutType = LayeredCalorimeterData::BarrelLayout;
   Segmentation seg = sens.readout().segmentation();
@@ -83,18 +81,11 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   double cell_sizeY = cellSizeVector[1];
   caloData->inner_symmetry = numSides;
   caloData->outer_symmetry = numSides;
-  /** NOTE: phi0=0 means lower face flat parallel to experimental floor
-   *  This is achieved by rotating the modules with respect to the envelope
-   *  which is assumed to be a Polyhedron and has its axes rotated with respect
-   *  to the world by 180/nsides. In any other case (e.g. if you want to have
-   *  a tip of the calorimeter touching the ground) this value needs to be computed
-   */
   caloData->inner_phi0 = 0.;
   caloData->outer_phi0 = 0.;
   caloData->gap0 = 0.;
   caloData->gap1 = 0.;
   caloData->gap2 = 0.;
-  /// extent of the calorimeter in the r-z-plane [ rmin, rmax, zmin, zmax ] in mm.
   caloData->extent[0] = rmin;
   caloData->extent[1] = rmin + totalThickness;
   caloData->extent[2] = 0.;
@@ -178,8 +169,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       layer_phv.addPhysVolID("layer", static_cast<int>(layer_num));
       layer.setPlacement(layer_phv);
 
-      // The rest of the data is constant; only the distance needs to be updated
-      // Store the position up to the inner face of the layer
       caloLayer.distance = rmin + layer_pos_z + staveThickness / 2 - layer_thickness / 2;
       printout(INFO, "ODDPolyhedraBarrelCalorimeter", "Layer: %d Rmin: %g layer_pos_z: %g Dist: %g inner_thickness: %g outer_thickness: %g",
                static_cast<int>(layer_num), rmin, layer_pos_z, caloLayer.distance, caloLayer.inner_thickness, caloLayer.outer_thickness);
@@ -187,7 +176,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       caloData->layers.push_back(caloLayer);
 
       // Increment the layer X dimension.
-      layer_dim_x += layer_thickness * std::tan(layerInnerAngle);    // * 2;
+      layer_dim_x += layer_thickness * std::tan(layerInnerAngle);
       // Increment the layer Z position.
       layer_pos_z += layer_thickness / 2;
       // Increment the layer number.

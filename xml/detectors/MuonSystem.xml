@@ -23,7 +23,7 @@
 
 		<!-- Barrel-->
 		<detector id="ODD_MuonSpectroMeterBarrel_ID" name="MuonSpectrometerBarrel" type="ODDMuonBarrel" readout="MuonBarrelHits" vis="MuonBarrelVis">
-			 <type_flags type="DetType_MUON +  DetType_BARREL"/>
+			 <type_flags type="DetType_CALORIMETER + DetType_MUON +  DetType_BARREL"/>
 			 <dimensions name="MuonSpectrometerBarrelShape" rmin="ms_b_rmin" rmax="ms_b_rmax" dz="ms_b_dz" z="0.*m"/>
 			     <layer name="InnerLayer"  rmin="ms_b_rmin" rmax="ms_b_rmax_inner" nphi="16" nz="8" z_offset="3">
 			 	<chamber name="chamber" dx="750.*mm" dy="250.*mm" dz="800.*mm" x="0." z="2.*m" y_offset="10.*mm" vis="MuonChamberVis">	
@@ -49,7 +49,7 @@
 			<!--EndCap-->			
  				
 			<detector id="ODD_MuonSpectrometerEndCapP_ID" name="MuonSpectrometerEndCapP" type="ODDMuonEndCap" readout="MuonEndcapHits" vis="MuonEndCapVis">
-			 <type_flags type="DetType_MUON +  DetType_ENDCAP"/>
+			 <type_flags type="DetType_CALORIMETER +DetType_MUON +  DetType_ENDCAP"/>
 			 <dimensions name="MuonSpectrometerEndCapShapeP" rmin="ms_e_rmin_inner" rmax="ms_e_rmax_middle" dz="ms_e_dz" z="8735.*mm"/>
 			 <layer  rmin="ms_e_rmin_inner" rmax="ms_e_rmax_inner" dz="ms_e_dz_inner" z="-1155.*mm" nphi="16">	
 			<chamber dx="ms_e_ch_dx_inner1" dy="ms_e_ch_dy_inner1" dz="ms_e_ch_dz" zmax="0.*mm" zmin="-190.*mm" vis="MuonChamberVis">

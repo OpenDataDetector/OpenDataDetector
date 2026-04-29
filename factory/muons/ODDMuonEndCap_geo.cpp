@@ -6,9 +6,11 @@
 
 #include "DD4hep/DetFactoryHelper.h"
 #include "XML/Utilities.h"
+#include "DDRec/DetectorData.h"
 
 using namespace std;
 using namespace dd4hep;
+using dd4hep::rec::LayeredCalorimeterData;
 
 /// Standard create_element(...) create muon spectrometer endcap like geometry
 ///
@@ -28,8 +30,6 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 
 	// Make Volume
 	dd4hep::xml::Dimension x_det_dim(x_det.dimensions());
-	string endcapShapeName = x_det_dim.nameStr();
-
 	// The shape and volume
 	Tube endcapMuonShape(x_det_dim.rmin(), x_det_dim.rmax(), x_det_dim.dz());
 	Volume endcapMuonVolume(detName, endcapMuonShape, oddd.air());
@@ -150,6 +150,23 @@ static Ref_t create_element(Detector &oddd, xml_h xml, SensitiveDetector sens){
 	PlacedVolume placedMuonEndCap = motherVolume.placeVolume(endcapMuonVolume, translation);
 	placedMuonEndCap.addPhysVolID("system", endcapMuonDetector.id());
 	endcapMuonDetector.setPlacement(placedMuonEndCap);
+
+	// The muon endcaps are described as circular disks rather than polygonal staves.
+	LayeredCalorimeterData* caloData = new LayeredCalorimeterData;
+	caloData->layoutType = LayeredCalorimeterData::EndcapLayout;
+	caloData->inner_symmetry = 0;
+	caloData->outer_symmetry = 0;
+	caloData->inner_phi0 = 0.;
+	caloData->outer_phi0 = 0.;
+	caloData->gap0 = 0.;
+	caloData->gap1 = 0.;
+	caloData->gap2 = 0.;
+	caloData->extent[0] = x_det_dim.rmin();
+	caloData->extent[1] = x_det_dim.rmax();
+	caloData->extent[2] = x_det_dim.z();
+	caloData->extent[3] = x_det_dim.z() + x_det_dim.dz();
+
+	endcapMuonDetector.addExtension<LayeredCalorimeterData>(caloData);
 
 	return endcapMuonDetector;
 }

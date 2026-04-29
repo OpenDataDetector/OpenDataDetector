@@ -5,11 +5,13 @@
 // Mozilla Public License Version 2.0
 
 #include "DD4hep/DetFactoryHelper.h"
+#include "DDRec/DetectorData.h"
 #include "ODDHelper.hpp"
 #include "XML/Utilities.h"
 
 using namespace std;
 using namespace dd4hep;
+using dd4hep::rec::LayeredCalorimeterData;
 
 /// Standard create_element(...) create a simple cylinder
 ///
@@ -59,6 +61,21 @@ static Ref_t create_element(Detector &oddd, xml_h xml,
   PlacedVolume placedTube = motherVolume.placeVolume(tubeVolume);
   placedTube.addPhysVolID(detName, cylinderElement.id());
   cylinderElement.setPlacement(placedTube);
+
+  LayeredCalorimeterData* caloData = new LayeredCalorimeterData;
+  caloData->layoutType = LayeredCalorimeterData::BarrelLayout;
+  caloData->inner_symmetry = 0;
+  caloData->outer_symmetry = 0;
+  caloData->inner_phi0 = 0.;
+  caloData->outer_phi0 = 0.;
+  caloData->gap0 = 0.;
+  caloData->gap1 = 0.;
+  caloData->gap2 = 0.;
+  caloData->extent[0] = x_det_tubs.rmin();
+  caloData->extent[1] = x_det_tubs.rmax();
+  caloData->extent[2] = 0.;
+  caloData->extent[3] = x_det_tubs.dz();
+  cylinderElement.addExtension<LayeredCalorimeterData>(caloData);
 
   // And return the element for further parsing
   return cylinderElement;
