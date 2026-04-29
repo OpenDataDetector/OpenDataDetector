@@ -38,7 +38,7 @@ jobs:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             python3 -m pip install -r ci/requirements_lcg107.txt
-            git clone --depth 1 "${ACTS_GIT_URL}" --branch "${ACTS_VERSION}"
+            git clone --depth 1 "${{ env.ACTS_GIT_URL }}" --branch "${{ env.ACTS_VERSION }}"
             ccache -z
             ci/build_acts.sh
             ccache -s
@@ -68,7 +68,7 @@ jobs:
             cmake -S . -B odd-build -GNinja \
               -DCMAKE_INSTALL_PREFIX="$PWD/odd-install" \
               -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-              -DCMAKE_CXX_FLAGS="${ODD_STRICT_CXX_FLAGS}"
+              -DCMAKE_CXX_FLAGS="${{ env.ODD_STRICT_CXX_FLAGS }}"
             nproc
             free -h
             cmake --build odd-build -- -j3
@@ -343,16 +343,13 @@ jobs:
         with: { name: odd-install, path: odd-install }
       - uses: cvmfs-contrib/github-action-cvmfs@v4
       - uses: aidasoft/run-lcg-view@v6
-        env:
-          ENERGY: ${{ matrix.ENERGY }}
-          NUMEVENTS: ${{ matrix.NUMEVENTS }}
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             source odd-install/bin/this_odd.sh
             mkdir analysis_ecal_barrel
             cd analysis_ecal_barrel
-            ddsim --enableGun --numberOfEvents "$NUMEVENTS" --gun.energy "${ENERGY}*GeV" --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_theta1.57_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root"
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_theta1.57_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -406,16 +403,13 @@ jobs:
         with: { name: odd-install, path: odd-install }
       - uses: cvmfs-contrib/github-action-cvmfs@v4
       - uses: aidasoft/run-lcg-view@v6
-        env:
-          ENERGY: ${{ matrix.ENERGY }}
-          NUMEVENTS: ${{ matrix.NUMEVENTS }}
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             source odd-install/bin/this_odd.sh
             mkdir analysis_ecal_rightEndcap
             cd analysis_ecal_rightEndcap
-            ddsim --enableGun --numberOfEvents "$NUMEVENTS" --gun.energy "${ENERGY}*GeV" --gun.particle gamma --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_theta0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root"
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle gamma --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_theta0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -468,16 +462,13 @@ jobs:
         with: { name: odd-install, path: odd-install }
       - uses: cvmfs-contrib/github-action-cvmfs@v4
       - uses: aidasoft/run-lcg-view@v6
-        env:
-          ENERGY: ${{ matrix.ENERGY }}
-          NUMEVENTS: ${{ matrix.NUMEVENTS }}
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             source odd-install/bin/this_odd.sh
             mkdir analysis_ecal_leftEndcap
             cd analysis_ecal_leftEndcap
-            ddsim --enableGun --numberOfEvents "$NUMEVENTS" --gun.energy "${ENERGY}*GeV" --gun.particle gamma --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_thetaM0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root"
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle gamma --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_thetaM0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -530,16 +521,13 @@ jobs:
         with: { name: odd-install, path: odd-install }
       - uses: cvmfs-contrib/github-action-cvmfs@v4
       - uses: aidasoft/run-lcg-view@v6
-        env:
-          ENERGY: ${{ matrix.ENERGY }}
-          NUMEVENTS: ${{ matrix.NUMEVENTS }}
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             source odd-install/bin/this_odd.sh
             mkdir analysis_hcal_barrel
             cd analysis_hcal_barrel
-            ddsim --enableGun --numberOfEvents "$NUMEVENTS" --gun.energy "${ENERGY}*GeV" --gun.particle pi- --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_theta1.57_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root"
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle pi- --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_theta1.57_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -592,16 +580,13 @@ jobs:
         with: { name: odd-install, path: odd-install }
       - uses: cvmfs-contrib/github-action-cvmfs@v4
       - uses: aidasoft/run-lcg-view@v6
-        env:
-          ENERGY: ${{ matrix.ENERGY }}
-          NUMEVENTS: ${{ matrix.NUMEVENTS }}
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             source odd-install/bin/this_odd.sh
             mkdir analysis_hcal_rightEndcap
             cd analysis_hcal_rightEndcap
-            ddsim --enableGun --numberOfEvents "$NUMEVENTS" --gun.energy "${ENERGY}*GeV" --gun.particle pi- --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_theta0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root"
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle pi- --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_theta0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -653,16 +638,13 @@ jobs:
         with: { name: odd-install, path: odd-install }
       - uses: cvmfs-contrib/github-action-cvmfs@v4
       - uses: aidasoft/run-lcg-view@v6
-        env:
-          ENERGY: ${{ matrix.ENERGY }}
-          NUMEVENTS: ${{ matrix.NUMEVENTS }}
         with:
           release-platform: ${{ env.LCG_RELEASE }}
           run: |
             source odd-install/bin/this_odd.sh
             mkdir analysis_hcal_leftEndcap
             cd analysis_hcal_leftEndcap
-            ddsim --enableGun --numberOfEvents "$NUMEVENTS" --gun.energy "${ENERGY}*GeV" --gun.particle pi- --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_thetaM0.24_${NUMEVENTS}events_${ENERGY}GeV_edm4hep.root"
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle pi- --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_thetaM0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
