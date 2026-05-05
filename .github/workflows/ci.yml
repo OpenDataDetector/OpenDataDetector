@@ -1,0 +1,704 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  ACTS_VERSION: v39.2.1
+  ACTS_GIT_URL: https://github.com/acts-project/acts.git
+  LCG_RELEASE: LCG_107/x86_64-el9-gcc13-opt
+  CCACHE_KEY_SUFFIX: r1
+  CCACHE_MAXSIZE: 1G
+
+jobs:
+  # =============================================================
+  # build stage
+  # =============================================================
+  build-acts:
+    runs-on: ubuntu-latest
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/ccache_r1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore ccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ccache-acts-${{ env.CCACHE_KEY_SUFFIX }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ccache-acts-${{ env.CCACHE_KEY_SUFFIX }}-${{ github.ref_name }}-
+            ccache-acts-${{ env.CCACHE_KEY_SUFFIX }}-
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: Build ACTS in LCG view
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            python3 -m pip install -r ci/requirements_lcg107.txt
+            export PATH=/root/.local/bin:$PATH
+            git clone --depth 1 "${{ env.ACTS_GIT_URL }}" --branch "${{ env.ACTS_VERSION }}"
+            ccache -z
+            ci/build_acts.sh
+            ccache -s
+      - name: Tar install (preserve perms)
+        run: tar czf acts-install.tar.gz acts-install
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acts-install
+          path: acts-install.tar.gz
+          retention-days: 30
+
+  build-odd:
+    runs-on: ubuntu-latest
+    env:
+      ODD_STRICT_CXX_FLAGS: >-
+        -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow
+        -Wformat=2 -Wnull-dereference -Wdouble-promotion -Wimplicit-fallthrough
+        -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wcast-align
+        -Werror
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: Build ODD in LCG view
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            python3 -m pip install -r ci/requirements_lcg107.txt
+            export PATH=/root/.local/bin:$PATH
+            cmake -S . -B odd-build -GNinja \
+              -DCMAKE_INSTALL_PREFIX="$PWD/odd-install" \
+              -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+              -DCMAKE_CXX_FLAGS="${{ env.ODD_STRICT_CXX_FLAGS }}"
+            nproc
+            free -h
+            cmake --build odd-build -- -j3
+            cmake --install odd-build
+      - name: Tar install (preserve perms)
+        run: tar czf odd-install.tar.gz odd-install
+      - uses: actions/upload-artifact@v4
+        with:
+          name: odd-install
+          path: odd-install.tar.gz
+          retention-days: 30
+
+  # =============================================================
+  # detector tests (ci/detector.yml)
+  # =============================================================
+  run-material-composition:
+    needs: [build-odd, build-acts]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: acts-install }
+      - run: tar xzf acts-install.tar.gz && rm acts-install.tar.gz
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: Material composition
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            python3 -m pip install -r ci/requirements_lcg107.txt
+            export PATH=/root/.local/bin:$PATH
+            source acts-install/bin/this_acts.sh
+            source odd-install/bin/this_odd.sh
+            source acts-install/python/setup.sh
+            ci/run_material_recording.py -o g4 -n 50000 -j8
+            hadd g4/geant4_material_tracks.root g4/geant4_material_tracks_*.root
+            mkdir plots
+            ci/make_detector_plot.py ci/composition_config.json plots/layout.pdf
+            ci/material_composition.sh g4/geant4_material_tracks.root plots/material_composition.root
+            PYTHONPATH=$(pwd)/ci:$PYTHONPATH ci/make_material_plots.py plots/material_composition.root ci/composition_config.json plots
+            histcmp \
+              --label-reference "$(cat ci/reference/commit.txt)" \
+              --label-monitored "${GITHUB_SHA::8}" \
+              --title "ODD material composition" \
+              -o plots/material.html \
+              plots/material_composition.root \
+              ci/reference/material_composition.root
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: material-composition
+          path: plots
+          retention-days: 30
+
+  construct-tracker:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -load
+
+  construct-tracker-calorimeter:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -input xml/OpenDataDetectorCalorimeter.xml -load
+
+  construct-tracker-calorimeter-muon:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            geoDisplay -input xml/OpenDataDetectorDefs.xml -input xml/OpenDataDetectorTracker.xml -input xml/OpenDataDetectorCalorimeter.xml -input xml/OpenDataDetectorMuonSystem.xml -load
+
+  construct-full-odd:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            geoDisplay -input xml/OpenDataDetector.xml -load
+
+  run-ddsim:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            python3 "$(which ddsim)" --enableGun --numberOfEvents 100 --gun.thetaMin 0.1415 --gun.thetaMax 3.0 --gun.distribution uniform --compactFile xml/OpenDataDetector.xml --outputFile ddsim.root
+
+  check-overlaps:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: checkOverlaps
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir check_overlaps
+            cd check_overlaps
+            python3 "$(which checkOverlaps)" -c ../xml/OpenDataDetector.xml -t 0.01 >out 2> err
+            FAIL=$(sed -n 's/.*Number of illegal overlaps\/extrusions : //p' err)
+            echo "$FAIL"
+            if [ "$FAIL" -gt 0 ]; then exit 1; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: check_overlaps
+          path: check_overlaps
+          retention-days: 30
+
+  export-geometry-gdml-tgeo:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir export_geometry
+            geoConverter -compact2gdml -input xml/OpenDataDetector.xml -output export_geometry/OpenDataDetector.gdml
+            root -x 'ci/export_geometry_gdml2tgeo.C("export_geometry/OpenDataDetector.gdml", "export_geometry/ODD.root")'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: export-geometry-gdml-tgeo
+          path: export_geometry
+          retention-days: 30
+
+  export-geometry:
+    needs: export-geometry-gdml-tgeo
+    runs-on: ubuntu-latest
+    container:
+      image: node:16.20.2-bookworm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: export-geometry-gdml-tgeo, path: export_geometry }
+      - run: |
+          apt-get update
+          apt-get install -y curl gnupg git libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+          git clone https://github.com/kjvbrt/root2gltf.git
+          cd root2gltf
+          git checkout 3b263d0eda2d245c81316d2dd12303761a78f002
+          npm ci
+          node . ../export_geometry/ODD.root -c ../ci/export_geometry_config.json
+          mv ODD.gltf ../export_geometry/.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: export-geometry
+          path: export_geometry
+          retention-days: 30
+
+  # =============================================================
+  # tracking (ci/tracking.yml)
+  # =============================================================
+  run-full-chain:
+    needs: [build-odd, build-acts]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: acts-install }
+      - run: tar xzf acts-install.tar.gz && rm acts-install.tar.gz
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: Full chain
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            python3 -m pip install -r ci/requirements_lcg107.txt
+            export PATH=/root/.local/bin:$PATH
+            source acts-install/bin/this_acts.sh
+            source odd-install/bin/this_odd.sh
+            source acts-install/python/setup.sh
+            mkdir full_chain
+            ci/full_chain_odd.py -o output -n 100000 2>&1 > full_chain/output.log
+            ls -al output
+            cp output/performance_finding_ckf.root full_chain
+            cp output/performance_finding_ambi.root full_chain
+            cp output/performance_seeding.root full_chain
+            histcmp \
+              --label-reference "$(cat ci/reference/commit.txt)" \
+              --label-monitored "${GITHUB_SHA::8}" \
+              --title "ODD full chain ckf" \
+              -o full_chain/full_chain.html \
+              -p full_chain/plots \
+              full_chain/performance_finding_ckf.root \
+              ci/reference/performance_finding_ckf.root
+            histcmp \
+              --label-reference "reference" \
+              --label-monitored "current" \
+              --title "ODD full chain ambi" \
+              -o full_chain/full_chain.html \
+              -p full_chain/plots \
+              full_chain/performance_finding_ambi.root \
+              ci/reference/performance_finding_ambi.root
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full_chain
+          path: full_chain
+          retention-days: 30
+
+  # =============================================================
+  # calorimeter (ci/calorimeter.yml)
+  # =============================================================
+  simulate-ecal-barrel:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ENERGY: 5,   NUMEVENTS: 1000 }
+          - { ENERGY: 10,  NUMEVENTS: 1000 }
+          - { ENERGY: 20,  NUMEVENTS: 1000 }
+          - { ENERGY: 50,  NUMEVENTS: 1000 }
+          - { ENERGY: 100, NUMEVENTS: 500 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir analysis_ecal_barrel
+            cd analysis_ecal_barrel
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle gamma --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_theta1.57_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis_ecal_barrel-${{ matrix.ENERGY }}GeV
+          path: analysis_ecal_barrel
+          retention-days: 30
+
+  validate-ecal-barrel:
+    needs: simulate-ecal-barrel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analysis_ecal_barrel-*
+          path: analysis_ecal_barrel
+          merge-multiple: true
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            mkdir analysis_ecal_barrel/validation
+            cd analysis_ecal_barrel/validation
+            ls
+            find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py -i {} -o "$(basename {} edm4hep.root)"results.root' \;
+            python3 ../../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+            python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalBarrel.root -l MR reference
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation_ecal_barrel
+          path: analysis_ecal_barrel/validation
+          retention-days: 30
+
+  simulate-ecal-rightEndcap:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ENERGY: 5,   NUMEVENTS: 500 }
+          - { ENERGY: 10,  NUMEVENTS: 500 }
+          - { ENERGY: 20,  NUMEVENTS: 500 }
+          - { ENERGY: 50,  NUMEVENTS: 250 }
+          - { ENERGY: 100, NUMEVENTS: 250 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir analysis_ecal_rightEndcap
+            cd analysis_ecal_rightEndcap
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle gamma --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_theta0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis_ecal_rightEndcap-${{ matrix.ENERGY }}GeV
+          path: analysis_ecal_rightEndcap
+          retention-days: 30
+
+  validate-ecal-rightEndcap:
+    needs: simulate-ecal-rightEndcap
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analysis_ecal_rightEndcap-*
+          path: analysis_ecal_rightEndcap
+          merge-multiple: true
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            mkdir analysis_ecal_rightEndcap/validation
+            cd analysis_ecal_rightEndcap/validation
+            find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap' \;
+            python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+            python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalEndcap.root -l MR reference
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation_ecal_rightEndcap
+          path: analysis_ecal_rightEndcap/validation
+          retention-days: 30
+
+  simulate-ecal-leftEndcap:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ENERGY: 5,   NUMEVENTS: 500 }
+          - { ENERGY: 10,  NUMEVENTS: 500 }
+          - { ENERGY: 20,  NUMEVENTS: 500 }
+          - { ENERGY: 50,  NUMEVENTS: 250 }
+          - { ENERGY: 100, NUMEVENTS: 250 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir analysis_ecal_leftEndcap
+            cd analysis_ecal_leftEndcap
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle gamma --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_gamma_thetaM0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis_ecal_leftEndcap-${{ matrix.ENERGY }}GeV
+          path: analysis_ecal_leftEndcap
+          retention-days: 30
+
+  validate-ecal-leftEndcap:
+    needs: simulate-ecal-leftEndcap
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analysis_ecal_leftEndcap-*
+          path: analysis_ecal_leftEndcap
+          merge-multiple: true
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            mkdir analysis_ecal_leftEndcap/validation
+            cd analysis_ecal_leftEndcap/validation
+            find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap' \;
+            python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+            python3 ../../ci/graphCmp.py -i combined_performance.root ../../ci/reference/combined_performance_ECalEndcap.root -l MR reference
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation_ecal_leftEndcap
+          path: analysis_ecal_leftEndcap/validation
+          retention-days: 30
+
+  simulate-hcal-barrel:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ENERGY: 5,   NUMEVENTS: 5000 }
+          - { ENERGY: 10,  NUMEVENTS: 5000 }
+          - { ENERGY: 20,  NUMEVENTS: 5000 }
+          - { ENERGY: 50,  NUMEVENTS: 1000 }
+          - { ENERGY: 100, NUMEVENTS: 500 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir analysis_hcal_barrel
+            cd analysis_hcal_barrel
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle pi- --gun.thetaMin 1.57 --gun.thetaMax 1.57 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_theta1.57_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis_hcal_barrel-${{ matrix.ENERGY }}GeV
+          path: analysis_hcal_barrel
+          retention-days: 30
+
+  validate-hcal-barrel:
+    needs: simulate-hcal-barrel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analysis_hcal_barrel-*
+          path: analysis_hcal_barrel
+          merge-multiple: true
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            mkdir analysis_hcal_barrel/validation
+            cd analysis_hcal_barrel/validation
+            ls
+            find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal -i {} -o "$(basename {} edm4hep.root)"results.root' \;
+            python3 ../../ci/analyse_combine_showers.py -i *_results.root -o combined_performance.root
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation_hcal_barrel
+          path: analysis_hcal_barrel/validation
+          retention-days: 30
+
+  simulate-hcal-rightEndcap:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ENERGY: 5,   NUMEVENTS: 5000 }
+          - { ENERGY: 10,  NUMEVENTS: 5000 }
+          - { ENERGY: 20,  NUMEVENTS: 1000 }
+          - { ENERGY: 50,  NUMEVENTS: 1000 }
+          - { ENERGY: 100, NUMEVENTS: 500 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir analysis_hcal_rightEndcap
+            cd analysis_hcal_rightEndcap
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle pi- --gun.thetaMin 0.24 --gun.thetaMax 0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_theta0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis_hcal_rightEndcap-${{ matrix.ENERGY }}GeV
+          path: analysis_hcal_rightEndcap
+          retention-days: 30
+
+  validate-hcal-rightEndcap:
+    needs: simulate-hcal-rightEndcap
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analysis_hcal_rightEndcap-*
+          path: analysis_hcal_rightEndcap
+          merge-multiple: true
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            mkdir analysis_hcal_rightEndcap/validation
+            cd analysis_hcal_rightEndcap/validation
+            find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap' \;
+            python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation_hcal_rightEndcap
+          path: analysis_hcal_rightEndcap/validation
+          retention-days: 30
+
+  simulate-hcal-leftEndcap:
+    needs: build-odd
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { ENERGY: 5,   NUMEVENTS: 2500 }
+          - { ENERGY: 10,  NUMEVENTS: 2500 }
+          - { ENERGY: 20,  NUMEVENTS: 1000 }
+          - { ENERGY: 50,  NUMEVENTS: 1000 }
+          - { ENERGY: 100, NUMEVENTS: 500 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source odd-install/bin/this_odd.sh
+            mkdir analysis_hcal_leftEndcap
+            cd analysis_hcal_leftEndcap
+            ddsim --enableGun --numberOfEvents "${{ matrix.NUMEVENTS }}" --gun.energy "${{ matrix.ENERGY }}*GeV" --gun.particle pi- --gun.thetaMin -0.24 --gun.thetaMax -0.24 --gun.distribution uniform --compactFile ../xml/OpenDataDetector.xml --outputFile "ODD_pion_thetaM0.24_${{ matrix.NUMEVENTS }}events_${{ matrix.ENERGY }}GeV_edm4hep.root"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis_hcal_leftEndcap-${{ matrix.ENERGY }}GeV
+          path: analysis_hcal_leftEndcap
+          retention-days: 30
+
+  validate-hcal-leftEndcap:
+    needs: simulate-hcal-leftEndcap
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analysis_hcal_leftEndcap-*
+          path: analysis_hcal_leftEndcap
+          merge-multiple: true
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            mkdir analysis_hcal_leftEndcap/validation
+            cd analysis_hcal_leftEndcap/validation
+            find .. -type f -name '*edm4hep.root' -exec sh -c 'python3 ../../ci/analyse_single_shower.py --hcal --endcap -i {} -o "$(basename {} edm4hep.root)"results.root --endcap' \;
+            python3 ../../ci/analyse_combine_showers.py --endcap -i *_results.root -o combined_performance.root
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation_hcal_leftEndcap
+          path: analysis_hcal_leftEndcap/validation
+          retention-days: 30
