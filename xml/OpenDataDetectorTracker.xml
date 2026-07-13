@@ -23,15 +23,6 @@
         <plugin name="DD4hep_ParametersPlugin">
             <argument value="OpenDataTracker"/>
             <argument value="acts_legacy_assembly: bool = false"/>
-            <argument value="acts_world: bool = true"/>
-            <argument value="acts_world_type: int = 3"/>
-            <argument value="acts_world_bvalues_n: int = 3"/>
-            <argument value="acts_world_bvalues_0: double = 0"/>
-            <argument value="acts_world_bvalues_1: double = tracker_region_rmax"/>
-            <argument value="acts_world_bvalues_2: double = tracker_region_zmax"/>
-            <argument value="acts_world_binning: str = r"/>
-            <argument value="acts_world_geo_id: str = incremental"/>
-            <argument value="acts_world_root_volume_finder: str = indexed"/>
         </plugin>
     </plugins>
 
