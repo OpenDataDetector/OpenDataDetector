@@ -14,4 +14,16 @@
             <composite name="LongStrips"/>
         </detector>
     </detectors>
+
+    <plugins>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="PST"/>
+            <argument value="passive_layer: bool = true"/>
+        </plugin>
+        <plugin name="DD4hep_ParametersPlugin">
+            <argument value="OpenDataTracker"/>
+            <argument value="acts_legacy_assembly: bool = false"/>
+        </plugin>
+    </plugins>
+
 </lccdd>
