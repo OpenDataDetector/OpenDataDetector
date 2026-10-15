@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
 
 env:
-  ACTS_VERSION: v39.2.1
+  ACTS_VERSION: v48.1.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
   LCG_RELEASE: LCG_107/x86_64-el9-gcc13-opt
-  CCACHE_KEY_SUFFIX: r1
+  CCACHE_KEY_SUFFIX: r2
   CCACHE_MAXSIZE: 1G
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
   build-acts:
     runs-on: ubuntu-latest
     env:
-      CCACHE_DIR: ${{ github.workspace }}/ccache_r1
+      CCACHE_DIR: ${{ github.workspace }}/ccache_r2
     steps:
       - uses: actions/checkout@v4
       - name: Restore ccache
