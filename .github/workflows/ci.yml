@@ -287,6 +287,35 @@ jobs:
           path: export_geometry
           retention-days: 30
 
+  export-geometry-json:
+    needs: [build-odd, build-acts]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: acts-install }
+      - run: tar xzf acts-install.tar.gz && rm acts-install.tar.gz
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: Export gen3 tracking geometry
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source acts-install/bin/this_acts.sh
+            source odd-install/bin/this_odd.sh
+            source acts-install/python/setup.sh
+            ci/export_tracking_geometry_json.py -o odd-gen3.json
+      - name: Compress
+        run: zstd -19 odd-gen3.json -o odd-gen3.json.zst
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-json
+          path: odd-gen3.json.zst
+          retention-days: 30
+
   # =============================================================
   # tracking (ci/tracking.yml)
   # =============================================================
