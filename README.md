@@ -81,6 +81,15 @@ You can also display with `geoPluginRun`:
 geoPluginRun -input xml/OpenDataDetector.xml  -interactive -plugin DD4hep_GeometryDisplay -level 8
 ```
 
+## ACTS tracking geometry (JSON)
+
+Each GitHub release has `odd-gen3.json.zst` attached: the ACTS gen3 tracking
+geometry of the ODD as zstd-compressed JSON. CI produces it with
+`ci/export_tracking_geometry_json.py`, using the ACTS version pinned in
+`.github/workflows/ci.yml`. ACTS reads it with
+`acts.json.TrackingGeometryJsonConverter().fromFile(gctx, "odd-gen3.json.zst")`
+(ACTS must be built with zstd support), or you can decompress it first with `zstd -d`.
+
 ## Logos
 
 Branding assets live under [`logos/`](logos/).
