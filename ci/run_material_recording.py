@@ -53,7 +53,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
 
         tracksPerEvent = 10
 
-        detector = getOpenDataDetector(odd_dir=oddDir)
+        detector = getOpenDataDetector(odd_dir=oddDir, buildMuonSystem=True)
 
         s = acts.examples.Sequencer(events=events, numThreads=1)
 
