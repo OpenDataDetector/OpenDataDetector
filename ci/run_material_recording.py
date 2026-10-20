@@ -4,6 +4,8 @@ import acts, acts.examples
 from pathlib import Path
 import acts.examples.dd4hep
 import acts.examples.geant4
+import acts.examples.hepmc3
+from acts.examples.root import RootMaterialTrackWriter
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import shutil
@@ -51,7 +53,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
 
         tracksPerEvent = 10
 
-        detector = getOpenDataDetector(odd_dir=oddDir)
+        detector = getOpenDataDetector(odd_dir=oddDir, buildMuonSystem=True)
 
         s = acts.examples.Sequencer(events=events, numThreads=1)
 
@@ -75,18 +77,25 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
                     ),
                 )
             ],
-            outputParticles="particles_initial",
-            outputVertices="vertices_initial",
             randomNumbers=rnd,
         )
 
         s.addReader(evGen)
 
+        hepmc3Converter = acts.examples.hepmc3.HepMC3InputConverter(
+            level=acts.logging.INFO,
+            inputEvent=evGen.config.outputEvent,
+            outputParticles="particles_initial",
+            outputVertices="vertices_initial",
+            mergePrimaries=False,
+        )
+        s.addAlgorithm(hepmc3Converter)
+
         g4Alg = acts.examples.geant4.Geant4MaterialRecording(
             level=acts.logging.INFO,
             detector=detector,
             randomNumbers=rnd,
-            inputParticles=evGen.config.outputParticles,
+            inputParticles=hepmc3Converter.config.outputParticles,
             outputMaterialTracks="material_tracks",
         )
 
@@ -107,7 +116,7 @@ def runMaterialRecording(seed: int, events: int, outputFile: Path):
 
         outfile = outputDir / "geant4_material_tracks.root"
         s.addWriter(
-            acts.examples.RootMaterialTrackWriter(
+            RootMaterialTrackWriter(
                 prePostStep=True,
                 recalculateTotals=True,
                 inputMaterialTracks="material_tracks",

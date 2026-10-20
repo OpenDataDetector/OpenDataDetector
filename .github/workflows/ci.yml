@@ -5,12 +5,14 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  release:
+    types: [published]
 
 env:
-  ACTS_VERSION: v39.2.1
+  ACTS_VERSION: v48.1.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
   LCG_RELEASE: LCG_107/x86_64-el9-gcc13-opt
-  CCACHE_KEY_SUFFIX: r1
+  CCACHE_KEY_SUFFIX: r2
   CCACHE_MAXSIZE: 1G
 
 jobs:
@@ -20,7 +22,7 @@ jobs:
   build-acts:
     runs-on: ubuntu-latest
     env:
-      CCACHE_DIR: ${{ github.workspace }}/ccache_r1
+      CCACHE_DIR: ${{ github.workspace }}/ccache_r2
     steps:
       - uses: actions/checkout@v4
       - name: Restore ccache
@@ -286,6 +288,51 @@ jobs:
           name: export-geometry
           path: export_geometry
           retention-days: 30
+
+  export-geometry-json:
+    needs: [build-odd, build-acts]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: acts-install }
+      - run: tar xzf acts-install.tar.gz && rm acts-install.tar.gz
+      - uses: actions/download-artifact@v4
+        with: { name: odd-install }
+      - run: tar xzf odd-install.tar.gz && rm odd-install.tar.gz
+      - uses: cvmfs-contrib/github-action-cvmfs@v4
+      - name: Export gen3 tracking geometry
+        uses: aidasoft/run-lcg-view@v6
+        with:
+          release-platform: ${{ env.LCG_RELEASE }}
+          run: |
+            source acts-install/bin/this_acts.sh
+            source odd-install/bin/this_odd.sh
+            source acts-install/python/setup.sh
+            ci/export_tracking_geometry_json.py -o odd-gen3.json
+      - name: Compress
+        run: zstd -19 odd-gen3.json -o odd-gen3.json.zst
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometry-json
+          path: odd-gen3.json.zst
+          retention-days: 30
+
+  attach-release-assets:
+    if: github.event_name == 'release'
+    needs: export-geometry-json
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: geometry-json }
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload "${{ github.event.release.tag_name }}"
+          odd-gen3.json.zst --clobber --repo "${{ github.repository }}"
 
   # =============================================================
   # tracking (ci/tracking.yml)
