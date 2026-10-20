@@ -43,17 +43,7 @@
         <include ref="OpenDataDetectorMuonSystem.xml"/>
 
         <!-- Fields -->
-        <fields>
-                <!-- <field name="MagnetFields_Constant" type="ConstantField" field="magnetic"> -->
-                        <!-- <strength x="0" y="0" z="2.0*tesla"/> -->
-                <!-- </field> -->
-
-                <!-- Can also define solenoid field like this:  -->
-                <field type="solenoid" name="GlobalSolenoid" inner_field="Field_nominal_value"
-                        outer_field="outerField_nominal_value" zmax="sol_hlength"
-                        inner_radius="sol_rmin"
-                        outer_radius="sol_rmax" />
-        </fields>
+        <include ref="OpenDataDetectorField.xml"/>
 
         <!-- Plugins -->
         <plugins>

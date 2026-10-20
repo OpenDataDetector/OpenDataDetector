@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lccdd>
+        <!-- Requires OpenDataDetectorDefs.xml for the field and solenoid constants. -->
+        <fields>
+                <field type="solenoid" name="GlobalSolenoid" inner_field="Field_nominal_value"
+                        outer_field="outerField_nominal_value" zmax="sol_hlength"
+                        inner_radius="sol_rmin"
+                        outer_radius="sol_rmax" />
+        </fields>
+</lccdd>
