@@ -6,36 +6,8 @@
                 <comment>Demonstrator Detector for algorithmic research and development</comment>
         </info>
         
-        <!-- Material definitions -->
-        <includes>
-                <gdmlFile ref="OpenDataDetectorElements.xml"/>
-                <gdmlFile ref="OpenDataDetectorMaterials.xml"/>
-        </includes>
-
-        <!-- Global definitions -->
-       <define>
-                <!--World-->
-                <constant name="world_size" value="12.*m"/>
-                <constant name="world_x" value="world_size"/>
-                <constant name="world_y" value="world_size"/>
-                <constant name="world_z" value="world_size"/>
-
-                <!-- BField -->
-                <constant name="Field_nominal_value" value="3*tesla"/>
-                <constant name="outerField_nominal_value" value="0.5*tesla"/>
-        </define>
-        
-        <!-- Envelopes -->
-        <include ref="OpenDataDetectorEnvelopes.xml"/>
-
-        <!-- Identifier definitions -->
-        <include ref="OpenDataDetectorIdentifiers.xml"/>
-
-        <!-- Visualization definitions -->
-        <include ref="OpenDataDetectorVisualization.xml"/>
-
-        <!-- ACTS support -->
-        <include ref="OpenDataDetectorActsSupport.xml"/>
+        <!-- Shared definitions -->
+        <include ref="OpenDataDetectorDefs.xml"/>
 
         <!-- All Sub-detectors -->
         <include ref="OpenDataDetectorTracker.xml"/>
@@ -43,17 +15,7 @@
         <include ref="OpenDataDetectorMuonSystem.xml"/>
 
         <!-- Fields -->
-        <fields>
-                <!-- <field name="MagnetFields_Constant" type="ConstantField" field="magnetic"> -->
-                        <!-- <strength x="0" y="0" z="2.0*tesla"/> -->
-                <!-- </field> -->
-
-                <!-- Can also define solenoid field like this:  -->
-                <field type="solenoid" name="GlobalSolenoid" inner_field="Field_nominal_value"
-                        outer_field="outerField_nominal_value" zmax="sol_hlength"
-                        inner_radius="sol_rmin"
-                        outer_radius="sol_rmax" />
-        </fields>
+        <include ref="OpenDataDetectorField.xml"/>
 
         <!-- Plugins -->
         <plugins>
