@@ -9,7 +9,7 @@ on:
     types: [published]
 
 env:
-  ACTS_VERSION: v48.1.0
+  ACTS_VERSION: v48.4.0
   ACTS_GIT_URL: https://github.com/acts-project/acts.git
   LCG_RELEASE: LCG_107/x86_64-el9-gcc13-opt
   CCACHE_KEY_SUFFIX: r2
