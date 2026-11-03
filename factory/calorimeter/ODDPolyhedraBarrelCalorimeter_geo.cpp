@@ -131,11 +131,16 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
         nRadiationLengths += slice_thickness / (2. * slice_material.radLength());
         nInteractionLengths += slice_thickness / (2. * slice_material.intLength());
         thickness_sum += slice_thickness / 2;
-        // Store "inner" quantities
-        caloLayer.inner_nRadiationLengths = nRadiationLengths;
-        caloLayer.inner_nInteractionLengths = nInteractionLengths;
-        caloLayer.inner_thickness = thickness_sum;
-        caloLayer.sensitive_thickness = slice_thickness;
+        // Store "inner" quantities (layer front to sensitive-slice centre); restart sums for "outer"
+        if (x_slice.isSensitive()) {
+          caloLayer.inner_nRadiationLengths = nRadiationLengths;
+          caloLayer.inner_nInteractionLengths = nInteractionLengths;
+          caloLayer.inner_thickness = thickness_sum;
+          caloLayer.sensitive_thickness = slice_thickness;
+          nRadiationLengths = 0.;
+          nInteractionLengths = 0.;
+          thickness_sum = 0.;
+        }
         nRadiationLengths += slice_thickness / (2. * slice_material.radLength());
         nInteractionLengths += slice_thickness / (2. * slice_material.intLength());
         thickness_sum += slice_thickness / 2;
