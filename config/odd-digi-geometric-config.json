@@ -9,12 +9,6 @@
           "value": {
               "geometric": {
                   "digital": false,
-                  "charge-quantization": {
-                      "enabled": false,
-                      "bits": 4,
-                      "offset": 0.01,
-                      "step": 0.011105528959000351
-                  },
                   "indices": [
                       0,
                       1
@@ -70,12 +64,6 @@
           "value": {
               "geometric": {
                   "digital": false,
-                  "charge-quantization": {
-                      "enabled": false,
-                      "bits": 4,
-                      "offset": 0.01,
-                      "step": 0.011105528959000351
-                  },
                   "indices": [
                       0,
                       1
@@ -133,12 +121,6 @@
           "value": {
               "geometric": {
                   "digital": false,
-                  "charge-quantization": {
-                      "enabled": false,
-                      "bits": 4,
-                      "offset": 0.01,
-                      "step": 0.011105528959000351
-                  },
                   "indices": [
                       0,
                       1

@@ -1,18 +1,19 @@
 # Optional linear pixel readout
 
-`odd-digi-geometric-config.json` includes **disabled** `charge-quantization`
-blocks for pixel volumes 16, 17 and 18. Native digitization remains the default;
-all short- and long-strip settings are unchanged. This option requires ACTS with
-support for `geometric.charge-quantization` and **`doMerge=true`**. Older ACTS
-readers may silently ignore unknown JSON fields: check a JSON read/write round
-trip in the runtime before producing data.
+`odd-digi-geometric-config.json` has no `charge-quantization` blocks: missing
+configuration leaves quantization disabled, so native digitization remains the
+default. The separate quantized configuration requires ACTS with support for
+`geometric.charge-quantization` and **`doMerge=true`**. Older ACTS readers may
+silently ignore unknown JSON fields: check a JSON read/write round trip in the
+runtime before producing data.
 
 Select the configuration for the desired output:
 
-- [Native](odd-digi-geometric-config.json): quantization disabled (default).
+- [Native](odd-digi-geometric-config.json): original configuration, without
+  quantization settings (default).
 - [Four-bit P99.9](odd-digi-geometric-config-pixel-4bit-p999.json): quantization
-  enabled for pixel volumes 16, 17 and 18. Only the three `enabled` flags differ
-  from the native configuration; all strip settings remain unchanged.
+  enabled for pixel volumes 16, 17 and 18. Only the three pixel response blocks
+  are added to the native configuration; all strip settings remain unchanged.
 
 ColliderML-Production accepts either file through its existing option:
 
