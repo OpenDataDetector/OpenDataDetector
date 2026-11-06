@@ -206,9 +206,8 @@ void buildCoolingRings(dd4hep::Detector& oddd, volume_t& motherVolume,
                        const xml_comp_t& x_mother_comp) {
   using namespace dd4hep;
 
-  size_t cringNum = 0;
   for (xml_coll_t cring(x_mother_comp, _Unicode(cooling_ring)); cring;
-       ++cring, ++cringNum) {
+       ++cring) {
     xml_comp_t x_cooling_ring = cring;
 
     double r = x_cooling_ring.r();
